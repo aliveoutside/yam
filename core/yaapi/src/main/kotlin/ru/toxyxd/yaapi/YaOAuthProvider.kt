@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicReference
 /**
  * Installs the client's [BearerAuthProvider].
  */
-public fun Auth.yandexBearer(block: BearerAuthConfig.() -> Unit) {
+fun Auth.yandexBearer(block: BearerAuthConfig.() -> Unit) {
     with(BearerAuthConfig().apply(block)) {
         this@yandexBearer.providers.add(
             BearerAuthProvider(
@@ -38,24 +38,24 @@ public fun Auth.yandexBearer(block: BearerAuthConfig.() -> Unit) {
     }
 }
 
-public class BearerTokens(
-    public val accessToken: String,
-    public val refreshToken: String
+class BearerTokens(
+    val accessToken: String,
+    val refreshToken: String
 )
 
 /**
  * Parameters to be passed to [BearerAuthConfig.refreshTokens] lambda.
  */
-public class RefreshTokensParams(
-    public val client: HttpClient,
-    public val response: HttpResponse,
-    public val oldTokens: BearerTokens?
+class RefreshTokensParams(
+    val client: HttpClient,
+    val response: HttpResponse,
+    val oldTokens: BearerTokens?
 ) {
 
     /**
      * Marks that this request is for refreshing auth tokens, resulting in a special handling of it.
      */
-    public fun HttpRequestBuilder.markAsRefreshTokenRequest() {
+    fun HttpRequestBuilder.markAsRefreshTokenRequest() {
         attributes.put(Auth.AuthCircuitBreaker, Unit)
     }
 }
@@ -64,17 +64,17 @@ public class RefreshTokensParams(
  * A configuration for [BearerAuthProvider].
  */
 @KtorDsl
-public class BearerAuthConfig {
+class BearerAuthConfig {
     internal var _refreshTokens: suspend RefreshTokensParams.() -> BearerTokens? = { null }
     internal var _loadTokens: suspend () -> BearerTokens? = { null }
     internal var _sendWithoutRequest: (HttpRequestBuilder) -> Boolean = { true }
 
-    public var realm: String? = null
+    var realm: String? = null
 
     /**
      * Configures a callback that refreshes a token when the 401 status code is received.
      */
-    public fun refreshTokens(block: suspend RefreshTokensParams.() -> BearerTokens?) {
+    fun refreshTokens(block: suspend RefreshTokensParams.() -> BearerTokens?) {
         _refreshTokens = block
     }
 
@@ -82,14 +82,14 @@ public class BearerAuthConfig {
      * Configures a callback that loads a cached token from a local storage.
      * Note: Using the same client instance here to make a request will result in a deadlock.
      */
-    public fun loadTokens(block: suspend () -> BearerTokens?) {
+    fun loadTokens(block: suspend () -> BearerTokens?) {
         _loadTokens = block
     }
 
     /**
      * Sends credentials without waiting for [HttpStatusCode.Unauthorized].
      */
-    public fun sendWithoutRequest(block: (HttpRequestBuilder) -> Boolean) {
+    fun sendWithoutRequest(block: (HttpRequestBuilder) -> Boolean) {
         _sendWithoutRequest = block
     }
 }

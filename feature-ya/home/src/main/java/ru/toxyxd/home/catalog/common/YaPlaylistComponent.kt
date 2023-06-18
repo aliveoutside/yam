@@ -6,7 +6,7 @@ import ru.toxyxd.common.HasIdComponent
 import ru.toxyxd.home.component.common.PlaylistComponent
 import ru.toxyxd.yaapi.dto.playlist.BasePlaylistDto
 
-class YaPlaylistComponent(
+open class YaPlaylistComponent(
     dto: BasePlaylistDto,
     componentContext: ComponentContext
 ) : PlaylistComponent, HasIdComponent, ComponentContext by componentContext, HasId by dto {

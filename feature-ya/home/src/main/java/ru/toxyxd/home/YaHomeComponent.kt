@@ -10,8 +10,9 @@ import kotlinx.coroutines.withContext
 import ru.toxyxd.common.HasIdComponent
 import ru.toxyxd.common.childList
 import ru.toxyxd.common.componentCoroutineScope
-import ru.toxyxd.home.catalog.common.YaAlbumComponent
 import ru.toxyxd.home.catalog.common.YaPlaylistComponent
+import ru.toxyxd.home.catalog.common.YaRecentAlbumComponent
+import ru.toxyxd.home.catalog.common.YaRecentPlaylistComponent
 import ru.toxyxd.home.catalog.promotion.YaPromotionComponent
 import ru.toxyxd.home.catalog.slider.YaSliderComponent
 import ru.toxyxd.home.catalog.unknown.YaUnknownComponent
@@ -51,12 +52,17 @@ class YaHomeComponent(
             componentContext = childContext
         )
 
-        is YaCatalogEntry.Album -> YaAlbumComponent(
+        is YaCatalogEntry.Recent.Album -> YaRecentAlbumComponent(
             dto = entry.dto,
             componentContext = childContext
         )
 
-        is YaCatalogEntry.Playlist -> YaPlaylistComponent(
+        is YaCatalogEntry.Recent.Playlist -> YaRecentPlaylistComponent(
+            dto = entry.dto,
+            componentContext = childContext
+        )
+
+        is YaCatalogEntry.PersonalizedPlaylist -> YaPlaylistComponent(
             dto = entry.dto,
             componentContext = childContext
         )

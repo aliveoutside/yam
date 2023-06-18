@@ -25,11 +25,11 @@ internal class YaCatalogBinder {
     ): List<YaCatalogEntry> {
         return block.entities.map { entity ->
             when (entity) {
-                is CatalogBlockEntityDto.PersonalPlaylistBlockEntityDto -> YaCatalogEntry.Playlist(entity.data.playlistHeader)
+                is CatalogBlockEntityDto.PersonalPlaylistBlockEntityDto -> YaCatalogEntry.PersonalizedPlaylist(entity.data.playlistHeader)
                 is CatalogBlockEntityDto.PlayContextBlockEntityDto -> {
                     when (val data = entity.data) {
-                        is RecentlyDto.RecentlyAlbumDto -> YaCatalogEntry.Album(data.album)
-                        is RecentlyDto.RecentlyPlaylistDto -> YaCatalogEntry.Playlist(data.playlist)
+                        is RecentlyDto.RecentlyAlbumDto -> YaCatalogEntry.Recent.Album(data.album)
+                        is RecentlyDto.RecentlyPlaylistDto -> YaCatalogEntry.Recent.Playlist(data.playlist)
                         else -> YaCatalogEntry.Unknown(entity.itemId, entity.type.name + ':' + entity.data.context, null)
                     }
                 }

@@ -68,7 +68,7 @@ data class PlaylistHeaderDto(
     val snapshot: Int? = null,
 
     @SerialName("title")
-    override val title: String? = null,
+    override val title: String,
 
     @SerialName("trackCount")
     val trackCount: Int? = null,

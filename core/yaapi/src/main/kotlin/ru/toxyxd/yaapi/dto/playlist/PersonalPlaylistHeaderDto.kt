@@ -2,7 +2,6 @@ package ru.toxyxd.yaapi.dto.playlist
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.toxyxd.common.HasId
 import ru.toxyxd.yaapi.dto.catalog.ActionButtonDto
 import ru.toxyxd.yaapi.dto.cover.CoverInfoDto
 import ru.toxyxd.yaapi.dto.track.WrappedTrackDto
@@ -87,7 +86,7 @@ data class PersonalPlaylistHeaderDto(
     val snapshot: Int? = null,
 
     @SerialName("title")
-    override val title: String? = null,
+    override val title: String,
 
     @SerialName("trackCount")
     val trackCount: Int? = null,

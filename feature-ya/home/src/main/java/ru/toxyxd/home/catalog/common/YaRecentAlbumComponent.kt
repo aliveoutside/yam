@@ -5,7 +5,7 @@ import ru.toxyxd.common.HasId
 import ru.toxyxd.home.component.common.AlbumComponent
 import ru.toxyxd.yaapi.dto.album.AlbumDto
 
-class YaAlbumComponent(
+class YaRecentAlbumComponent(
     dto: AlbumDto,
     componentContext: ComponentContext
 ): AlbumComponent, ComponentContext by componentContext, HasId by dto {

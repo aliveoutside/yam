@@ -7,13 +7,17 @@ import ru.toxyxd.yaapi.dto.playlist.BasePlaylistDto
 import ru.toxyxd.yaapi.dto.promotion.PromotionDto
 
 internal sealed class YaCatalogEntry : HasId {
-    class Album(
-        val dto: AlbumDto
-    ) : YaCatalogEntry(), HasId by dto
-    class Playlist(
+    class Recent {
+        class Album(
+            val dto: AlbumDto
+        ) : YaCatalogEntry(), HasId by dto
+        class Playlist(
+            val dto: BasePlaylistDto
+        ) : YaCatalogEntry(), HasId by dto
+    }
+    class PersonalizedPlaylist(
         val dto: BasePlaylistDto
     ) : YaCatalogEntry(), HasId by dto
-
     class Promotion(
         val dto: PromotionDto
     ) : YaCatalogEntry(), HasId by dto

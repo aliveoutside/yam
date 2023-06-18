@@ -1,0 +1,116 @@
+[versions]
+# kotlin
+atomicfuGradlePlugin = "0.20.2"
+kotlinVersion = "1.8.10"
+
+# kotlinx
+kotlinxSerializationVersion = "1.5.0"
+
+# ktor
+ktorClientVersion = "2.3.1"
+
+# decompose
+decomposeVersion = "2.0.0-beta-01"
+essentyVersion = "1.1.0"
+
+# android
+androidPluginVersion = "8.2.0-alpha08"
+composeVersion = "1.5.0-beta02"
+composeMaterial3Version = "1.2.0-alpha02"
+lifecycleVersion = "2.6.1"
+hiltVersion = "2.46.1"
+androidCoreKtxVersion = "1.10.1"
+androidActivityKtxVersion = "1.7.2"
+accompanist = "0.31.1-alpha"
+coilVersion = "2.3.0"
+
+# di
+koinVersion = "3.4.2"
+
+# settings
+multiplatformSettingsVersion = "1.0.0"
+junit = "4.13.2"
+androidx-test-ext-junit = "1.1.5"
+espresso-core = "3.5.1"
+appcompat = "1.6.1"
+material = "1.9.0"
+
+[plugins]
+# android
+androidApplication = { id = "com.android.application", version.ref = "androidPluginVersion" }
+androidLibrary = { id = "com.android.library", version.ref = "androidPluginVersion" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
+
+# kotlin
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinVersion" }
+
+[libraries]
+# kotlin
+atomicfu-gradle-plugin = { module = "org.jetbrains.kotlinx:atomicfu-gradle-plugin", version.ref = "atomicfuGradlePlugin" }
+kotlinSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationVersion" }
+
+# ktor
+ktorClient = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientVersion" }
+ktorClientLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientVersion" }
+ktorClientMock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorClientVersion" }
+ktorClientContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientVersion" }
+ktorClientJsonSerialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientVersion" }
+ktorClientAuth = { module = "io.ktor:ktor-client-auth", version.ref = "ktorClientVersion" }
+ktorClientEngineOkHttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientVersion" }
+
+# android
+androidKtxCore = { module = "androidx.core:core-ktx", version.ref = "androidCoreKtxVersion" }
+androidKtxActivity = { module = "androidx.activity:activity-ktx", version.ref = "androidActivityKtxVersion" }
+androidKtxActivityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidActivityKtxVersion" }
+composeUi = { module = "androidx.compose.ui:ui", version.ref = "composeVersion" }
+composeUiUtil = { module = "androidx.compose.ui:ui-util", version.ref = "composeVersion" }
+composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeVersion" }
+composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeVersion" }
+composeFoundation = { module = "androidx.compose.foundation:foundation", version.ref = "composeVersion" }
+composeMaterial = { module = "androidx.compose.material:material", version.ref = "composeVersion" }
+composeMaterial3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3Version" }
+lifecycleViewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleVersion" }
+lifecycleLivedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleVersion" }
+lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleVersion" }
+lifecycleViewModelSavedState = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "lifecycleVersion" }
+lifecycleCommonJava8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycleVersion" }
+lifecycleServices = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycleVersion" }
+lifecycleProcess = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycleVersion" }
+lifecycleReactiveStreams = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "lifecycleVersion" }
+coil = { module = "io.coil-kt:coil-compose", version.ref = "coilVersion" }
+
+# di
+koin = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
+koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "koinVersion" }
+
+# accompanist
+accompanistNavigation = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "accompanist" }
+accompanistNavigationAnimation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
+accompanistSystemUi = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
+accompanistPermissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
+accompanistPagerIndicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
+accompanistWeb = { module = "com.google.accompanist:accompanist-webview", version.ref = "accompanist" }
+
+# tooling
+hiltCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltVersion" }
+
+# decompose
+decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decomposeVersion" }
+decomposeExtensionCompose = { module = "com.arkivanov.decompose:extensions-compose-jetpack", version.ref = "decomposeVersion" }
+essentyLifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essentyVersion" }
+essentyStateKeeper = { module = "com.arkivanov.essenty:state-keeper", version.ref = "essentyVersion" }
+
+# settings
+multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettingsVersion" }
+multiplatformSettingsSerialization = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "multiplatformSettingsVersion" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+[bundles]
+androidKtx = ["androidKtxCore", "androidKtxActivity", "androidKtxActivityCompose"]
+androidLifecycle = ["lifecycleRuntime", "lifecycleViewModel", "lifecycleServices"]
+compose = ["composeUi", "composeUiUtil", "composeUiToolingPreview", "composeFoundation", "composeMaterial", "composeMaterial3"]
+ktorClient = ["ktorClient", "ktorClientAuth", "ktorClientContentNegotiation", "ktorClientJsonSerialization", "ktorClientLogging"]

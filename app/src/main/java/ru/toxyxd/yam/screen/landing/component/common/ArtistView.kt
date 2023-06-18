@@ -15,13 +15,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import ru.toxyxd.home.component.common.ArtistComponent
+import ru.toxyxd.yam.ext.bouncingClickable
 
 @Composable
 fun ArtistView(
     component: ArtistComponent
 ) {
     Column(
-        modifier = Modifier.width(180.dp), verticalArrangement = Arrangement.Top
+        modifier = Modifier.width(180.dp).bouncingClickable {}, verticalArrangement = Arrangement.Top
     ) {
         AsyncImage(
             model = component.image,

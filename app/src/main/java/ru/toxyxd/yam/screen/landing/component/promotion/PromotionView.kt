@@ -3,7 +3,6 @@ package ru.toxyxd.yam.screen.landing.component.promotion
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -17,35 +16,40 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import ru.toxyxd.home.component.promotion.PromotionComponent
+import ru.toxyxd.yam.ext.bouncingClickable
 
 @Composable
 fun PromotionView(component: PromotionComponent) {
-    AsyncImage(
-        model = component.imageUrl,
-        contentDescription = null,
-        modifier = Modifier
-            .clip(shape = RoundedCornerShape(8.dp))
-            .fillMaxWidth(),
-        contentScale = ContentScale.FillWidth
-    )
-
     Column(
-        modifier = Modifier.padding(vertical = 4.dp),
-        verticalArrangement = Arrangement.spacedBy(3.dp)
+        modifier = Modifier.fillMaxWidth().bouncingClickable {}
     ) {
-        Text(
-            text = component.title,
-            style = MaterialTheme.typography.bodyLarge,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Bold
+        AsyncImage(
+            model = component.imageUrl,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(shape = RoundedCornerShape(8.dp)),
+            contentScale = ContentScale.FillWidth
         )
 
-        Text(
-            text = component.subtitle,
-            style = MaterialTheme.typography.bodySmall,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+        Column(
+            modifier = Modifier.padding(vertical = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(3.dp)
+        ) {
+            Text(
+                text = component.title,
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Bold
+            )
+
+            Text(
+                text = component.subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }

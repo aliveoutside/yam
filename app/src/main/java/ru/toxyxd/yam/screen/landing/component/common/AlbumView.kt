@@ -19,11 +19,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import ru.toxyxd.home.component.common.AlbumComponent
+import ru.toxyxd.yam.ext.bouncingClickable
 
 @Composable
 fun AlbumView(component: AlbumComponent) {
     Column(
-        modifier = Modifier.width(180.dp), verticalArrangement = Arrangement.Top
+        modifier = Modifier.width(180.dp).bouncingClickable {}, verticalArrangement = Arrangement.Top
     ) {
         AsyncImage(
             model = component.cover,

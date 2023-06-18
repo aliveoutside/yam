@@ -12,6 +12,7 @@ import ru.toxyxd.common.childList
 import ru.toxyxd.common.componentCoroutineScope
 import ru.toxyxd.home.catalog.common.YaPlaylistComponent
 import ru.toxyxd.home.catalog.common.YaRecentAlbumComponent
+import ru.toxyxd.home.catalog.common.YaRecentArtistComponent
 import ru.toxyxd.home.catalog.common.YaRecentPlaylistComponent
 import ru.toxyxd.home.catalog.promotion.YaPromotionComponent
 import ru.toxyxd.home.catalog.slider.YaSliderComponent
@@ -53,6 +54,11 @@ class YaHomeComponent(
         )
 
         is YaCatalogEntry.Recent.Album -> YaRecentAlbumComponent(
+            dto = entry.dto,
+            componentContext = childContext
+        )
+
+        is YaCatalogEntry.Recent.Artist -> YaRecentArtistComponent(
             dto = entry.dto,
             componentContext = childContext
         )

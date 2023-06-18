@@ -17,11 +17,13 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import ru.toxyxd.home.component.common.AlbumComponent
+import ru.toxyxd.home.component.common.ArtistComponent
 import ru.toxyxd.home.component.common.PlaylistComponent
 import ru.toxyxd.home.component.promotion.PromotionComponent
 import ru.toxyxd.home.component.slider.SliderComponent
 import ru.toxyxd.home.component.unknown.UnknownComponent
 import ru.toxyxd.yam.screen.landing.component.common.AlbumView
+import ru.toxyxd.yam.screen.landing.component.common.ArtistView
 import ru.toxyxd.yam.screen.landing.component.common.PlaylistView
 import ru.toxyxd.yam.screen.landing.component.header.HeaderView
 import ru.toxyxd.yam.screen.landing.component.promotion.PromotionView
@@ -89,6 +91,7 @@ fun HorizontalSliderView(component: SliderComponent) {
         items(component.items) { item ->
             when (item) {
                 is AlbumComponent -> AlbumView(item)
+                is ArtistComponent -> ArtistView(item)
                 is PlaylistComponent -> PlaylistView(item)
                 is UnknownComponent -> Text(text = item.message)
             }

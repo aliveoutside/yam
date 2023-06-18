@@ -29,6 +29,7 @@ internal class YaCatalogBinder {
                 is CatalogBlockEntityDto.PlayContextBlockEntityDto -> {
                     when (val data = entity.data) {
                         is RecentlyDto.RecentlyAlbumDto -> YaCatalogEntry.Recent.Album(data.album)
+                        is RecentlyDto.RecentlyArtistDto -> YaCatalogEntry.Recent.Artist(data.artist)
                         is RecentlyDto.RecentlyPlaylistDto -> YaCatalogEntry.Recent.Playlist(data.playlist)
                         else -> YaCatalogEntry.Unknown(entity.itemId, entity.type.name + ':' + entity.data.context, null)
                     }

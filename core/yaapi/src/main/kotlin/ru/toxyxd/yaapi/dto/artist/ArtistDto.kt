@@ -2,6 +2,7 @@ package ru.toxyxd.yaapi.dto.artist
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import ru.toxyxd.common.HasId
 import ru.toxyxd.yaapi.dto.cover.CoverPathDto
 
 @Serializable
@@ -34,7 +35,7 @@ data class ArtistDto(
     val disclaimer: List<String>? = null,
 
     @SerialName("id")
-    val id: String? = null,
+    val id: String,
 
     @SerialName("likesCount")
     val likesCount: Int? = null,
@@ -43,8 +44,11 @@ data class ArtistDto(
     val links: List<LinkDto>? = null,
 
     @SerialName("name")
-    val name: String? = null,
+    val name: String,
 
     @SerialName("various")
     val various: Boolean? = null,
-)
+) : HasId {
+    override val itemId: String
+        get() = id
+}

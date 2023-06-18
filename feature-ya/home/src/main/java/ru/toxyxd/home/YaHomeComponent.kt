@@ -10,6 +10,7 @@ import kotlinx.coroutines.withContext
 import ru.toxyxd.common.HasIdComponent
 import ru.toxyxd.common.childList
 import ru.toxyxd.common.componentCoroutineScope
+import ru.toxyxd.home.catalog.common.YaAlbumComponent
 import ru.toxyxd.home.catalog.common.YaPlaylistComponent
 import ru.toxyxd.home.catalog.promotion.YaPromotionComponent
 import ru.toxyxd.home.catalog.slider.YaSliderComponent
@@ -47,6 +48,11 @@ class YaHomeComponent(
                 entryAsComponent(sliderEntry, childContext.childContext(sliderEntry.itemId))
             },
             sliderType = entry.sliderType,
+            componentContext = childContext
+        )
+
+        is YaCatalogEntry.Album -> YaAlbumComponent(
+            dto = entry.dto,
             componentContext = childContext
         )
 

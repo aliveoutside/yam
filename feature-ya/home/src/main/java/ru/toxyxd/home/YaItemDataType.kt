@@ -5,7 +5,8 @@ import ru.toxyxd.yaapi.dto.catalog.CatalogBlockDto
 
 fun CatalogBlockDto.Type.asSliderType() = when (this) {
     CatalogBlockDto.Type.PersonalPlaylists,
-    CatalogBlockDto.Type.PlayContexts-> SliderComponent.SliderType.Horizontal
+    CatalogBlockDto.Type.PlayContexts -> SliderComponent.SliderType.Horizontal
+
     CatalogBlockDto.Type.Promotions -> SliderComponent.SliderType.FullSize
     else -> SliderComponent.SliderType.Horizontal
 }

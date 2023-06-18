@@ -2,6 +2,7 @@ package ru.toxyxd.yaapi.dto.album
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import ru.toxyxd.common.HasId
 import ru.toxyxd.yaapi.dto.artist.ArtistDto
 import ru.toxyxd.yaapi.dto.track.TrackDto
 
@@ -11,7 +12,7 @@ data class AlbumDto(
 //    val actionButton: ActionButtonDto? = null,
 
     @SerialName("artists")
-    val artists: List<ArtistDto>? = null,
+    val artists: List<ArtistDto>,
 
     @SerialName("available")
     val available: Boolean? = null,
@@ -59,8 +60,7 @@ data class AlbumDto(
     val genre: String? = null,
 
     @SerialName("id")
-    /* renamed from: id */
-    val f10077id: String? = null,
+    val id: String? = null,
 
     @SerialName("likesCount")
     val likesCount: Int? = null,
@@ -78,7 +78,7 @@ data class AlbumDto(
     val sortOrder: String? = null,
 
     @SerialName("title")
-    val title: String? = null,
+    val title: String,
 
     @SerialName("trackCount")
     val trackCount: Int? = null,
@@ -100,4 +100,7 @@ data class AlbumDto(
 
     @SerialName("year")
     val year: String? = null
-)
+) : HasId {
+    override val itemId: String
+        get() = id!!
+}

@@ -10,7 +10,7 @@ class YaPlaylistComponent(
     dto: BasePlaylistDto,
     componentContext: ComponentContext
 ) : PlaylistComponent, HasIdComponent, ComponentContext by componentContext, HasId by dto {
-    override val title: String = dto.title!!
+    override val title: String = dto.title
     override val subtitle: String? = dto.description
     override val cover: String =
         "https://" + dto.cover!!.uri!!.replace("%%", "700x700")

@@ -3,7 +3,6 @@ package ru.toxyxd.home
 import ru.toxyxd.yaapi.dto.catalog.CatalogBlockDto
 import ru.toxyxd.yaapi.dto.catalog.CatalogBlockEntityDto
 import ru.toxyxd.yaapi.dto.catalog.CatalogRootDto
-import ru.toxyxd.yaapi.dto.playlist.PersonalPlaylistHeaderDto
 import ru.toxyxd.yaapi.dto.recently.RecentlyDto
 
 internal class YaCatalogBinder {
@@ -29,6 +28,7 @@ internal class YaCatalogBinder {
                 is CatalogBlockEntityDto.PersonalPlaylistBlockEntityDto -> YaCatalogEntry.Playlist(entity.data.playlistHeader)
                 is CatalogBlockEntityDto.PlayContextBlockEntityDto -> {
                     when (val data = entity.data) {
+                        is RecentlyDto.RecentlyAlbumDto -> YaCatalogEntry.Album(data.album)
                         is RecentlyDto.RecentlyPlaylistDto -> YaCatalogEntry.Playlist(data.playlist)
                         else -> YaCatalogEntry.Unknown(entity.itemId, entity.type.name + ':' + entity.data.context, null)
                     }

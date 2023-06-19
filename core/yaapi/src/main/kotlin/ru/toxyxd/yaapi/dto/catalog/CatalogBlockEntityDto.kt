@@ -14,10 +14,10 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import ru.toxyxd.common.HasId
 import ru.toxyxd.yaapi.dto.BaseDto
+import ru.toxyxd.yaapi.dto.album.AlbumDto
 import ru.toxyxd.yaapi.dto.playlist.PersonalPlaylistHeaderMetaDto
 import ru.toxyxd.yaapi.dto.promotion.PromotionDto
 import ru.toxyxd.yaapi.dto.recently.RecentlyDto
-import java.util.Locale
 
 @Serializable(with = CatalogBlockEntityDtoSerializer::class)
 sealed class CatalogBlockEntityDto<out T : BaseDto> : HasId {
@@ -27,6 +27,9 @@ sealed class CatalogBlockEntityDto<out T : BaseDto> : HasId {
     abstract val data: T
 
     enum class Type {
+        @SerialName("album")
+        ALBUM,
+
         @SerialName("personal-playlist")
         PERSONAL_PLAYLIST,
 
@@ -39,6 +42,13 @@ sealed class CatalogBlockEntityDto<out T : BaseDto> : HasId {
         @SerialName("Unknown")
         UNKNOWN
     }
+
+    @Serializable
+    class AlbumBlockEntityDto(
+        override val itemId: String,
+        override val type: Type = Type.ALBUM,
+        override val data: AlbumDto
+    ) : CatalogBlockEntityDto<AlbumDto>()
 
     @Serializable
     class PersonalPlaylistBlockEntityDto(
@@ -101,6 +111,12 @@ object CatalogBlockEntityDtoSerializer : KSerializer<CatalogBlockEntityDto<BaseD
         }
 
         return when (typeEnum) {
+            CatalogBlockEntityDto.Type.ALBUM -> CatalogBlockEntityDto.AlbumBlockEntityDto(
+                id,
+                typeEnum,
+                decoder.json.decodeFromJsonElement(AlbumDto.serializer(), data)
+            )
+
             CatalogBlockEntityDto.Type.PLAY_CONTEXT -> CatalogBlockEntityDto.PlayContextBlockEntityDto(
                 id,
                 typeEnum,

@@ -20,6 +20,9 @@ internal sealed class YaCatalogEntry : HasId {
             val dto: BasePlaylistDto
         ) : YaCatalogEntry(), HasId by dto
     }
+    class Album(
+        val dto: AlbumDto
+    ) : YaCatalogEntry(), HasId by dto
     class PersonalizedPlaylist(
         val dto: BasePlaylistDto
     ) : YaCatalogEntry(), HasId by dto

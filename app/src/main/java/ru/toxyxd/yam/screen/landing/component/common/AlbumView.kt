@@ -48,5 +48,13 @@ fun AlbumView(component: AlbumComponent) {
             color = Color.Gray,
             overflow = TextOverflow.Ellipsis
         )
+        if (component.type != null) {
+            Text(
+                text = component.type!!,
+                style = TextStyle(fontSize = 14.sp),
+                color = Color.Gray,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }

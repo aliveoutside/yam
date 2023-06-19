@@ -3,6 +3,7 @@ package ru.toxyxd.yaapi.dto.album
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import ru.toxyxd.common.HasId
+import ru.toxyxd.yaapi.dto.BaseDto
 import ru.toxyxd.yaapi.dto.artist.ArtistDto
 import ru.toxyxd.yaapi.dto.track.TrackDto
 
@@ -100,7 +101,7 @@ data class AlbumDto(
 
     @SerialName("year")
     val year: String? = null
-) : HasId {
+) : HasId, BaseDto {
     override val itemId: String
         get() = id!!
 }

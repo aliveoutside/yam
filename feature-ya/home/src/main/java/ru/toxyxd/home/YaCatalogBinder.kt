@@ -11,6 +11,7 @@ internal class YaCatalogBinder {
     ): List<YaCatalogEntry> {
         return dto.blocks.map { block ->
             when (block.type) {
+                CatalogBlockDto.Type.NewReleases,
                 CatalogBlockDto.Type.PersonalPlaylists,
                 CatalogBlockDto.Type.PlayContexts,
                 CatalogBlockDto.Type.Promotions -> sliderEntry(block)
@@ -25,6 +26,7 @@ internal class YaCatalogBinder {
     ): List<YaCatalogEntry> {
         return block.entities.map { entity ->
             when (entity) {
+                is CatalogBlockEntityDto.AlbumBlockEntityDto -> YaCatalogEntry.Album(entity.data)
                 is CatalogBlockEntityDto.PersonalPlaylistBlockEntityDto -> YaCatalogEntry.PersonalizedPlaylist(entity.data.playlistHeader)
                 is CatalogBlockEntityDto.PlayContextBlockEntityDto -> {
                     when (val data = entity.data) {

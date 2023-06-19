@@ -4,6 +4,7 @@ import ru.toxyxd.home.component.slider.SliderComponent
 import ru.toxyxd.yaapi.dto.catalog.CatalogBlockDto
 
 fun CatalogBlockDto.Type.asSliderType() = when (this) {
+    CatalogBlockDto.Type.NewReleases,
     CatalogBlockDto.Type.PersonalPlaylists,
     CatalogBlockDto.Type.PlayContexts -> SliderComponent.SliderType.Horizontal
 

@@ -20,6 +20,9 @@ class CatalogBlockDto(
         @SerialName("mixes")
         Mixes,
 
+        @SerialName("new-releases")
+        NewReleases,
+
         @SerialName("personal-playlists")
         PersonalPlaylists,
 

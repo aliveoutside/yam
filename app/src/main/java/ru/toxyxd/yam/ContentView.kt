@@ -17,18 +17,11 @@ import ru.toxyxd.yam.screen.item.ItemRootView
 import ru.toxyxd.yam.screen.landing.LandingRootView
 import ru.toxyxd.yam.screen.signin.SignInView
 
-@OptIn(ExperimentalDecomposeApi::class)
 @Composable
 fun ContentView(
     rootComponent: RootComponent
 ) {
-    Children(stack = rootComponent.childStack,
-        animation = predictiveBackAnimation(
-            backHandler = rootComponent.backHandler,
-            animation = stackAnimation(fade() + scale()),
-            onBack = rootComponent::onBackClicked,
-        )
-        ) {
+    Children(stack = rootComponent.childStack) {
         when (val child = it.instance) {
             is RootComponent.Child.SignIn -> SignInView(root = child.component)
             is RootComponent.Child.ApplicationContent -> Content(child.component)
@@ -41,7 +34,7 @@ private fun Content(
     component: ContentComponent
 ) {
     Scaffold { paddings ->
-        Children(stack = component.childStack, modifier = Modifier.padding(paddings)) {
+        Children(stack = component.childStack, modifier = Modifier.padding(paddings), animation = stackAnimation(fade() + scale())) {
             when (val child = it.instance) {
                 is ContentComponent.Child.Home -> LandingRootView(root = child.component)
                 is ContentComponent.Child.Item -> ItemRootView(root = child.component)

@@ -4,6 +4,9 @@ import ru.toxyxd.common.HasId
 import ru.toxyxd.yaapi.dto.cover.CoverInfoDto
 
 interface BasePlaylistDto : HasId {
+    val uid: String
+    val kind: String
+
     val title: String
     val description: String?
     val cover: CoverInfoDto?

@@ -19,10 +19,12 @@ import ru.toxyxd.home.catalog.promotion.YaPromotionComponent
 import ru.toxyxd.home.catalog.slider.YaSliderComponent
 import ru.toxyxd.home.catalog.unknown.YaUnknownComponent
 import ru.toxyxd.yaapi.YaApi
+import ru.toxyxd.yaapi.internal.YaApiEntrypoint
 import ru.toxyxd.yaapi.internal.YaApiResponse
 
 class YaHomeComponent(
     private val yaApi: YaApi,
+    private val onItemClicked: (YaApiEntrypoint) -> Unit,
     componentContext: ComponentContext
 ) : HomeComponent, ComponentContext by componentContext,
     CoroutineScope by componentContext.componentCoroutineScope() {
@@ -66,6 +68,7 @@ class YaHomeComponent(
 
         is YaCatalogEntry.Recent.Playlist -> YaRecentPlaylistComponent(
             dto = entry.dto,
+            onItemClicked = onItemClicked,
             componentContext = childContext
         )
 
@@ -76,6 +79,7 @@ class YaHomeComponent(
 
         is YaCatalogEntry.PersonalizedPlaylist -> YaPlaylistComponent(
             dto = entry.dto,
+            onItemClicked = onItemClicked,
             componentContext = childContext
         )
 

@@ -3,11 +3,12 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
+    id("kotlin-parcelize")
 }
 
 android {
     namespace = "ru.toxyxd.yaapi"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24

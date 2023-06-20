@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "ru.toxyxd.root"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -34,6 +34,7 @@ dependencies {
     implementation(libs.decompose)
 
     implementation(project(":feature:home"))
+    implementation(project(":feature:item"))
     implementation(project(":feature:library"))
     implementation(project(":feature:search"))
     implementation(project(":feature:signin"))

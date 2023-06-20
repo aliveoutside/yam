@@ -8,9 +8,11 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import ru.toxyxd.yaapi.YaApi
+import ru.toxyxd.yaapi.internal.YaApiEntrypoint
 
 class YaHomeRootComponent(
     private val yaApi: YaApi,
+    private val onItemClicked: (YaApiEntrypoint) -> Unit,
     componentContext: ComponentContext
 ) : HomeRootComponent, ComponentContext by componentContext {
     private val navigation = StackNavigation<Config>()
@@ -30,7 +32,7 @@ class YaHomeRootComponent(
     ): HomeRootComponent.Child {
         return when (config) {
             Config.Landing -> HomeRootComponent.Child.Home(
-                YaHomeComponent(yaApi, componentContext)
+                YaHomeComponent(yaApi, onItemClicked, componentContext)
             )
         }
     }

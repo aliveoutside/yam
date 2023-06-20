@@ -18,7 +18,7 @@ import ru.toxyxd.home.component.common.ArtistComponent
 import ru.toxyxd.yam.ext.bouncingClickable
 
 @Composable
-fun ArtistView(
+internal fun ArtistView(
     component: ArtistComponent
 ) {
     Column(

@@ -47,7 +47,7 @@ data class PlaylistHeaderDto(
     val id: String? = null,
 
     @SerialName("kind")
-    val kind: String? = null,
+    override val kind: String,
 
     @SerialName("likesCount")
     val likesCount: Int? = null,
@@ -77,7 +77,7 @@ data class PlaylistHeaderDto(
     val tracks: List<WrappedTrackDto>? = null,
 
     @SerialName("uid")
-    val uid: String? = null,
+    override val uid: String,
 
     @SerialName("visibility")
     val visibility: String? = null,

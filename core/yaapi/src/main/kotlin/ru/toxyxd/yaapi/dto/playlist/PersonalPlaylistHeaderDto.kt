@@ -65,7 +65,7 @@ data class PersonalPlaylistHeaderDto(
     val idForFrom: String? = null,
 
     @SerialName("kind")
-    val kind: String? = null,
+    override val kind: String,
 
     @SerialName("likesCount")
     val likesCount: Int? = null,
@@ -95,7 +95,7 @@ data class PersonalPlaylistHeaderDto(
     val tracks: List<WrappedTrackDto>? = null,
 
     @SerialName("uid")
-    val uid: String? = null,
+    override val uid: String,
 
 //    @SerialName("customWave")
 //    val vibeButtonInfo: VibeButtonDto? = null

@@ -22,11 +22,11 @@ import ru.toxyxd.home.component.common.PlaylistComponent
 import ru.toxyxd.yam.ext.bouncingClickable
 
 @Composable
-fun PlaylistView(component: PlaylistComponent) {
+internal fun PlaylistView(component: PlaylistComponent) {
     Column(
         modifier = Modifier
             .width(180.dp)
-            .bouncingClickable {},
+            .bouncingClickable { component.onClick() },
         verticalArrangement = Arrangement.Top
     ) {
         AsyncImage(

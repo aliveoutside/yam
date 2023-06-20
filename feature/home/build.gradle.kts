@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "ru.toxyxd.home"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -32,5 +32,5 @@ android {
 
 dependencies {
     implementation(libs.decompose)
-    implementation(project(mapOf("path" to ":common")))
+    implementation(project(":common"))
 }

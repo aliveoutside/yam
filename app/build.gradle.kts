@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "ru.toxyxd.yam"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "ru.toxyxd.yam"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -68,7 +68,8 @@ dependencies {
 
     implementation(project(":common"))
     implementation(project(":core:yaapi"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:item"))
     implementation(project(":feature:signin"))
     implementation(project(":feature-ya:root"))
-    implementation(project(":feature:home"))
 }

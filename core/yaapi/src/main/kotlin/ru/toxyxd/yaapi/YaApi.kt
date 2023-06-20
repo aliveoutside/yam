@@ -4,6 +4,7 @@ import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.get
@@ -19,6 +20,7 @@ import ru.toxyxd.yaapi.account.YaAccount
 import ru.toxyxd.yaapi.account.YaAccountSettings
 import ru.toxyxd.yaapi.delegates.YaAuthentication
 import ru.toxyxd.yaapi.delegates.YaLanding
+import ru.toxyxd.yaapi.delegates.YaPlaylists
 import ru.toxyxd.yaapi.delegates.YaUsers
 import ru.toxyxd.yaapi.internal.RawYaResponse
 import ru.toxyxd.yaapi.internal.YaApiResponse
@@ -33,6 +35,7 @@ class YaApi(
 
     val authentication = YaAuthentication(this)
     val landing = YaLanding(this)
+    val playlists = YaPlaylists(this)
     val users = YaUsers(this)
 
     val isAuthorized get() = currentAccount != null
@@ -47,6 +50,7 @@ class YaApi(
     }
 
     private val httpClient = baseHttpClient.config {
+        install(HttpCache)
         install(ContentNegotiation) {
             json(Json {
                 encodeDefaults = true

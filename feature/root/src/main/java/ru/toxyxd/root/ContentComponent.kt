@@ -3,6 +3,7 @@ package ru.toxyxd.root
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import ru.toxyxd.home.HomeRootComponent
+import ru.toxyxd.item.ItemRootComponent
 
 interface ContentComponent {
     val navigationItems: List<NavigationItem>
@@ -14,6 +15,7 @@ interface ContentComponent {
 
     sealed class Child {
         class Home(val component: HomeRootComponent) : Child()
+        class Item(val component: ItemRootComponent) : Child()
     }
 
     enum class NavigationItem {

@@ -10,7 +10,7 @@ kotlinxSerializationVersion = "1.5.1"
 ktorClientVersion = "2.3.1"
 
 # decompose
-decomposeVersion = "2.0.0-beta-01"
+decomposeVersion = "2.1.0-alpha-01"
 essentyVersion = "1.1.0"
 
 # android
@@ -20,9 +20,11 @@ composeMaterial3Version = "1.2.0-alpha02"
 lifecycleVersion = "2.6.1"
 hiltVersion = "2.46.1"
 androidCoreKtxVersion = "1.10.1"
-androidActivityKtxVersion = "1.7.2"
+androidActivityKtxVersion = "1.8.0-alpha05"
 accompanist = "0.31.1-alpha"
 coilVersion = "2.3.0"
+minSdk = "24"
+targetSdk = "34"
 
 # di
 koinVersion = "3.4.2"

@@ -4,6 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
@@ -24,6 +25,10 @@ class YaRootComponent(
         initialStack = ::initialStack,
         childFactory = ::child
     )
+
+    override fun onBackClicked() {
+        navigation.pop()
+    }
 
     private fun initialStack(): List<Config> =
         if (yaApi.isAuthorized) listOf(Config.ApplicationContent) else listOf(Config.SignIn)

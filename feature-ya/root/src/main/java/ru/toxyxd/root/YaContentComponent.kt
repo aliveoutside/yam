@@ -1,16 +1,19 @@
 package ru.toxyxd.root
 
-import android.os.Parcelable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.parcelable.Parcelable
 import kotlinx.parcelize.Parcelize
 import ru.toxyxd.home.YaHomeRootComponent
+import ru.toxyxd.item.YaItemRootComponent
 import ru.toxyxd.yaapi.YaApi
+import ru.toxyxd.yaapi.internal.YaApiEntrypoint
 
 class YaContentComponent(
     private val yaApi: YaApi,
@@ -26,6 +29,7 @@ class YaContentComponent(
     override val childStack: Value<ChildStack<*, ContentComponent.Child>> = childStack(
         source = navigation,
         initialStack = ::initialStack,
+        handleBackButton = true,
         childFactory = ::child
     )
 
@@ -40,17 +44,33 @@ class YaContentComponent(
 
     private fun child(config: Config, componentContext: ComponentContext) = when (config) {
         Config.Home -> ContentComponent.Child.Home(home(componentContext))
+        is Config.Item -> ContentComponent.Child.Item(item(config, componentContext))
     }
 
     private fun home(componentContext: ComponentContext) =
         YaHomeRootComponent(
             yaApi,
+            onItemClicked = ::onItemClicked,
             componentContext = componentContext
         )
+
+    private fun item(config: Config.Item, componentContext: ComponentContext) =
+        YaItemRootComponent(
+            yaApi,
+            config.entrypoint,
+            componentContext = componentContext
+        )
+
+    private fun onItemClicked(entrypoint: YaApiEntrypoint) {
+        navigation.push(Config.Item(entrypoint))
+    }
 
     private sealed interface Config : Parcelable {
         @Parcelize
         object Home : Config
+
+        @Parcelize
+        data class Item(val entrypoint: YaApiEntrypoint) : Config
     }
 }
 

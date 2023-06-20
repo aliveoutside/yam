@@ -84,7 +84,7 @@ data class TrackDto(
     val shortDescription: String? = null,
 
     @SerialName("title")
-    val title: String? = null,
+    val title: String,
 
     @SerialName("trackSource")
     val trackSource: String? = null,

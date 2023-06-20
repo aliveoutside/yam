@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "ru.toxyxd.root"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.decompose)
 
     implementation(project(":core:yaapi"))
+    implementation(project(":feature-ya:item"))
     implementation(project(":feature-ya:signin"))
     implementation(project(":feature-ya:home"))
 }

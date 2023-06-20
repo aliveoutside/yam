@@ -18,6 +18,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import ru.toxyxd.yaapi.account.YaAccount
 import ru.toxyxd.yaapi.account.YaAccountSettings
+import ru.toxyxd.yaapi.delegates.YaAlbums
 import ru.toxyxd.yaapi.delegates.YaAuthentication
 import ru.toxyxd.yaapi.delegates.YaLanding
 import ru.toxyxd.yaapi.delegates.YaPlaylists
@@ -33,6 +34,7 @@ class YaApi(
     private val yaSettings = YaAccountSettings(settings)
     private var currentAccount: YaAccount? = null
 
+    val albums = YaAlbums(this)
     val authentication = YaAuthentication(this)
     val landing = YaLanding(this)
     val playlists = YaPlaylists(this)

@@ -11,7 +11,7 @@ fun TrackListView(component: TrackListComponent) {
     val tracks = component.tracks.subscribeAsState()
     Column {
         tracks.value.forEach {
-            Text(it.title)
+            PlaylistTrackView(component = it)
         }
     }
 }

@@ -1,10 +1,12 @@
 package ru.toxyxd.item
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import ru.toxyxd.common.componentCoroutineScope
 import ru.toxyxd.item.component.ToolbarComponent
@@ -30,7 +32,8 @@ class YaItemRootComponent(
     override val state = viewModel.state
     override val toolbarComponent: ToolbarComponent
         get() = TODO()
-    override val tracklistComponent: TrackListComponent = YaTrackListComponent(viewModel.tracksDto, componentContext)
+    override val tracklistComponent: TrackListComponent =
+        YaTrackListComponent(viewModel.trackListDto, childContext("tracklist"))
 
     init {
         viewModel.load()
@@ -40,10 +43,10 @@ class YaItemRootComponent(
 internal class YaItemRootViewModel(
     private val yaApi: YaApi,
     private val entrypoint: YaApiEntrypoint,
-    coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope
 ) : InstanceKeeper.Instance, CoroutineScope by coroutineScope {
     val state = MutableValue<ItemRootComponent.State>(ItemRootComponent.State.Loading)
-    val tracksDto = MutableValue<List<TrackDto>>(emptyList())
+    val trackListDto = MutableValue<List<TrackDto>>(emptyList())
 
     fun load() {
         launch {
@@ -61,14 +64,16 @@ internal class YaItemRootViewModel(
     private suspend fun playlistTracks(ownerUid: String, kind: String) {
         return when (val response = yaApi.playlists.getUserPlaylist(ownerUid, kind)) {
             is YaApiResponse.Success -> {
-                tracksDto.value = response.result.tracks!!.map { it.track }
+                trackListDto.value = response.result.tracks?.map { it.track } ?: emptyList()
                 state.value = ItemRootComponent.State.Loaded
             }
+
+            is YaApiResponse.InternalError -> throw response.exception
             else -> throw IllegalStateException()
         }
     }
 
     override fun onDestroy() {
-
+        coroutineScope.cancel()
     }
 }

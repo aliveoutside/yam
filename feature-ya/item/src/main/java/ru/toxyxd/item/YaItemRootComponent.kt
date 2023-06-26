@@ -33,7 +33,7 @@ class YaItemRootComponent(
     override val toolbarComponent: ToolbarComponent
         get() = TODO()
     override val tracklistComponent: TrackListComponent =
-        YaTrackListComponent(viewModel.trackListDto, childContext("tracklist"))
+        YaTrackListComponent(viewModel.trackListDto, viewModel.type, childContext("tracklist"))
 
     init {
         viewModel.load()
@@ -46,6 +46,7 @@ internal class YaItemRootViewModel(
     private val coroutineScope: CoroutineScope
 ) : InstanceKeeper.Instance, CoroutineScope by coroutineScope {
     val state = MutableValue<ItemRootComponent.State>(ItemRootComponent.State.Loading)
+    val type = MutableValue(ItemRootComponent.Type.PLAYLIST)
     val trackListDto = MutableValue<List<TrackDto>>(emptyList())
 
     fun load() {
@@ -56,7 +57,9 @@ internal class YaItemRootViewModel(
                     entrypoint.playlistUid
                 )
 
-                is YaApiEntrypoint.YaAlbumEntrypoint -> TODO()
+                is YaApiEntrypoint.YaAlbumEntrypoint -> albumTracks(
+                    entrypoint.albumUid
+                )
             }
         }
     }
@@ -64,12 +67,27 @@ internal class YaItemRootViewModel(
     private suspend fun playlistTracks(ownerUid: String, kind: String) {
         return when (val response = yaApi.playlists.getUserPlaylist(ownerUid, kind)) {
             is YaApiResponse.Success -> {
+                type.value = ItemRootComponent.Type.PLAYLIST
                 trackListDto.value = response.result.tracks?.map { it.track } ?: emptyList()
                 state.value = ItemRootComponent.State.Loaded
             }
 
             is YaApiResponse.InternalError -> throw response.exception
             else -> throw IllegalStateException()
+        }
+    }
+
+    private suspend fun albumTracks(id: String) {
+        return when (val response = yaApi.albums.getAlbum(id)) {
+            is YaApiResponse.Success -> {
+                type.value = ItemRootComponent.Type.ALBUM
+                trackListDto.value = response.result.volumes?.flatten() ?: emptyList()
+                state.value = ItemRootComponent.State.Loaded
+            }
+
+            is YaApiResponse.InternalError -> throw response.exception
+            is YaApiResponse.Error -> throw IllegalStateException(response.toString())
+            is YaApiResponse.HttpError -> throw IllegalStateException(response.toString())
         }
     }
 

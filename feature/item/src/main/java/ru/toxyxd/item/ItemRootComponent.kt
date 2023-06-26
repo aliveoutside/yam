@@ -14,4 +14,9 @@ interface ItemRootComponent {
         object Loaded: State()
         object Loading: State()
     }
+
+    enum class Type {
+        PLAYLIST,
+        ALBUM
+    }
 }

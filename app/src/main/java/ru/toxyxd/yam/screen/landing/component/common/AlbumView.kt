@@ -24,7 +24,7 @@ import ru.toxyxd.yam.ext.bouncingClickable
 @Composable
 fun AlbumView(component: AlbumComponent) {
     Column(
-        modifier = Modifier.width(180.dp).bouncingClickable {}, verticalArrangement = Arrangement.Top
+        modifier = Modifier.width(180.dp).bouncingClickable { component.onClick() }, verticalArrangement = Arrangement.Top
     ) {
         AsyncImage(
             model = component.cover,

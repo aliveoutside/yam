@@ -5,3 +5,8 @@ interface TrackComponent {
     val artist: String
     val cover: String
 }
+
+interface AlbumTrackComponent : TrackComponent {
+    val index: Int
+}
+interface PlaylistTrackComponent : TrackComponent

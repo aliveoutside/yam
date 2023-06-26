@@ -58,6 +58,7 @@ class YaHomeComponent(
 
         is YaCatalogEntry.Recent.Album -> YaRecentAlbumComponent(
             dto = entry.dto,
+            onItemClicked = onItemClicked,
             componentContext = childContext
         )
 
@@ -74,6 +75,7 @@ class YaHomeComponent(
 
         is YaCatalogEntry.Album -> YaAlbumComponent(
             dto = entry.dto,
+            onItemClicked = onItemClicked,
             componentContext = childContext
         )
 

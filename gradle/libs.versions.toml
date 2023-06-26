@@ -14,9 +14,10 @@ decomposeVersion = "2.1.0-alpha-02"
 essentyVersion = "1.1.0"
 
 # android
-androidPluginVersion = "8.2.0-alpha08"
+androidPluginVersion = "8.2.0-alpha09"
 composeVersion = "1.5.0-beta02"
 composeMaterial3Version = "1.2.0-alpha02"
+composeToolbarVersion = "2.3.5"
 lifecycleVersion = "2.6.1"
 hiltVersion = "2.46.1"
 androidCoreKtxVersion = "1.10.1"
@@ -69,6 +70,7 @@ composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", v
 composeFoundation = { module = "androidx.compose.foundation:foundation", version.ref = "composeVersion" }
 composeMaterial = { module = "androidx.compose.material:material", version.ref = "composeVersion" }
 composeMaterial3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3Version" }
+composeToolbar = { module = "me.onebone:toolbar-compose", version.ref = "composeToolbarVersion"}
 lifecycleViewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleVersion" }
 lifecycleLivedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleVersion" }
 lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleVersion" }
@@ -112,5 +114,5 @@ material = { group = "com.google.android.material", name = "material", version.r
 [bundles]
 androidKtx = ["androidKtxCore", "androidKtxActivity", "androidKtxActivityCompose"]
 androidLifecycle = ["lifecycleRuntime", "lifecycleViewModel", "lifecycleServices"]
-compose = ["composeUi", "composeUiUtil", "composeUiToolingPreview", "composeFoundation", "composeMaterial", "composeMaterial3"]
+compose = ["composeUi", "composeUiUtil", "composeUiToolingPreview", "composeFoundation", "composeMaterial", "composeMaterial3", "composeToolbar"]
 ktorClient = ["ktorClient", "ktorClientAuth", "ktorClientContentNegotiation", "ktorClientJsonSerialization", "ktorClientLogging"]

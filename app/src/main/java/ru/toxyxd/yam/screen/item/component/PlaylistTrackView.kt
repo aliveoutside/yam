@@ -25,11 +25,11 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
-import ru.toxyxd.item.component.TrackComponent
+import ru.toxyxd.item.component.PlaylistTrackComponent
 import ru.toxyxd.yam.ui.theme.surfaceColorAtAlpha
 
 @Composable
-fun PlaylistTrackView(component: TrackComponent) {
+fun PlaylistTrackView(component: PlaylistTrackComponent) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {

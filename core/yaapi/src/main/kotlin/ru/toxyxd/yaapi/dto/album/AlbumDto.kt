@@ -61,7 +61,7 @@ data class AlbumDto(
     val genre: String? = null,
 
     @SerialName("id")
-    val id: String? = null,
+    val id: String,
 
     @SerialName("likesCount")
     val likesCount: Int? = null,
@@ -103,5 +103,5 @@ data class AlbumDto(
     val year: String? = null
 ) : HasId, BaseDto {
     override val itemId: String
-        get() = id!!
+        get() = id
 }

@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import ru.toxyxd.common.componentCoroutineScope
 import ru.toxyxd.item.component.ToolbarComponent
 import ru.toxyxd.item.component.TrackListComponent
+import ru.toxyxd.item.component.toolbar.YaToolbarComponent
 import ru.toxyxd.item.component.tracklist.YaTrackListComponent
 import ru.toxyxd.yaapi.YaApi
 import ru.toxyxd.yaapi.dto.track.TrackDto
@@ -30,8 +31,7 @@ class YaItemRootComponent(
         )
     }
     override val state = viewModel.state
-    override val toolbarComponent: ToolbarComponent
-        get() = TODO()
+    override val toolbarComponent: ToolbarComponent = YaToolbarComponent(childContext("toolbar"))
     override val tracklistComponent: TrackListComponent =
         YaTrackListComponent(viewModel.trackListDto, viewModel.type, childContext("tracklist"))
 

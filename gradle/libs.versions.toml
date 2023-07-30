@@ -17,7 +17,7 @@ essentyVersion = "1.1.0"
 androidPluginVersion = "8.2.0-alpha14"
 composeVersion = "1.5.0-beta02"
 composeMaterial3Version = "1.2.0-alpha02"
-composeToolbarVersion = "2.3.5"
+composeToolbarVersion = "1.0.8"
 lifecycleVersion = "2.6.1"
 hiltVersion = "2.46.1"
 androidCoreKtxVersion = "1.10.1"
@@ -70,7 +70,7 @@ composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", v
 composeFoundation = { module = "androidx.compose.foundation:foundation", version.ref = "composeVersion" }
 composeMaterial = { module = "androidx.compose.material:material", version.ref = "composeVersion" }
 composeMaterial3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3Version" }
-composeToolbar = { module = "me.onebone:toolbar-compose", version.ref = "composeToolbarVersion"}
+composeToolbar = { module = "com.github.GIGAMOLE:ComposeCollapsingToolbar", version.ref = "composeToolbarVersion"}
 lifecycleViewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleVersion" }
 lifecycleLivedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleVersion" }
 lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleVersion" }

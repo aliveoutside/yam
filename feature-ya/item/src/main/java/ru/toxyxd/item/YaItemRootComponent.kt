@@ -31,7 +31,8 @@ class YaItemRootComponent(
         )
     }
     override val state = viewModel.state
-    override val toolbarComponent: ToolbarComponent = YaToolbarComponent(childContext("toolbar"))
+    override val toolbarComponent: ToolbarComponent =
+        YaToolbarComponent(viewModel.title, viewModel.coverUrl, childContext("toolbar"))
     override val tracklistComponent: TrackListComponent =
         YaTrackListComponent(viewModel.trackListDto, viewModel.type, childContext("tracklist"))
 
@@ -47,6 +48,9 @@ internal class YaItemRootViewModel(
 ) : InstanceKeeper.Instance, CoroutineScope by coroutineScope {
     val state = MutableValue<ItemRootComponent.State>(ItemRootComponent.State.Loading)
     val type = MutableValue(ItemRootComponent.Type.PLAYLIST)
+
+    val coverUrl = MutableValue("")
+    val title = MutableValue("")
     val trackListDto = MutableValue<List<TrackDto>>(emptyList())
 
     fun load() {
@@ -67,6 +71,11 @@ internal class YaItemRootViewModel(
     private suspend fun playlistTracks(ownerUid: String, kind: String) {
         return when (val response = yaApi.playlists.getUserPlaylist(ownerUid, kind)) {
             is YaApiResponse.Success -> {
+                coverUrl.value = if (response.result.backgroundImageUrl != null) {
+                    "https://" + response.result.backgroundImageUrl!!.replace("%%", "700x700")
+                } else ""
+                title.value = response.result.title
+
                 type.value = ItemRootComponent.Type.PLAYLIST
                 trackListDto.value = response.result.tracks?.map { it.track } ?: emptyList()
                 state.value = ItemRootComponent.State.Loaded
@@ -80,6 +89,11 @@ internal class YaItemRootViewModel(
     private suspend fun albumTracks(id: String) {
         return when (val response = yaApi.albums.getAlbum(id)) {
             is YaApiResponse.Success -> {
+                coverUrl.value = if (response.result.coverUri != null) {
+                    "https://" + response.result.coverUri!!.replace("%%", "700x700")
+                } else ""
+                title.value = response.result.title
+
                 type.value = ItemRootComponent.Type.ALBUM
                 trackListDto.value = response.result.volumes?.flatten() ?: emptyList()
                 state.value = ItemRootComponent.State.Loaded

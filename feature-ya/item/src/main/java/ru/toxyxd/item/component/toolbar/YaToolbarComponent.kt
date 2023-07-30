@@ -6,8 +6,9 @@ import ru.toxyxd.item.component.ToolbarComponent
 
 class YaToolbarComponent(
     override val title: Value<String>,
+    override val subtitle: Value<String>,
     override val coverUrl: Value<String>,
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
 ) : ToolbarComponent, ComponentContext by componentContext {
 
     override fun onBackClicked() {

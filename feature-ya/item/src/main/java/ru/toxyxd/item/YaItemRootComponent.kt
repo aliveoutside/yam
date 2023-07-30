@@ -32,7 +32,7 @@ class YaItemRootComponent(
     }
     override val state = viewModel.state
     override val toolbarComponent: ToolbarComponent =
-        YaToolbarComponent(viewModel.title, viewModel.coverUrl, childContext("toolbar"))
+        YaToolbarComponent(viewModel.title, viewModel.subtitle, viewModel.coverUrl, childContext("toolbar"))
     override val tracklistComponent: TrackListComponent =
         YaTrackListComponent(viewModel.trackListDto, viewModel.type, childContext("tracklist"))
 
@@ -50,6 +50,7 @@ internal class YaItemRootViewModel(
     val type = MutableValue(ItemRootComponent.Type.PLAYLIST)
 
     val coverUrl = MutableValue("")
+    var subtitle = MutableValue("")
     val title = MutableValue("")
     val trackListDto = MutableValue<List<TrackDto>>(emptyList())
 
@@ -74,6 +75,7 @@ internal class YaItemRootViewModel(
                 coverUrl.value = if (response.result.backgroundImageUrl != null) {
                     "https://" + response.result.backgroundImageUrl!!.replace("%%", "700x700")
                 } else ""
+                response.result.description?.let { subtitle.value = it }
                 title.value = response.result.title
 
                 type.value = ItemRootComponent.Type.PLAYLIST

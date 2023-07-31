@@ -20,8 +20,16 @@ class YaTrackListComponent(
         tracksDto.subscribe {
             tracks.value = it.mapIndexed { index, trackDto ->
                 when (type.value) {
-                    ItemRootComponent.Type.PLAYLIST -> YaPlaylistTrackComponent(trackDto, childContext("track${index}"))
-                    ItemRootComponent.Type.ALBUM -> YaAlbumTrackComponent(trackDto, index, childContext("track${index}"))
+                    ItemRootComponent.Type.PLAYLIST -> YaPlaylistTrackComponent(
+                        trackDto,
+                        childContext("track${index}")
+                    )
+
+                    ItemRootComponent.Type.ALBUM -> YaAlbumTrackComponent(
+                        trackDto,
+                        index,
+                        childContext("track${index}")
+                    )
                 }
             }
         }

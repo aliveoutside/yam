@@ -21,7 +21,9 @@ import ru.toxyxd.yam.ext.bouncingClickable
 @Composable
 fun PromotionView(component: PromotionComponent) {
     Column(
-        modifier = Modifier.fillMaxWidth().bouncingClickable {}
+        modifier = Modifier
+            .fillMaxWidth()
+            .bouncingClickable {}
     ) {
         AsyncImage(
             model = component.imageUrl,

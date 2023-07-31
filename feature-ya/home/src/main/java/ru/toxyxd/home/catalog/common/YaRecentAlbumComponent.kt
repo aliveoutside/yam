@@ -8,6 +8,6 @@ class YaRecentAlbumComponent(
     dto: AlbumDto,
     onItemClicked: (YaApiEntrypoint) -> Unit,
     componentContext: ComponentContext
-): YaAlbumComponent(dto, onItemClicked, componentContext) {
+) : YaAlbumComponent(dto, onItemClicked, componentContext) {
     override val type: String? = null
 }

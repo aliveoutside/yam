@@ -22,7 +22,10 @@ internal fun ArtistView(
     component: ArtistComponent
 ) {
     Column(
-        modifier = Modifier.width(180.dp).bouncingClickable {}, verticalArrangement = Arrangement.Top
+        modifier = Modifier
+            .width(180.dp)
+            .bouncingClickable {},
+        verticalArrangement = Arrangement.Top
     ) {
         AsyncImage(
             model = component.image,

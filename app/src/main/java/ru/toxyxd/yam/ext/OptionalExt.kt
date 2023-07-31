@@ -9,7 +9,7 @@ import com.arkivanov.decompose.value.Value
 import ru.toxyxd.common.util.Optional
 
 @Composable
-fun <T: Any> Value<Optional<T>>.subscribeAsState(): State<T?> {
+fun <T : Any> Value<Optional<T>>.subscribeAsState(): State<T?> {
     val state = remember(this) { mutableStateOf(value.value) }
 
     DisposableEffect(this) {

@@ -32,7 +32,11 @@ private fun Content(
     component: ContentComponent
 ) {
     Scaffold { paddings ->
-        Children(stack = component.childStack, modifier = Modifier.padding(paddings), animation = stackAnimation(fade() + scale())) {
+        Children(
+            stack = component.childStack,
+            modifier = Modifier.padding(paddings),
+            animation = stackAnimation(fade() + scale())
+        ) {
             when (val child = it.instance) {
                 is ContentComponent.Child.Home -> LandingRootView(root = child.component)
                 is ContentComponent.Child.Item -> ItemRootView(root = child.component)

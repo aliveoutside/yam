@@ -8,7 +8,7 @@ import ru.toxyxd.yaapi.dto.artist.ArtistDto
 class YaRecentArtistComponent(
     dto: ArtistDto,
     componentContext: ComponentContext
-): ArtistComponent, ComponentContext by componentContext, HasId by dto {
+) : ArtistComponent, ComponentContext by componentContext, HasId by dto {
     override val name = dto.name
     override val image =
         "https://" + dto.cover!!.uri!!.replace("%%", "700x700")

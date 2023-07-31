@@ -27,15 +27,23 @@ internal class YaCatalogBinder {
         return block.entities.map { entity ->
             when (entity) {
                 is CatalogBlockEntityDto.AlbumBlockEntityDto -> YaCatalogEntry.Album(entity.data)
-                is CatalogBlockEntityDto.PersonalPlaylistBlockEntityDto -> YaCatalogEntry.PersonalizedPlaylist(entity.data.playlistHeader)
+                is CatalogBlockEntityDto.PersonalPlaylistBlockEntityDto -> YaCatalogEntry.PersonalizedPlaylist(
+                    entity.data.playlistHeader
+                )
+
                 is CatalogBlockEntityDto.PlayContextBlockEntityDto -> {
                     when (val data = entity.data) {
                         is RecentlyDto.RecentlyAlbumDto -> YaCatalogEntry.Recent.Album(data.album)
                         is RecentlyDto.RecentlyArtistDto -> YaCatalogEntry.Recent.Artist(data.artist)
                         is RecentlyDto.RecentlyPlaylistDto -> YaCatalogEntry.Recent.Playlist(data.playlist)
-                        else -> YaCatalogEntry.Unknown(entity.itemId, entity.type.name + ':' + entity.data.context, null)
+                        else -> YaCatalogEntry.Unknown(
+                            entity.itemId,
+                            entity.type.name + ':' + entity.data.context,
+                            null
+                        )
                     }
                 }
+
                 is CatalogBlockEntityDto.PromotionBlockEntityDto -> YaCatalogEntry.Promotion(entity.data)
                 else -> YaCatalogEntry.Unknown(block.itemId, block.type.name, block.title)
             }

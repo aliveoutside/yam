@@ -109,6 +109,7 @@ class YaHomeComponent(
             is YaApiResponse.InternalError -> {
                 throw response.exception
             }
+
             else -> {
                 throw IllegalStateException("Unknown response type: $response")
             }

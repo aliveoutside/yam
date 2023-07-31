@@ -51,7 +51,6 @@ android {
 
 dependencies {
     implementation(libs.bundles.androidKtx)
-    implementation(libs.bundles.androidLifecycle)
     implementation(libs.bundles.compose)
     implementation(libs.decompose)
     implementation(libs.decomposeExtensionCompose)
@@ -64,7 +63,7 @@ dependencies {
     implementation(libs.multiplatformSettings)
     implementation(libs.multiplatformSettingsSerialization)
 
-    implementation(libs.ktorClientEngineOkHttp)
+    implementation(libs.bundles.ktorClient)
 
     implementation(project(":common"))
     implementation(project(":core:yaapi"))

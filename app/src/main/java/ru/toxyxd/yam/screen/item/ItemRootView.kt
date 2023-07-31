@@ -89,7 +89,6 @@ fun ItemRootView(root: ItemRootComponent) {
             Column(modifier = Modifier
                 .padding(20.dp)
                 .fillMaxWidth()
-                .parallax()
                 .graphicsLayer {
                     alpha = scaffoldState.toolbarState.progress
                 }) {

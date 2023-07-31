@@ -18,6 +18,9 @@ sealed class YaTrackComponent(
 class YaPlaylistTrackComponent(dto: TrackDto, componentContext: ComponentContext) :
     YaTrackComponent(dto, componentContext), PlaylistTrackComponent
 
-class YaAlbumTrackComponent(dto: TrackDto, override val index: Int, componentContext: ComponentContext) :
-    YaTrackComponent(dto, componentContext), AlbumTrackComponent {
-}
+class YaAlbumTrackComponent(
+    dto: TrackDto,
+    override val index: Int,
+    componentContext: ComponentContext
+) :
+    YaTrackComponent(dto, componentContext), AlbumTrackComponent

@@ -9,4 +9,5 @@ interface TrackComponent {
 interface AlbumTrackComponent : TrackComponent {
     val index: Int
 }
+
 interface PlaylistTrackComponent : TrackComponent

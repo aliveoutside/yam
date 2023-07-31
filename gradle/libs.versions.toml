@@ -18,21 +18,18 @@ androidPluginVersion = "8.2.0-alpha14"
 composeVersion = "1.5.0-rc01"
 composeMaterial3Version = "1.2.0-alpha04"
 composeToolbarVersion = "1.0.8"
-lifecycleVersion = "2.6.1"
-hiltVersion = "2.46.1"
 androidCoreKtxVersion = "1.10.1"
 androidActivityKtxVersion = "1.8.0-alpha06"
-accompanist = "0.31.1-alpha"
 coilVersion = "2.4.0"
+
+# player
+media3 = "1.1.0"
 
 # di
 koinVersion = "3.4.3"
 
 # settings
 multiplatformSettingsVersion = "1.0.0"
-junit = "4.13.2"
-androidx-test-ext-junit = "1.1.5"
-espresso-core = "3.5.1"
 appcompat = "1.6.1"
 material = "1.9.0"
 
@@ -53,7 +50,6 @@ kotlinSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-js
 # ktor
 ktorClient = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientVersion" }
 ktorClientLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientVersion" }
-ktorClientMock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorClientVersion" }
 ktorClientContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientVersion" }
 ktorClientJsonSerialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientVersion" }
 ktorClientAuth = { module = "io.ktor:ktor-client-auth", version.ref = "ktorClientVersion" }
@@ -71,30 +67,16 @@ composeFoundation = { module = "androidx.compose.foundation:foundation", version
 composeMaterial = { module = "androidx.compose.material:material", version.ref = "composeVersion" }
 composeMaterial3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3Version" }
 composeToolbar = { module = "com.github.GIGAMOLE:ComposeCollapsingToolbar", version.ref = "composeToolbarVersion"}
-lifecycleViewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleVersion" }
-lifecycleLivedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleVersion" }
-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleVersion" }
-lifecycleViewModelSavedState = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "lifecycleVersion" }
-lifecycleCommonJava8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycleVersion" }
-lifecycleServices = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycleVersion" }
-lifecycleProcess = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycleVersion" }
-lifecycleReactiveStreams = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "lifecycleVersion" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coilVersion" }
+
+# player
+media3Exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
+media3Dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "media3" }
+media3Session = { module = "androidx.media3:media3-session", version.ref = "media3" }
 
 # di
 koin = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
 koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "koinVersion" }
-
-# accompanist
-accompanistNavigation = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "accompanist" }
-accompanistNavigationAnimation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
-accompanistSystemUi = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
-accompanistPermissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
-accompanistPagerIndicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
-accompanistWeb = { module = "com.google.accompanist:accompanist-webview", version.ref = "accompanist" }
-
-# tooling
-hiltCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltVersion" }
 
 # decompose
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decomposeVersion" }
@@ -105,14 +87,9 @@ essentyStateKeeper = { module = "com.arkivanov.essenty:state-keeper", version.re
 # settings
 multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettingsVersion" }
 multiplatformSettingsSerialization = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "multiplatformSettingsVersion" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [bundles]
 androidKtx = ["androidKtxCore", "androidKtxActivity", "androidKtxActivityCompose"]
-androidLifecycle = ["lifecycleRuntime", "lifecycleViewModel", "lifecycleServices"]
 compose = ["composeUi", "composeUiUtil", "composeUiToolingPreview", "composeFoundation", "composeMaterial", "composeMaterial3", "composeToolbar"]
-ktorClient = ["ktorClient", "ktorClientAuth", "ktorClientContentNegotiation", "ktorClientJsonSerialization", "ktorClientLogging"]
+ktorClient = ["ktorClient", "ktorClientAuth", "ktorClientContentNegotiation", "ktorClientJsonSerialization", "ktorClientLogging", "ktorClientEngineOkHttp"]
+media3 = ["media3Exoplayer", "media3Dash", "media3Session"]

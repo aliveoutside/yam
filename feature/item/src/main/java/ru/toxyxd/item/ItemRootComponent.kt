@@ -11,8 +11,8 @@ interface ItemRootComponent {
     val tracklistComponent: TrackListComponent
 
     sealed class State {
-        object Loaded: State()
-        object Loading: State()
+        object Loaded : State()
+        object Loading : State()
     }
 
     enum class Type {

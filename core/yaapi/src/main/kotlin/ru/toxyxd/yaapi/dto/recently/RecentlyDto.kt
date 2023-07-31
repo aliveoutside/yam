@@ -56,11 +56,15 @@ object RecentlyDtoSerializer : KSerializer<RecentlyDto> {
         val input = decoder as? JsonDecoder ?: throw SerializationException("Expected Json Input")
         val json = input.decodeJsonElement().jsonObject
 
-        val client = json["client"]?.jsonPrimitive?.content ?: throw SerializationException("Expected client")
-        val context = json["context"]?.jsonPrimitive?.content ?: throw SerializationException("Expected context")
-        val contextItem = json["contextItem"]?.jsonPrimitive?.content ?: throw SerializationException("Expected contextItem")
+        val client = json["client"]?.jsonPrimitive?.content
+            ?: throw SerializationException("Expected client")
+        val context = json["context"]?.jsonPrimitive?.content
+            ?: throw SerializationException("Expected context")
+        val contextItem = json["contextItem"]?.jsonPrimitive?.content
+            ?: throw SerializationException("Expected contextItem")
 
-        val payload = json["payload"]?.jsonObject ?: throw SerializationException("Expected payload")
+        val payload =
+            json["payload"]?.jsonObject ?: throw SerializationException("Expected payload")
 
         return when (context) {
             "album" -> RecentlyDto.RecentlyAlbumDto(
@@ -69,18 +73,21 @@ object RecentlyDtoSerializer : KSerializer<RecentlyDto> {
                 contextItem = contextItem,
                 album = input.json.decodeFromJsonElement(AlbumDto.serializer(), payload)
             )
+
             "artist" -> RecentlyDto.RecentlyArtistDto(
                 client = client,
                 context = context,
                 contextItem = contextItem,
                 artist = input.json.decodeFromJsonElement(ArtistDto.serializer(), payload)
             )
+
             "playlist" -> RecentlyDto.RecentlyPlaylistDto(
                 client = client,
                 context = context,
                 contextItem = contextItem,
                 playlist = input.json.decodeFromJsonElement(PlaylistHeaderDto.serializer(), payload)
             )
+
             else -> throw SerializationException("Unknown type: $context")
         }
     }

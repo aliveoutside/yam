@@ -7,5 +7,6 @@ import ru.toxyxd.yaapi.dto.album.AlbumDto
 value class YaAlbums(
     val yaApi: YaApi
 ) {
-    suspend fun getAlbum(albumId: String) = yaApi.api<AlbumDto>(listOf("albums", albumId, "with-tracks")) {}
+    suspend fun getAlbum(albumId: String) =
+        yaApi.api<AlbumDto>(listOf("albums", albumId, "with-tracks")) {}
 }

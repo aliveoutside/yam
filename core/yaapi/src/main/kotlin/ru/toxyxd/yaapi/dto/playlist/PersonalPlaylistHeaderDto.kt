@@ -2,7 +2,7 @@ package ru.toxyxd.yaapi.dto.playlist
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.toxyxd.yaapi.dto.catalog.ActionButtonDto
+import ru.toxyxd.yaapi.dto.landing.ActionButtonDto
 import ru.toxyxd.yaapi.dto.cover.CoverInfoDto
 import ru.toxyxd.yaapi.dto.track.WrappedTrackDto
 import ru.toxyxd.yaapi.dto.user.MadeForDto

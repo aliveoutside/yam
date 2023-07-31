@@ -1,4 +1,4 @@
-package ru.toxyxd.home.catalog.unknown
+package ru.toxyxd.home.landing.unknown
 
 import com.arkivanov.decompose.ComponentContext
 import ru.toxyxd.home.component.unknown.UnknownComponent

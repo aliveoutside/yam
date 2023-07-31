@@ -1,4 +1,4 @@
-package ru.toxyxd.home.catalog.promotion
+package ru.toxyxd.home.landing.promotion
 
 import com.arkivanov.decompose.ComponentContext
 import ru.toxyxd.common.HasIdComponent

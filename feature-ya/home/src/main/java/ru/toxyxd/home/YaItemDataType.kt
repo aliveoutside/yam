@@ -1,13 +1,13 @@
 package ru.toxyxd.home
 
 import ru.toxyxd.home.component.slider.SliderComponent
-import ru.toxyxd.yaapi.dto.catalog.CatalogBlockDto
+import ru.toxyxd.yaapi.dto.landing.LandingBlockDto
 
-fun CatalogBlockDto.Type.asSliderType() = when (this) {
-    CatalogBlockDto.Type.NewReleases,
-    CatalogBlockDto.Type.PersonalPlaylists,
-    CatalogBlockDto.Type.PlayContexts -> SliderComponent.SliderType.Horizontal
+fun LandingBlockDto.Type.toSliderType() = when (this) {
+    LandingBlockDto.Type.NewReleases,
+    LandingBlockDto.Type.PersonalPlaylists,
+    LandingBlockDto.Type.PlayContexts -> SliderComponent.SliderType.Horizontal
 
-    CatalogBlockDto.Type.Promotions -> SliderComponent.SliderType.FullSize
+    LandingBlockDto.Type.Promotions -> SliderComponent.SliderType.FullSize
     else -> SliderComponent.SliderType.Horizontal
 }

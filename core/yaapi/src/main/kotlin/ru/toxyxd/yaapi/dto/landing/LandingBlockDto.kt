@@ -1,4 +1,4 @@
-package ru.toxyxd.yaapi.dto.catalog
+package ru.toxyxd.yaapi.dto.landing
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -6,13 +6,13 @@ import ru.toxyxd.common.HasId
 import ru.toxyxd.yaapi.dto.BaseDto
 
 @Serializable
-class CatalogBlockDto(
+class LandingBlockDto(
     @SerialName("id")
     override val itemId: String,
     val type: Type = Type.Unknown,
     val title: String? = null,
     val description: String? = null,
-    val entities: List<CatalogBlockEntityDto<BaseDto>>,
+    val entities: List<LandingBlockEntityDto<BaseDto>>,
 ) : HasId {
 
     @Serializable

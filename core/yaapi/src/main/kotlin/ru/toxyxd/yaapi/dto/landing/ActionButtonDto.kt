@@ -1,4 +1,4 @@
-package ru.toxyxd.yaapi.dto.catalog
+package ru.toxyxd.yaapi.dto.landing
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

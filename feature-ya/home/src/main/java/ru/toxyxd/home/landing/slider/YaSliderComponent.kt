@@ -1,4 +1,4 @@
-package ru.toxyxd.home.catalog.slider
+package ru.toxyxd.home.landing.slider
 
 import com.arkivanov.decompose.ComponentContext
 import ru.toxyxd.common.HasId

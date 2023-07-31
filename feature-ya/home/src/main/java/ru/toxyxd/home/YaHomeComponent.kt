@@ -10,14 +10,14 @@ import kotlinx.coroutines.withContext
 import ru.toxyxd.common.HasIdComponent
 import ru.toxyxd.common.childList
 import ru.toxyxd.common.componentCoroutineScope
-import ru.toxyxd.home.catalog.common.YaAlbumComponent
-import ru.toxyxd.home.catalog.common.YaPlaylistComponent
-import ru.toxyxd.home.catalog.common.YaRecentAlbumComponent
-import ru.toxyxd.home.catalog.common.YaRecentArtistComponent
-import ru.toxyxd.home.catalog.common.YaRecentPlaylistComponent
-import ru.toxyxd.home.catalog.promotion.YaPromotionComponent
-import ru.toxyxd.home.catalog.slider.YaSliderComponent
-import ru.toxyxd.home.catalog.unknown.YaUnknownComponent
+import ru.toxyxd.home.landing.common.YaAlbumComponent
+import ru.toxyxd.home.landing.common.YaPlaylistComponent
+import ru.toxyxd.home.landing.common.YaRecentAlbumComponent
+import ru.toxyxd.home.landing.common.YaRecentArtistComponent
+import ru.toxyxd.home.landing.common.YaRecentPlaylistComponent
+import ru.toxyxd.home.landing.promotion.YaPromotionComponent
+import ru.toxyxd.home.landing.slider.YaSliderComponent
+import ru.toxyxd.home.landing.unknown.YaUnknownComponent
 import ru.toxyxd.yaapi.YaApi
 import ru.toxyxd.yaapi.internal.YaApiEntrypoint
 import ru.toxyxd.yaapi.internal.YaApiResponse
@@ -28,8 +28,8 @@ class YaHomeComponent(
     componentContext: ComponentContext
 ) : HomeComponent, ComponentContext by componentContext,
     CoroutineScope by componentContext.componentCoroutineScope() {
-    private val entries = MutableValue<List<YaCatalogEntry>>(emptyList())
-    private val binder = YaCatalogBinder()
+    private val entries = MutableValue<List<YaLandingEntry>>(emptyList())
+    private val binder = YaLandingBinder()
 
     override val children = childList(
         state = entries,
@@ -43,10 +43,10 @@ class YaHomeComponent(
     }
 
     private fun entryAsComponent(
-        entry: YaCatalogEntry,
+        entry: YaLandingEntry,
         childContext: ComponentContext
     ): HasIdComponent = when (entry) {
-        is YaCatalogEntry.Slider -> YaSliderComponent(
+        is YaLandingEntry.Slider -> YaSliderComponent(
             itemId = entry.itemId,
             headerTitle = entry.headerTitle,
             items = entry.items.map { sliderEntry ->
@@ -56,41 +56,41 @@ class YaHomeComponent(
             componentContext = childContext
         )
 
-        is YaCatalogEntry.Recent.Album -> YaRecentAlbumComponent(
+        is YaLandingEntry.Recent.Album -> YaRecentAlbumComponent(
             dto = entry.dto,
             onItemClicked = onItemClicked,
             componentContext = childContext
         )
 
-        is YaCatalogEntry.Recent.Artist -> YaRecentArtistComponent(
+        is YaLandingEntry.Recent.Artist -> YaRecentArtistComponent(
             dto = entry.dto,
             componentContext = childContext
         )
 
-        is YaCatalogEntry.Recent.Playlist -> YaRecentPlaylistComponent(
-            dto = entry.dto,
-            onItemClicked = onItemClicked,
-            componentContext = childContext
-        )
-
-        is YaCatalogEntry.Album -> YaAlbumComponent(
+        is YaLandingEntry.Recent.Playlist -> YaRecentPlaylistComponent(
             dto = entry.dto,
             onItemClicked = onItemClicked,
             componentContext = childContext
         )
 
-        is YaCatalogEntry.PersonalizedPlaylist -> YaPlaylistComponent(
+        is YaLandingEntry.Album -> YaAlbumComponent(
             dto = entry.dto,
             onItemClicked = onItemClicked,
             componentContext = childContext
         )
 
-        is YaCatalogEntry.Promotion -> YaPromotionComponent(
+        is YaLandingEntry.PersonalizedPlaylist -> YaPlaylistComponent(
+            dto = entry.dto,
+            onItemClicked = onItemClicked,
+            componentContext = childContext
+        )
+
+        is YaLandingEntry.Promotion -> YaPromotionComponent(
             dto = entry.dto,
             componentContext = childContext
         )
 
-        is YaCatalogEntry.Unknown -> YaUnknownComponent(
+        is YaLandingEntry.Unknown -> YaUnknownComponent(
             componentContext = childContext,
             id = entry.itemId,
             type = entry.type,

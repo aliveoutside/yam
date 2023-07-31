@@ -1,4 +1,4 @@
-package ru.toxyxd.yaapi.dto.catalog
+package ru.toxyxd.yaapi.dto.landing
 
 import android.util.Log
 import kotlinx.serialization.KSerializer
@@ -19,8 +19,8 @@ import ru.toxyxd.yaapi.dto.playlist.PersonalPlaylistHeaderMetaDto
 import ru.toxyxd.yaapi.dto.promotion.PromotionDto
 import ru.toxyxd.yaapi.dto.recently.RecentlyDto
 
-@Serializable(with = CatalogBlockEntityDtoSerializer::class)
-sealed class CatalogBlockEntityDto<out T : BaseDto> : HasId {
+@Serializable(with = LandingBlockEntityDtoSerializer::class)
+sealed class LandingBlockEntityDto<out T : BaseDto> : HasId {
     @SerialName("id")
     abstract override val itemId: String
     abstract val type: Type
@@ -48,88 +48,88 @@ sealed class CatalogBlockEntityDto<out T : BaseDto> : HasId {
         override val itemId: String,
         override val type: Type = Type.ALBUM,
         override val data: AlbumDto
-    ) : CatalogBlockEntityDto<AlbumDto>()
+    ) : LandingBlockEntityDto<AlbumDto>()
 
     @Serializable
     class PersonalPlaylistBlockEntityDto(
         override val itemId: String,
         override val type: Type = Type.PERSONAL_PLAYLIST,
         override val data: PersonalPlaylistHeaderMetaDto
-    ) : CatalogBlockEntityDto<PersonalPlaylistHeaderMetaDto>()
+    ) : LandingBlockEntityDto<PersonalPlaylistHeaderMetaDto>()
 
     @Serializable
     class PlayContextBlockEntityDto(
         override val itemId: String,
         override val type: Type = Type.PLAY_CONTEXT,
         override val data: RecentlyDto
-    ) : CatalogBlockEntityDto<RecentlyDto>()
+    ) : LandingBlockEntityDto<RecentlyDto>()
 
     @Serializable
     class PromotionBlockEntityDto(
         override val itemId: String,
         override val type: Type = Type.PROMOTION,
         override val data: PromotionDto
-    ) : CatalogBlockEntityDto<PromotionDto>()
+    ) : LandingBlockEntityDto<PromotionDto>()
 
     @Serializable
     class UnknownBlockEntityDto(
         override val itemId: String,
         override val type: Type = Type.UNKNOWN,
         override val data: BaseDto
-    ) : CatalogBlockEntityDto<BaseDto>()
+    ) : LandingBlockEntityDto<BaseDto>()
 }
 
-object CatalogBlockEntityDtoSerializer : KSerializer<CatalogBlockEntityDto<BaseDto>> {
+object LandingBlockEntityDtoSerializer : KSerializer<LandingBlockEntityDto<BaseDto>> {
     override val descriptor: SerialDescriptor =
-        buildClassSerialDescriptor("CatalogBlockEntityDtoSerializer")
+        buildClassSerialDescriptor("LandingBlockEntityDtoSerializer")
 
-    override fun deserialize(decoder: Decoder): CatalogBlockEntityDto<BaseDto> {
+    override fun deserialize(decoder: Decoder): LandingBlockEntityDto<BaseDto> {
         require(decoder is JsonDecoder)
         val element = decoder.decodeJsonElement()
         val id = element.jsonObject["id"]!!.jsonPrimitive.content
         val type = element.jsonObject["type"]!!.jsonPrimitive.content
         val data = element.jsonObject["data"]!!.jsonObject
 
-        val typeEnum: CatalogBlockEntityDto.Type
+        val typeEnum: LandingBlockEntityDto.Type
 
         try {
-            typeEnum = CatalogBlockEntityDto.Type.valueOf(
+            typeEnum = LandingBlockEntityDto.Type.valueOf(
                 type.replace("-", "_")
                     .uppercase()
             )
         } catch (e: IllegalArgumentException) {
             Log.w(
-                "CatalogBlockEntityDtoSerializer",
+                "LandingBlockEntityDtoSerializer",
                 "Unknown type: $type, id: $id, data: $data"
             )
-            Log.e("CatalogBlockEntityDtoSerializer", e.toString())
-            return CatalogBlockEntityDto.UnknownBlockEntityDto(
+            Log.e("LandingBlockEntityDtoSerializer", e.toString())
+            return LandingBlockEntityDto.UnknownBlockEntityDto(
                 id,
-                CatalogBlockEntityDto.Type.UNKNOWN,
+                LandingBlockEntityDto.Type.UNKNOWN,
                 object : BaseDto {}
             )
         }
 
         return when (typeEnum) {
-            CatalogBlockEntityDto.Type.ALBUM -> CatalogBlockEntityDto.AlbumBlockEntityDto(
+            LandingBlockEntityDto.Type.ALBUM -> LandingBlockEntityDto.AlbumBlockEntityDto(
                 id,
                 typeEnum,
                 decoder.json.decodeFromJsonElement(AlbumDto.serializer(), data)
             )
 
-            CatalogBlockEntityDto.Type.PLAY_CONTEXT -> CatalogBlockEntityDto.PlayContextBlockEntityDto(
+            LandingBlockEntityDto.Type.PLAY_CONTEXT -> LandingBlockEntityDto.PlayContextBlockEntityDto(
                 id,
                 typeEnum,
                 decoder.json.decodeFromJsonElement(RecentlyDto.serializer(), data)
             )
 
-            CatalogBlockEntityDto.Type.PERSONAL_PLAYLIST -> CatalogBlockEntityDto.PersonalPlaylistBlockEntityDto(
+            LandingBlockEntityDto.Type.PERSONAL_PLAYLIST -> LandingBlockEntityDto.PersonalPlaylistBlockEntityDto(
                 id,
                 typeEnum,
                 decoder.json.decodeFromJsonElement(PersonalPlaylistHeaderMetaDto.serializer(), data)
             )
 
-            CatalogBlockEntityDto.Type.PROMOTION -> CatalogBlockEntityDto.PromotionBlockEntityDto(
+            LandingBlockEntityDto.Type.PROMOTION -> LandingBlockEntityDto.PromotionBlockEntityDto(
                 id,
                 typeEnum,
                 decoder.json.decodeFromJsonElement(PromotionDto.serializer(), data)
@@ -141,7 +141,7 @@ object CatalogBlockEntityDtoSerializer : KSerializer<CatalogBlockEntityDto<BaseD
         }
     }
 
-    override fun serialize(encoder: Encoder, value: CatalogBlockEntityDto<BaseDto>) {
+    override fun serialize(encoder: Encoder, value: LandingBlockEntityDto<BaseDto>) {
         throw NotImplementedError()
     }
 }

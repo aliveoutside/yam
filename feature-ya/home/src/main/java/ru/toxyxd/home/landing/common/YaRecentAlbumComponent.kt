@@ -1,4 +1,4 @@
-package ru.toxyxd.home.catalog.common
+package ru.toxyxd.home.landing.common
 
 import com.arkivanov.decompose.ComponentContext
 import ru.toxyxd.yaapi.dto.album.AlbumDto

@@ -28,8 +28,7 @@ import ru.toxyxd.yaapi.internal.YaApiResponse
 import ru.toxyxd.yaapi.internal.YaOAuthResponse
 
 class YaApi(
-    baseHttpClient: HttpClient,
-    settings: Settings
+    baseHttpClient: HttpClient, settings: Settings
 ) {
     private val yaSettings = YaAccountSettings(settings)
     private var currentAccount: YaAccount? = null
@@ -77,8 +76,7 @@ class YaApi(
                                     refreshToken = response.result.refreshToken
                                 )
                                 BearerTokens(
-                                    currentAccount!!.accessToken,
-                                    currentAccount!!.refreshToken
+                                    currentAccount!!.accessToken, currentAccount!!.refreshToken
                                 )
                             }
 
@@ -93,20 +91,17 @@ class YaApi(
     }
 
     suspend inline fun <reified T> oauth(
-        path: List<String>,
-        noinline scope: YaApiMethodScope.() -> Unit
-    ) =
-        try {
-            executePost(YaApiConstants.OAuthUrl, path, scope = scope).body<T>().let {
-                YaOAuthResponse.Success(it)
-            }
-        } catch (t: Throwable) {
-            YaOAuthResponse.Error(t)
+        path: List<String>, noinline scope: YaApiMethodScope.() -> Unit
+    ) = try {
+        executePost(YaApiConstants.OAuthUrl, path, scope = scope).body<T>().let {
+            YaOAuthResponse.Success(it)
         }
+    } catch (t: Throwable) {
+        YaOAuthResponse.Error(t)
+    }
 
     suspend inline fun <reified T> api(
-        path: List<String>,
-        noinline scope: YaApiMethodScope.() -> Unit
+        path: List<String>, noinline scope: YaApiMethodScope.() -> Unit
     ) = try {
         execute(YaApiConstants.ApiUrl, path, scope).unbox<T>()
     } catch (t: Throwable) {
@@ -114,16 +109,14 @@ class YaApi(
     }
 
     suspend inline fun <reified T> login(
-        path: List<String>,
-        noinline scope: YaApiMethodScope.() -> Unit
-    ) =
-        try {
-            execute(YaApiConstants.LoginUrl, path, scope).body<T>().let {
-                YaApiResponse.Success(it)
-            }
-        } catch (t: Throwable) {
-            YaApiResponse.InternalError(t)
+        path: List<String>, noinline scope: YaApiMethodScope.() -> Unit
+    ) = try {
+        execute(YaApiConstants.LoginUrl, path, scope).body<T>().let {
+            YaApiResponse.Success(it)
         }
+    } catch (t: Throwable) {
+        YaApiResponse.InternalError(t)
+    }
 
     suspend inline fun <reified T> HttpResponse.unbox(): YaApiResponse<T> = try {
         when (status) {
@@ -148,9 +141,7 @@ class YaApi(
     }
 
     suspend fun execute(
-        url: String,
-        path: List<String>,
-        scope: YaApiMethodScope.() -> Unit
+        url: String, path: List<String>, scope: YaApiMethodScope.() -> Unit
     ): HttpResponse {
         return httpClient.get {
             url {
@@ -164,9 +155,7 @@ class YaApi(
     }
 
     suspend fun executePost(
-        url: String,
-        path: List<String>,
-        scope: YaApiMethodScope.() -> Unit
+        url: String, path: List<String>, scope: YaApiMethodScope.() -> Unit
     ): HttpResponse {
         val parametersBuilder = ParametersBuilder()
         scope(YaApiMethodScope(parametersBuilder))
@@ -192,18 +181,6 @@ class YaApi(
     ) {
         fun param(key: String, value: String) {
             parameters.append(key, value)
-        }
-
-        fun param(key: String, value: Int) {
-            parameters.append(key, value.toString())
-        }
-
-        fun param(key: String, value: Long) {
-            parameters.append(key, value.toString())
-        }
-
-        fun param(key: String, value: Boolean) {
-            parameters.append(key, if (value) "1" else "0")
         }
     }
 }

@@ -33,7 +33,7 @@ class YaHomeComponent(
 
     override val children = childList(
         state = entries,
-        childFactory = ::entryAsComponent,
+        childFactory = ::entryToComponent,
     )
 
     init {
@@ -42,7 +42,7 @@ class YaHomeComponent(
         }
     }
 
-    private fun entryAsComponent(
+    private fun entryToComponent(
         entry: YaLandingEntry,
         childContext: ComponentContext
     ): HasIdComponent = when (entry) {
@@ -50,7 +50,7 @@ class YaHomeComponent(
             itemId = entry.itemId,
             headerTitle = entry.headerTitle,
             items = entry.items.map { sliderEntry ->
-                entryAsComponent(sliderEntry, childContext.childContext(sliderEntry.itemId))
+                entryToComponent(sliderEntry, childContext.childContext(sliderEntry.itemId))
             },
             sliderType = entry.sliderType,
             componentContext = childContext
@@ -99,9 +99,7 @@ class YaHomeComponent(
     }
 
     private suspend fun load() = withContext(Dispatchers.IO) {
-        val response = yaApi.landing.getLanding()
-
-        when (response) {
+        when (val response = yaApi.landing.getLanding()) {
             is YaApiResponse.Success -> {
                 entries.value = binder.transform(response.result)
             }

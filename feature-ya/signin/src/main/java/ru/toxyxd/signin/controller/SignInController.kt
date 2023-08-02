@@ -13,7 +13,7 @@ class SignInController(
     private val onSuccess: (YaAccount) -> Unit,
     private val onError: (String) -> Unit
 ) {
-    suspend fun dispatchSignIn(
+    suspend fun signIn(
         code: String
     ) = withContext(Dispatchers.Default) {
         yaApi.authentication.oauth(code).let { response ->
@@ -32,21 +32,20 @@ class SignInController(
     }
 
     private suspend fun processSuccessResponse(result: RequestOAuthResponse) =
-        when (val user = withContext(Dispatchers.Default) {
+        when (val response = withContext(Dispatchers.Default) {
             yaApi.users.getMe(result.accessToken)
         }) {
             is YaApiResponse.Success -> {
                 YaAccount(
-                    id = user.result.id,
+                    id = response.result.id,
                     accessToken = result.accessToken,
                     expiresIn = result.expiresIn,
                     refreshToken = result.refreshToken,
                 ).let(onSuccess)
             }
 
-            is YaApiResponse.Error -> onError(user.error.error)
-            is YaApiResponse.HttpError -> onError(user.code.toString() + ": " + user.description)
-            is YaApiResponse.InternalError -> onError(user.exception.message ?: "Unknown error")
+            is YaApiResponse.Error -> onError(response.error.error)
+            is YaApiResponse.HttpError -> onError(response.code.toString() + ": " + response.description)
+            is YaApiResponse.InternalError -> onError(response.exception.message ?: "Unknown error")
         }
-
 }

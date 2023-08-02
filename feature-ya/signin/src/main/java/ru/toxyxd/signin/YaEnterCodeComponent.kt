@@ -31,7 +31,7 @@ class YaEnterCodeComponent(
 
     override fun onSignInClicked() {
         launch {
-            signInController.dispatchSignIn(code = code.value)
+            signInController.signIn(code = code.value)
         }
     }
 }

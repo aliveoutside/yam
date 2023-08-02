@@ -19,8 +19,6 @@ fun <C : Any, T : ComponentContext> ComponentContext.childList(
     key = key,
     initialState = { ListNavState(configurations = state.value) },
     saveState = {
-        // We need to any state
-        // If we return null here when instanceKeeper insurances will be forgotten
         ParcelableContainer()
     },
     restoreState = { ListNavState(state.value) },

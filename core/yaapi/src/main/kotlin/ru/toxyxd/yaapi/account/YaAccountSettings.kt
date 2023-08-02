@@ -14,7 +14,7 @@ value class YaAccountSettings(
     private val settings: Settings
 ) {
     fun getAccount(): YaAccount? {
-        return settings[keyDef, 0].takeIf { accountId ->
+        return settings[defaultKey, 0].takeIf { accountId ->
             accountId != 0
         }?.let { accountId ->
             settings.decodeValueOrNull(YaAccount.serializer(), keyAccount(accountId))
@@ -26,11 +26,11 @@ value class YaAccountSettings(
 
         settings.encodeValue(YaAccount.serializer(), keyAccount(newAccount.id), newAccount)
 
-        if (settings[keyDef, 0] == 0) {
-            settings.putInt(keyDef, newAccount.id)
+        if (settings[defaultKey, 0] == 0) {
+            settings.putInt(defaultKey, newAccount.id)
         }
     }
 
-    private val keyDef get() = "ya.defaultAccount"
+    private val defaultKey get() = "ya.defaultAccount"
     private fun keyAccount(id: Int) = "ya.accounts.${id}"
 }

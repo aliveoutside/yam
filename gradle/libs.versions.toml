@@ -1,29 +1,29 @@
 [versions]
 # kotlin
 atomicfuGradlePlugin = "0.20.2"
-kotlinVersion = "1.8.10"
+kotlinVersion = "1.9.10"
 
 # kotlinx
 kotlinxSerializationVersion = "1.5.1"
 
 # ktor
-ktorClientVersion = "2.3.2"
+ktorClientVersion = "2.3.3"
 
 # decompose
 decomposeVersion = "2.0.1"
 essentyVersion = "1.1.0"
 
 # android
-androidPluginVersion = "8.2.0-alpha14"
-composeVersion = "1.5.0-rc01"
-composeMaterial3Version = "1.2.0-alpha04"
+androidPluginVersion = "8.3.0-alpha01"
+composeVersion = "1.5.0"
+composeMaterial3Version = "1.2.0-alpha06"
 composeToolbarVersion = "1.0.8"
 androidCoreKtxVersion = "1.10.1"
-androidActivityKtxVersion = "1.8.0-alpha06"
+androidActivityKtxVersion = "1.8.0-alpha07"
 coilVersion = "2.4.0"
 
 # player
-media3 = "1.1.0"
+media3 = "1.1.1"
 
 # di
 koinVersion = "3.4.3"
@@ -72,6 +72,7 @@ coil = { module = "io.coil-kt:coil-compose", version.ref = "coilVersion" }
 # player
 media3Exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
 media3Dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "media3" }
+media3Ui = { module = "androidx.media3:media3-ui", version.ref = "media3"}
 media3Session = { module = "androidx.media3:media3-session", version.ref = "media3" }
 
 # di
@@ -92,4 +93,4 @@ multiplatformSettingsSerialization = { module = "com.russhwolf:multiplatform-set
 androidKtx = ["androidKtxCore", "androidKtxActivity", "androidKtxActivityCompose"]
 compose = ["composeUi", "composeUiUtil", "composeUiToolingPreview", "composeFoundation", "composeMaterial", "composeMaterial3", "composeToolbar"]
 ktorClient = ["ktorClient", "ktorClientAuth", "ktorClientContentNegotiation", "ktorClientJsonSerialization", "ktorClientLogging", "ktorClientEngineOkHttp"]
-media3 = ["media3Exoplayer", "media3Dash", "media3Session"]
+media3 = ["media3Exoplayer", "media3Dash", "media3Ui", "media3Session"]

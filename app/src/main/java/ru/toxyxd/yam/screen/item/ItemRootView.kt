@@ -110,7 +110,7 @@ fun ItemRootView(root: ItemRootComponent) {
             }
         }) {
         Box(
-            modifier = Modifier.padding(horizontal = 12.dp)
+            modifier = Modifier.padding(horizontal = 12.dp).fillMaxSize()
         ) {
             when (state.value) {
                 is ItemRootComponent.State.Loading -> {
@@ -142,8 +142,13 @@ fun ItemRootView(root: ItemRootComponent) {
 
                         items(tracks.value.size) {
                             when (val track = tracks.value[it]) {
-                                is AlbumTrackComponent -> AlbumTrackView(track)
-                                is PlaylistTrackComponent -> PlaylistTrackView(track)
+                                is AlbumTrackComponent -> {
+                                    AlbumTrackView(track) { root.tracklistComponent.play(it) }
+                                }
+
+                                is PlaylistTrackComponent -> {
+                                    PlaylistTrackView(track) { root.tracklistComponent.play(it) }
+                                }
                             }
                         }
                     }

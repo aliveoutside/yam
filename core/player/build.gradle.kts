@@ -33,4 +33,9 @@ android {
 dependencies {
     implementation(libs.androidKtxCore)
     implementation(libs.bundles.media3)
+
+    implementation(libs.koin)
+    implementation(libs.koinAndroid)
+
+    implementation(project(":core:yaapi"))
 }

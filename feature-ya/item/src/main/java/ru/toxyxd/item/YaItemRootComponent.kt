@@ -8,6 +8,7 @@ import com.arkivanov.essenty.instancekeeper.getOrCreate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import ru.toxyxd.common.CoverUtil
 import ru.toxyxd.common.componentCoroutineScope
 import ru.toxyxd.item.component.ToolbarComponent
 import ru.toxyxd.item.component.TrackListComponent
@@ -21,6 +22,7 @@ import ru.toxyxd.yaapi.internal.YaApiResponse
 class YaItemRootComponent(
     yaApi: YaApi,
     entrypoint: YaApiEntrypoint,
+    onGoBack: () -> Unit,
     componentContext: ComponentContext,
 ) : ItemRootComponent, ComponentContext by componentContext {
     private val viewModel = instanceKeeper.getOrCreate {
@@ -36,6 +38,7 @@ class YaItemRootComponent(
             viewModel.title,
             viewModel.subtitle,
             viewModel.coverUrl,
+            onGoBack,
             childContext("toolbar")
         )
     override val tracklistComponent: TrackListComponent =
@@ -78,7 +81,7 @@ internal class YaItemRootViewModel(
         return when (val response = yaApi.playlists.getUserPlaylist(ownerUid, kind)) {
             is YaApiResponse.Success -> {
                 coverUrl.value = if (response.result.backgroundImageUrl != null) {
-                    "https://" + response.result.backgroundImageUrl!!.replace("%%", "700x700")
+                    CoverUtil.getLargeCover(response.result.backgroundImageUrl!!)
                 } else ""
                 response.result.description?.let { subtitle.value = it }
                 title.value = response.result.title
@@ -97,7 +100,7 @@ internal class YaItemRootViewModel(
         return when (val response = yaApi.albums.getAlbum(id)) {
             is YaApiResponse.Success -> {
                 coverUrl.value = if (response.result.coverUri != null) {
-                    "https://" + response.result.coverUri!!.replace("%%", "700x700")
+                    CoverUtil.getLargeCover(response.result.coverUri!!)
                 } else ""
                 title.value = response.result.title
 

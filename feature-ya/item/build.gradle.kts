@@ -34,7 +34,13 @@ dependencies {
     implementation(libs.bundles.androidKtx)
     implementation(libs.decompose)
 
+    api(libs.bundles.media3)
+
+    implementation(libs.koin)
+    implementation(libs.koinAndroid)
+
     implementation(project(":common"))
+    implementation(project(":core:player"))
     implementation(project(":core:yaapi"))
     api(project(":feature:item"))
 }

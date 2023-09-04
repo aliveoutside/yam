@@ -53,8 +53,7 @@ data class TrackDto(
     val fade: TrackFadeDto? = null,
 
     @SerialName("id")
-    /* renamed from: id */
-    val id: String? = null,
+    val id: String,
 
     @SerialName("isSuitableForChildren")
     val isSuitableForChildren: Boolean? = null,

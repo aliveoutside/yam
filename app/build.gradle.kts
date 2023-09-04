@@ -42,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.bundles.ktorClient)
 
     implementation(project(":common"))
+    implementation(project(":core:player"))
     implementation(project(":core:yaapi"))
     implementation(project(":feature:home"))
     implementation(project(":feature:item"))

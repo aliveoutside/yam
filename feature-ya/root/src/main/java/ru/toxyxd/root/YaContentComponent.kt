@@ -5,6 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
@@ -24,7 +25,7 @@ class YaContentComponent(
         ContentComponent.NavigationItem.Home to Config.Home,
     )
 
-    override val navigationItems = ContentComponent.NavigationItem.values().toList()
+    override val navigationItems = ContentComponent.NavigationItem.entries
     override val currentNavigationItem = MutableValue(ContentComponent.NavigationItem.Home)
     override val childStack: Value<ChildStack<*, ContentComponent.Child>> = childStack(
         source = navigation,
@@ -58,11 +59,16 @@ class YaContentComponent(
         YaItemRootComponent(
             yaApi,
             config.entrypoint,
+            onGoBack = ::onGoBack,
             componentContext = componentContext
         )
 
     private fun onItemClicked(entrypoint: YaApiEntrypoint) {
         navigation.push(Config.Item(entrypoint))
+    }
+
+    private fun onGoBack() {
+        navigation.pop()
     }
 
     private sealed interface Config : Parcelable {

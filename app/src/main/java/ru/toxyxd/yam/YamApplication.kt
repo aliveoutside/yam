@@ -3,6 +3,7 @@ package ru.toxyxd.yam
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import ru.toxyxd.player.di.playerModule
 import ru.toxyxd.yam.di.mainModule
 
 class YamApplication : Application() {
@@ -12,7 +13,7 @@ class YamApplication : Application() {
         startKoin {
             androidContext(applicationContext)
 
-            modules(mainModule)
+            modules(mainModule, playerModule)
         }
     }
 }

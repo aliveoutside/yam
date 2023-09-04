@@ -43,9 +43,6 @@ data class PersonalPlaylistHeaderDto(
     @SerialName("coverWithoutText")
     val coverWithoutText: CoverInfoDto? = null,
 
-//    @SerialName("created")
-//    val created: AbstractC6485a.C6486a? = null
-
     @SerialName("description")
     override val description: String? = null,
 
@@ -73,9 +70,6 @@ data class PersonalPlaylistHeaderDto(
     @SerialName("madeFor")
     val madeFor: MadeForDto? = null,
 
-//    @SerialName("modified")
-//    val modified: AbstractC6485a.C6486a? = null
-
     @SerialName("owner")
     val owner: UserDto? = null,
 
@@ -96,9 +90,6 @@ data class PersonalPlaylistHeaderDto(
 
     @SerialName("uid")
     override val uid: String,
-
-//    @SerialName("customWave")
-//    val vibeButtonInfo: VibeButtonDto? = null
 
     @SerialName("visibility")
     val visibility: String? = null

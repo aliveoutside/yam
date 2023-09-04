@@ -22,6 +22,7 @@ import ru.toxyxd.yaapi.delegates.YaAlbums
 import ru.toxyxd.yaapi.delegates.YaAuthentication
 import ru.toxyxd.yaapi.delegates.YaLanding
 import ru.toxyxd.yaapi.delegates.YaPlaylists
+import ru.toxyxd.yaapi.delegates.YaTracks
 import ru.toxyxd.yaapi.delegates.YaUsers
 import ru.toxyxd.yaapi.internal.RawYaResponse
 import ru.toxyxd.yaapi.internal.YaApiResponse
@@ -36,6 +37,7 @@ class YaApi(
     val albums = YaAlbums(this)
     val authentication = YaAuthentication(this)
     val landing = YaLanding(this)
+    val tracks = YaTracks(this)
     val playlists = YaPlaylists(this)
     val users = YaUsers(this)
 
@@ -50,7 +52,7 @@ class YaApi(
         currentAccount = yaAccount
     }
 
-    private val httpClient = baseHttpClient.config {
+    val httpClient = baseHttpClient.config {
         install(HttpCache)
         install(ContentNegotiation) {
             json(Json {
@@ -87,6 +89,7 @@ class YaApi(
                     }
                 }
             }
+            install(HttpCache)
         }
     }
 

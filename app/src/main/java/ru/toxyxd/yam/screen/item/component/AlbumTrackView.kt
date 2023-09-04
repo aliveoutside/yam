@@ -1,5 +1,6 @@
 package ru.toxyxd.yam.screen.item.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -14,9 +15,10 @@ import androidx.compose.ui.unit.sp
 import ru.toxyxd.item.component.AlbumTrackComponent
 
 @Composable
-fun AlbumTrackView(component: AlbumTrackComponent) {
+fun AlbumTrackView(component: AlbumTrackComponent, onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.clickable(onClick = onClick)
     ) {
         Text(
             text = "${component.index + 1}.",

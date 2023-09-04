@@ -1,15 +1,16 @@
 package ru.toxyxd.yam.screen.item.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,9 +30,10 @@ import ru.toxyxd.item.component.PlaylistTrackComponent
 import ru.toxyxd.yam.ui.theme.surfaceColorAtAlpha
 
 @Composable
-fun PlaylistTrackView(component: PlaylistTrackComponent) {
+fun PlaylistTrackView(component: PlaylistTrackComponent, onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.clickable(onClick = onClick)
     ) {
         SubcomposeAsyncImage(
             model = component.cover, contentDescription = null,

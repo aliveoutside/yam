@@ -1,6 +1,7 @@
 package ru.toxyxd.home.landing.common
 
 import com.arkivanov.decompose.ComponentContext
+import ru.toxyxd.common.CoverUtil
 import ru.toxyxd.common.HasId
 import ru.toxyxd.home.component.common.AlbumComponent
 import ru.toxyxd.yaapi.dto.album.AlbumDto
@@ -15,7 +16,7 @@ open class YaAlbumComponent(
     override val title = dto.title
     override val artist = dto.artists.firstOrNull()?.name ?: ""
     override val type: String? = dto.type
-    override val cover = "https://" + dto.coverUri!!.replace("%%", "700x700")
+    override val cover = CoverUtil.getLargeCover(dto.coverUri!!)
 
     override fun onClick() {
         onItemClicked(YaApiEntrypoint.YaAlbumEntrypoint(id))

@@ -5,6 +5,7 @@ import ru.toxyxd.home.component.slider.SliderComponent
 import ru.toxyxd.yaapi.dto.album.AlbumDto
 import ru.toxyxd.yaapi.dto.artist.ArtistDto
 import ru.toxyxd.yaapi.dto.playlist.BasePlaylistDto
+import ru.toxyxd.yaapi.dto.playlist.PlaylistHeaderDto
 import ru.toxyxd.yaapi.dto.promotion.PromotionDto
 
 internal sealed class YaLandingEntry : HasId {
@@ -29,7 +30,9 @@ internal sealed class YaLandingEntry : HasId {
     class PersonalizedPlaylist(
         val dto: BasePlaylistDto
     ) : YaLandingEntry(), HasId by dto
-
+    class Playlist(
+        val dto: PlaylistHeaderDto
+    ) : YaLandingEntry(), HasId by dto
     class Promotion(
         val dto: PromotionDto
     ) : YaLandingEntry(), HasId by dto

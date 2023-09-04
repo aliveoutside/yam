@@ -12,6 +12,7 @@ internal class YaLandingBinder {
         return dto.blocks.map { block ->
             when (block.type) {
                 LandingBlockDto.Type.NewReleases,
+                LandingBlockDto.Type.NewPlaylists,
                 LandingBlockDto.Type.PersonalPlaylists,
                 LandingBlockDto.Type.PlayContexts,
                 LandingBlockDto.Type.Promotions -> sliderEntry(block)
@@ -43,7 +44,7 @@ internal class YaLandingBinder {
                         )
                     }
                 }
-
+                is LandingBlockEntityDto.PlaylistBlockEntityDto -> YaLandingEntry.Playlist(entity.data)
                 is LandingBlockEntityDto.PromotionBlockEntityDto -> YaLandingEntry.Promotion(entity.data)
                 else -> YaLandingEntry.Unknown(block.itemId, block.type.name, block.title)
             }

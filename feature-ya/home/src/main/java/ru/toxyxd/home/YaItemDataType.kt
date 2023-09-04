@@ -5,6 +5,7 @@ import ru.toxyxd.yaapi.dto.landing.LandingBlockDto
 
 fun LandingBlockDto.Type.toSliderType() = when (this) {
     LandingBlockDto.Type.NewReleases,
+    LandingBlockDto.Type.NewPlaylists,
     LandingBlockDto.Type.PersonalPlaylists,
     LandingBlockDto.Type.PlayContexts -> SliderComponent.SliderType.Horizontal
 

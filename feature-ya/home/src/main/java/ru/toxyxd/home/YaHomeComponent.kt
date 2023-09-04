@@ -50,7 +50,7 @@ class YaHomeComponent(
             itemId = entry.itemId,
             headerTitle = entry.headerTitle,
             items = entry.items.map { sliderEntry ->
-                entryToComponent(sliderEntry, childContext.childContext(sliderEntry.itemId))
+                entryToComponent(sliderEntry, childContext.childContext(sliderEntry.itemId + childContext.toString()))
             },
             sliderType = entry.sliderType,
             componentContext = childContext
@@ -80,6 +80,12 @@ class YaHomeComponent(
         )
 
         is YaLandingEntry.PersonalizedPlaylist -> YaPlaylistComponent(
+            dto = entry.dto,
+            onItemClicked = onItemClicked,
+            componentContext = childContext
+        )
+
+        is YaLandingEntry.Playlist -> YaPlaylistComponent(
             dto = entry.dto,
             onItemClicked = onItemClicked,
             componentContext = childContext

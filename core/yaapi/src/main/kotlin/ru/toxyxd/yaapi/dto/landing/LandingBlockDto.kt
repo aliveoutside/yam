@@ -23,6 +23,9 @@ class LandingBlockDto(
         @SerialName("new-releases")
         NewReleases,
 
+        @SerialName("new-playlists")
+        NewPlaylists,
+
         @SerialName("personal-playlists")
         PersonalPlaylists,
 

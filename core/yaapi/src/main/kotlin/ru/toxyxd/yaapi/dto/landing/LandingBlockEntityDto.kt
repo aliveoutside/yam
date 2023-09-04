@@ -16,6 +16,7 @@ import ru.toxyxd.common.HasId
 import ru.toxyxd.yaapi.dto.BaseDto
 import ru.toxyxd.yaapi.dto.album.AlbumDto
 import ru.toxyxd.yaapi.dto.playlist.PersonalPlaylistHeaderMetaDto
+import ru.toxyxd.yaapi.dto.playlist.PlaylistHeaderDto
 import ru.toxyxd.yaapi.dto.promotion.PromotionDto
 import ru.toxyxd.yaapi.dto.recently.RecentlyDto
 
@@ -35,6 +36,9 @@ sealed class LandingBlockEntityDto<out T : BaseDto> : HasId {
 
         @SerialName("play-context")
         PLAY_CONTEXT,
+
+        @SerialName("playlist")
+        PLAYLIST,
 
         @SerialName("promotion")
         PROMOTION,
@@ -63,6 +67,13 @@ sealed class LandingBlockEntityDto<out T : BaseDto> : HasId {
         override val type: Type = Type.PLAY_CONTEXT,
         override val data: RecentlyDto
     ) : LandingBlockEntityDto<RecentlyDto>()
+
+    @Serializable
+    class PlaylistBlockEntityDto(
+        override val itemId: String,
+        override val type: Type = Type.PLAYLIST,
+        override val data: PlaylistHeaderDto
+    ) : LandingBlockEntityDto<PlaylistHeaderDto>()
 
     @Serializable
     class PromotionBlockEntityDto(
@@ -121,6 +132,12 @@ object LandingBlockEntityDtoSerializer : KSerializer<LandingBlockEntityDto<BaseD
                 id,
                 typeEnum,
                 decoder.json.decodeFromJsonElement(RecentlyDto.serializer(), data)
+            )
+
+            LandingBlockEntityDto.Type.PLAYLIST -> LandingBlockEntityDto.PlaylistBlockEntityDto(
+                id,
+                typeEnum,
+                decoder.json.decodeFromJsonElement(PlaylistHeaderDto.serializer(), data)
             )
 
             LandingBlockEntityDto.Type.PERSONAL_PLAYLIST -> LandingBlockEntityDto.PersonalPlaylistBlockEntityDto(

@@ -172,7 +172,7 @@ class YaApi(
                 appendPathSegments(path)
 
                 headers {
-                    append("x-yandex-music-client", "YandexMusicAndroid/24022442")
+                    append("x-yandex-music-client", "YandexMusicAndroid/24023441")
                 }
             }
         }

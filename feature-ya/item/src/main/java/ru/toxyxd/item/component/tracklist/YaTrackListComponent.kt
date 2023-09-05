@@ -32,7 +32,7 @@ class YaTrackListComponent(
                 .setArtworkUri(Uri.parse(it.hugeCover)).build()
         }
 
-        mediaServiceHandler.addAndPlay(metadatas.mapIndexed { metaIndex, mediaMetadata ->
+        mediaServiceHandler.setAndPlay(metadatas.mapIndexed { metaIndex, mediaMetadata ->
             MediaItem.Builder()
                 .setMediaId(tracks.value[metaIndex].id)
                 .setMediaMetadata(mediaMetadata)

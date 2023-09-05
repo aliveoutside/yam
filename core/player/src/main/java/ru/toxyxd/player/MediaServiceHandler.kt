@@ -14,7 +14,7 @@ class MediaServiceHandler : Player.Listener, KoinComponent {
         player.addListener(this)
     }
 
-    fun addAndPlay(mediaItems: List<MediaItem>, position: Int = 0) {
+    fun setAndPlay(mediaItems: List<MediaItem>, position: Int = 0) {
         player.setMediaItems(mediaItems)
         player.seekTo(position, 0)
         player.prepare()

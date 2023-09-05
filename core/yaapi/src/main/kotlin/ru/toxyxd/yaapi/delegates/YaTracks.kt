@@ -33,11 +33,15 @@ value class YaTracks(
         yaApi.api<List<TrackDownloadInfoDto>>(listOf("tracks", trackId, "download-info")) {}
 
     private suspend fun getMp3Url(downloadInfo: List<TrackDownloadInfoDto>): YaApiResponse<String> {
-        val firstDownloadInfo = downloadInfo.firstOrNull()
-        return firstDownloadInfo?.let { info ->
-            val urlInfo: TrackMp3InfoDto? = yaApi.httpClient.get(info.downloadInfoUrl!! + "&format=json").body()
+        val track = resolveHighestQuality(downloadInfo)
+        return track.let { info ->
+            val urlInfo: TrackMp3InfoDto? = yaApi.httpClient.get(info.downloadInfoUrl + "&format=json").body()
             val mp3Url = urlInfo?.let { "https://${it.host}/get-mp3/${it.s}/${it.ts}${it.path}" }
             mp3Url?.let { YaApiResponse.Success(it) } ?: YaApiResponse.Error(YaApiError("Failed to get MP3 URL", ""))
-        } ?: YaApiResponse.Error(YaApiError("No download info available", ""))
+        }
+    }
+
+    private fun resolveHighestQuality(downloadInfo: List<TrackDownloadInfoDto>): TrackDownloadInfoDto {
+        return downloadInfo.maxByOrNull { it.bitrateInKbps } ?: error("No download info available")
     }
 }

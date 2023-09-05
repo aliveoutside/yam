@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TrackDownloadInfoDto(
-    var downloadInfoUrl: String? = null,
+    val bitrateInKbps: Int,
+    var downloadInfoUrl: String,
 )

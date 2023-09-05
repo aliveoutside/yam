@@ -6,6 +6,7 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.plugin
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
@@ -50,7 +51,7 @@ class YaApi(
     fun saveNewAccount(yaAccount: YaAccount) {
         yaSettings.saveAccount(yaAccount)
         currentAccount = yaAccount
-        httpClient = installAuth(httpClient)
+        installAuth(httpClient)
     }
 
     var httpClient = baseHttpClient.config {
@@ -65,43 +66,38 @@ class YaApi(
             })
         }
         install(HttpCache)
-    }.also {
-        installAuth(it)
-    }
+        install(Auth)
+    }.also { installAuth(it) }
 
-    private fun installAuth(client: HttpClient): HttpClient {
+    private fun installAuth(client: HttpClient) {
         if (isAuthorized) {
-            return client.config {
-                install(Auth) {
-                    yandexBearer {
-                        loadTokens {
+            client.plugin(Auth).yandexBearer {
+                loadTokens {
+                    BearerTokens(
+                        currentAccount!!.accessToken,
+                        currentAccount!!.refreshToken
+                    )
+                }
+                refreshTokens {
+                    when (val response =
+                        authentication.refreshToken(currentAccount!!.refreshToken)) {
+                        is YaOAuthResponse.Success -> {
+                            currentAccount = currentAccount!!.copy(
+                                accessToken = response.result.accessToken,
+                                refreshToken = response.result.refreshToken
+                            )
                             BearerTokens(
-                                currentAccount!!.accessToken,
-                                currentAccount!!.refreshToken
+                                currentAccount!!.accessToken, currentAccount!!.refreshToken
                             )
                         }
-                        refreshTokens {
-                            when (val response =
-                                authentication.refreshToken(currentAccount!!.refreshToken)) {
-                                is YaOAuthResponse.Success -> {
-                                    currentAccount = currentAccount!!.copy(
-                                        accessToken = response.result.accessToken,
-                                        refreshToken = response.result.refreshToken
-                                    )
-                                    BearerTokens(
-                                        currentAccount!!.accessToken, currentAccount!!.refreshToken
-                                    )
-                                }
 
-                                is YaOAuthResponse.Error -> {
-                                    throw response.error
-                                }
-                            }
+                        is YaOAuthResponse.Error -> {
+                            throw response.error
                         }
                     }
                 }
             }
-        } else return client
+        }
     }
 
     suspend inline fun <reified T> oauth(

@@ -10,11 +10,12 @@ import ru.toxyxd.yaapi.internal.YaApiResponse
 
 class YaUriResolver(private val yaApi: YaApi) {
     suspend fun resolve(id: String): String {
-        val uri = when (val info = yaApi.tracks.getDownloadInfo(id)) {
-            is YaApiResponse.Success -> yaApi.tracks.getMp3Url(info.result[0])
-            else -> TODO()
+        return when (val info = yaApi.tracks.getMp3UrlForTrack(id)) {
+            is YaApiResponse.Success -> info.result
+            is YaApiResponse.InternalError -> throw info.exception
+            is YaApiResponse.HttpError -> throw Exception(info.description)
+            is YaApiResponse.Error -> throw Exception(info.error.error)
         }
-        return uri
     }
 }
 

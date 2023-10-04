@@ -7,26 +7,26 @@ kotlinVersion = "1.9.10"
 kotlinxSerializationVersion = "1.5.1"
 
 # ktor
-ktorClientVersion = "2.3.3"
+ktorClientVersion = "2.3.4"
 
 # decompose
-decomposeVersion = "2.0.1"
-essentyVersion = "1.1.0"
+decomposeVersion = "2.1.2"
+essentyVersion = "1.2.0"
 
 # android
-androidPluginVersion = "8.3.0-alpha01"
-composeVersion = "1.5.0"
-composeMaterial3Version = "1.2.0-alpha06"
+androidPluginVersion = "8.3.0-alpha06"
+composeVersion = "1.5.2"
+composeMaterial3Version = "1.2.0-alpha08"
 composeToolbarVersion = "1.0.8"
-androidCoreKtxVersion = "1.10.1"
-androidActivityKtxVersion = "1.8.0-alpha07"
+androidCoreKtxVersion = "1.12.0"
+androidActivityKtxVersion = "1.8.0-rc01"
 coilVersion = "2.4.0"
 
 # player
 media3 = "1.1.1"
 
 # di
-koinVersion = "3.4.3"
+koinVersion = "3.5.0"
 
 # settings
 multiplatformSettingsVersion = "1.0.0"

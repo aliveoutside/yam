@@ -42,7 +42,7 @@ class YaItemRootComponent(
             childContext("toolbar")
         )
     override val tracklistComponent: TrackListComponent =
-        YaTrackListComponent(viewModel.trackListDto, viewModel.type, childContext("tracklist"))
+        YaTrackListComponent(viewModel.trackListDto, viewModel.type, viewModel.playedFromId, childContext("tracklist"))
 
     init {
         viewModel.load()
@@ -58,8 +58,9 @@ internal class YaItemRootViewModel(
     val type = MutableValue(ItemRootComponent.Type.PLAYLIST)
 
     val coverUrl = MutableValue("")
-    var subtitle = MutableValue("")
     val title = MutableValue("")
+    var subtitle = MutableValue("")
+    val playedFromId = MutableValue("")
     val trackListDto = MutableValue<List<TrackDto>>(emptyList())
 
     fun load() {
@@ -85,7 +86,7 @@ internal class YaItemRootViewModel(
                 } else ""
                 response.result.description?.let { subtitle.value = it }
                 title.value = response.result.title
-
+                playedFromId.value = response.result.uid
                 type.value = ItemRootComponent.Type.PLAYLIST
                 trackListDto.value = response.result.tracks?.map { it.track } ?: emptyList()
                 state.value = ItemRootComponent.State.Loaded
@@ -103,7 +104,7 @@ internal class YaItemRootViewModel(
                     CoverUtil.getLargeCover(response.result.coverUri!!)
                 } else ""
                 title.value = response.result.title
-
+                playedFromId.value = response.result.id
                 type.value = ItemRootComponent.Type.ALBUM
                 trackListDto.value = response.result.volumes?.flatten() ?: emptyList()
                 state.value = ItemRootComponent.State.Loaded

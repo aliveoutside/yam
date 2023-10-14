@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "ru.toxyxd.player"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -32,7 +32,7 @@ android {
 
 dependencies {
     implementation(libs.androidKtxCore)
-    implementation(libs.bundles.media3)
+    api(libs.bundles.media3)
 
     implementation(libs.koin)
     implementation(libs.koinAndroid)

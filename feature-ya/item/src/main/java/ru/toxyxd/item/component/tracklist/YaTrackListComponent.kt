@@ -1,6 +1,7 @@
 package ru.toxyxd.item.component.tracklist
 
 import android.net.Uri
+import android.os.Bundle
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import com.arkivanov.decompose.ComponentContext
@@ -20,6 +21,7 @@ import ru.toxyxd.yaapi.dto.track.TrackDto
 class YaTrackListComponent(
     tracksDto: Value<List<TrackDto>>,
     type: Value<ItemRootComponent.Type>,
+    private val playedFromId: Value<String>,
     componentContext: ComponentContext
 ) : TrackListComponent, KoinComponent, ComponentContext by componentContext,
     CoroutineScope by componentContext.componentCoroutineScope() {
@@ -27,12 +29,16 @@ class YaTrackListComponent(
 
     override val tracks: MutableValue<List<TrackComponent>> = MutableValue(emptyList())
     override fun play(index: Int) {
+        val extrasBundle = Bundle().apply {
+            putString("playedFromId", playedFromId.value)
+        }
+
         val metadatas = tracks.value.map {
-            MediaMetadata.Builder().setTitle(it.title).setArtist(it.artist)
+            MediaMetadata.Builder().setTitle(it.title).setArtist(it.artist).setExtras(extrasBundle)
                 .setArtworkUri(Uri.parse(it.hugeCover)).build()
         }
 
-        mediaServiceHandler.setAndPlay(metadatas.mapIndexed { metaIndex, mediaMetadata ->
+        mediaServiceHandler.play(metadatas.mapIndexed { metaIndex, mediaMetadata ->
             MediaItem.Builder()
                 .setMediaId(tracks.value[metaIndex].id)
                 .setMediaMetadata(mediaMetadata)

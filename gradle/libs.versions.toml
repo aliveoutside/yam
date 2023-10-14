@@ -15,11 +15,11 @@ essentyVersion = "1.2.0"
 
 # android
 androidPluginVersion = "8.3.0-alpha06"
-composeVersion = "1.5.2"
-composeMaterial3Version = "1.2.0-alpha08"
+composeVersion = "1.5.3"
+composeMaterial3Version = "1.2.0-alpha09"
 composeToolbarVersion = "1.0.8"
 androidCoreKtxVersion = "1.12.0"
-androidActivityKtxVersion = "1.8.0-rc01"
+androidActivityKtxVersion = "1.8.0"
 coilVersion = "2.4.0"
 
 # player
@@ -59,6 +59,8 @@ ktorClientEngineOkHttp = { module = "io.ktor:ktor-client-okhttp", version.ref = 
 androidKtxCore = { module = "androidx.core:core-ktx", version.ref = "androidCoreKtxVersion" }
 androidKtxActivity = { module = "androidx.activity:activity-ktx", version.ref = "androidActivityKtxVersion" }
 androidKtxActivityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidActivityKtxVersion" }
+androidKtxLifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.6.2"}
+androidKtxPalette = { module = "androidx.palette:palette-ktx", version = "1.0.0" }
 composeUi = { module = "androidx.compose.ui:ui", version.ref = "composeVersion" }
 composeUiUtil = { module = "androidx.compose.ui:ui-util", version.ref = "composeVersion" }
 composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeVersion" }
@@ -66,6 +68,7 @@ composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", v
 composeFoundation = { module = "androidx.compose.foundation:foundation", version.ref = "composeVersion" }
 composeMaterial = { module = "androidx.compose.material:material", version.ref = "composeVersion" }
 composeMaterial3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3Version" }
+composeMaterialIconsExtended = { module = "androidx.compose.material:material-icons-extended", version.ref = "composeVersion" }
 composeToolbar = { module = "com.github.GIGAMOLE:ComposeCollapsingToolbar", version.ref = "composeToolbarVersion"}
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coilVersion" }
 
@@ -78,6 +81,7 @@ media3Session = { module = "androidx.media3:media3-session", version.ref = "medi
 # di
 koin = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
 koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "koinVersion" }
+koinCompose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinVersion" }
 
 # decompose
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decomposeVersion" }
@@ -90,7 +94,7 @@ multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", versi
 multiplatformSettingsSerialization = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "multiplatformSettingsVersion" }
 
 [bundles]
-androidKtx = ["androidKtxCore", "androidKtxActivity", "androidKtxActivityCompose"]
-compose = ["composeUi", "composeUiUtil", "composeUiToolingPreview", "composeFoundation", "composeMaterial", "composeMaterial3", "composeToolbar"]
+androidKtx = ["androidKtxCore", "androidKtxActivity", "androidKtxActivityCompose", "androidKtxLifecycle", "androidKtxPalette"]
+compose = ["composeUi", "composeUiUtil", "composeUiToolingPreview", "composeFoundation", "composeMaterial", "composeMaterial3", "composeMaterialIconsExtended", "composeToolbar"]
 ktorClient = ["ktorClient", "ktorClientAuth", "ktorClientContentNegotiation", "ktorClientJsonSerialization", "ktorClientLogging", "ktorClientEngineOkHttp"]
 media3 = ["media3Exoplayer", "media3Dash", "media3Ui", "media3Session"]

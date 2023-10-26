@@ -69,35 +69,17 @@ class YaApi(
         install(Auth)
     }.also { installAuth(it) }
 
-    private fun installAuth(client: HttpClient) {
+    private fun installAuth(client: HttpClient) : HttpClient {
         if (isAuthorized) {
             client.plugin(Auth).yandexBearer {
                 loadTokens {
                     BearerTokens(
                         currentAccount!!.accessToken,
-                        currentAccount!!.refreshToken
                     )
-                }
-                refreshTokens {
-                    when (val response =
-                        authentication.refreshToken(currentAccount!!.refreshToken)) {
-                        is YaOAuthResponse.Success -> {
-                            currentAccount = currentAccount!!.copy(
-                                accessToken = response.result.accessToken,
-                                refreshToken = response.result.refreshToken
-                            )
-                            BearerTokens(
-                                currentAccount!!.accessToken, currentAccount!!.refreshToken
-                            )
-                        }
-
-                        is YaOAuthResponse.Error -> {
-                            throw response.error
-                        }
-                    }
                 }
             }
         }
+        return client
     }
 
     suspend inline fun <reified T> oauth(

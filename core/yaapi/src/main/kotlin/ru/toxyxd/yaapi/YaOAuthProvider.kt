@@ -1,11 +1,9 @@
 package ru.toxyxd.yaapi
 
-import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.AuthProvider
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.headers
-import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.auth.AuthScheme
@@ -29,7 +27,6 @@ fun Auth.yandexBearer(block: BearerAuthConfig.() -> Unit) {
     with(BearerAuthConfig().apply(block)) {
         this@yandexBearer.providers.add(
             BearerAuthProvider(
-                _refreshTokens,
                 _loadTokens,
                 _sendWithoutRequest,
                 realm
@@ -40,43 +37,14 @@ fun Auth.yandexBearer(block: BearerAuthConfig.() -> Unit) {
 
 class BearerTokens(
     val accessToken: String,
-    val refreshToken: String
 )
 
-/**
- * Parameters to be passed to [BearerAuthConfig.refreshTokens] lambda.
- */
-class RefreshTokensParams(
-    val client: HttpClient,
-    val response: HttpResponse,
-    val oldTokens: BearerTokens?
-) {
-
-    /**
-     * Marks that this request is for refreshing auth tokens, resulting in a special handling of it.
-     */
-    fun HttpRequestBuilder.markAsRefreshTokenRequest() {
-        attributes.put(Auth.AuthCircuitBreaker, Unit)
-    }
-}
-
-/**
- * A configuration for [BearerAuthProvider].
- */
 @KtorDsl
 class BearerAuthConfig {
-    internal var _refreshTokens: suspend RefreshTokensParams.() -> BearerTokens? = { null }
     internal var _loadTokens: suspend () -> BearerTokens? = { null }
     internal var _sendWithoutRequest: (HttpRequestBuilder) -> Boolean = { true }
 
     var realm: String? = null
-
-    /**
-     * Configures a callback that refreshes a token when the 401 status code is received.
-     */
-    fun refreshTokens(block: suspend RefreshTokensParams.() -> BearerTokens?) {
-        _refreshTokens = block
-    }
 
     /**
      * Configures a callback that loads a cached token from a local storage.
@@ -103,7 +71,6 @@ class BearerAuthConfig {
  * You can learn more from [Bearer authentication](https://ktor.io/docs/bearer-client.html).
  */
 class BearerAuthProvider(
-    private val refreshTokens: suspend RefreshTokensParams.() -> BearerTokens?,
     loadTokens: suspend () -> BearerTokens?,
     private val sendWithoutRequestCallback: (HttpRequestBuilder) -> Boolean = { true },
     private val realm: String?
@@ -152,20 +119,6 @@ class BearerAuthProvider(
             append(HttpHeaders.Authorization, tokenValue)
         }
     }
-
-    override suspend fun refreshToken(response: HttpResponse): Boolean {
-        val newToken = tokensHolder.setToken {
-            refreshTokens(
-                RefreshTokensParams(
-                    response.call.client,
-                    response,
-                    tokensHolder.loadToken()
-                )
-            )
-        }
-        return newToken != null
-    }
-
     fun clearToken() {
         tokensHolder.clearToken()
     }

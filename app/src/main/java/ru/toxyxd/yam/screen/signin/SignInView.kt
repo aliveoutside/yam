@@ -1,20 +1,22 @@
 package ru.toxyxd.yam.screen.signin
 
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
-import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.yandex.authsdk.YandexAuthException
+import com.yandex.authsdk.YandexAuthLoginOptions
+import com.yandex.authsdk.YandexAuthOptions
+import com.yandex.authsdk.YandexAuthSdk
+import com.yandex.authsdk.YandexAuthToken
 import ru.toxyxd.signin.SignInComponent
 import ru.toxyxd.signin.SignInRootComponent
 
@@ -25,18 +27,32 @@ fun SignInView(root: SignInRootComponent) {
             is SignInRootComponent.Child.SignIn -> {
                 SignInContent(child.component)
             }
-
-            is SignInRootComponent.Child.EnterCode -> {
-                EnterCodeView(child.component)
-            }
         }
     }
 }
 
 @Composable
 private fun SignInContent(component: SignInComponent) {
-    val login by component.login.subscribeAsState()
-    val uriHandler = LocalUriHandler.current
+    fun handleResult(result: Result<YandexAuthToken?>) {
+        result.fold(
+            onSuccess = { token ->
+                if (token != null) {
+                    component.onTokenReceived(token.value, token.expiresIn)
+                }
+            },
+            onFailure = { exception ->
+                if (exception is YandexAuthException) {
+                    // Process error
+                }
+            },
+        )
+    }
+
+    val context = LocalContext.current
+    val sdk = YandexAuthSdk.create(YandexAuthOptions(context))
+    val launcher =
+        rememberLauncherForActivityResult(sdk.contract) { result -> handleResult(result) }
+
     Scaffold { paddings ->
         Column(
             modifier = Modifier
@@ -44,16 +60,9 @@ private fun SignInContent(component: SignInComponent) {
                 .padding(paddings)
                 .padding(horizontal = 16.dp)
         ) {
-            TextField(
-                value = login,
-                onValueChange = { component.onLoginChanged(it) },
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text("Login") }
-            )
             Button(
                 onClick = {
-                    uriHandler.openUri(component.provideAuthUrl())
-                    component.onCodeRequest()
+                    launcher.launch(YandexAuthLoginOptions())
                 }
             ) {
                 Text("Sign in")

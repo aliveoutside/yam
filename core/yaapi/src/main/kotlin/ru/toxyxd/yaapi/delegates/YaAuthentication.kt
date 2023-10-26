@@ -10,13 +10,6 @@ value class YaAuthentication(private val api: YaApi) {
         return "https://${YaApiConstants.OAuthUrl}/authorize?response_type=code&client_id=${YaApiConstants.clientId}&login_hint=$username"
     }
 
-    suspend fun oauth(code: String) = api.oauth<RequestOAuthResponse>(listOf("token")) {
-        param("grant_type", "authorization_code")
-        param("code", code)
-        param("client_id", YaApiConstants.clientId)
-        param("client_secret", YaApiConstants.clientSecret)
-    }
-
     suspend fun refreshToken(refreshToken: String) =
         api.oauth<RequestOAuthResponse>(listOf("token")) {
             param("grant_type", "refresh_token")

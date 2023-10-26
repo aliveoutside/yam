@@ -4,7 +4,6 @@ import android.os.Parcelable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.push
 import kotlinx.parcelize.Parcelize
 import ru.toxyxd.yaapi.YaApi
 import ru.toxyxd.yaapi.account.YaAccount
@@ -41,16 +40,6 @@ class YaSignInRootComponent(
                     YaSignInComponent(
                         componentContext = componentContext,
                         yaApi = yaApi,
-                        onCodeRequested = { navigation.push(Config.EnterCode) }
-                    )
-                )
-            }
-
-            Config.EnterCode -> {
-                SignInRootComponent.Child.EnterCode(
-                    YaEnterCodeComponent(
-                        componentContext = componentContext,
-                        yaApi = yaApi,
                         onSuccess = ::onSuccess
                     )
                 )
@@ -61,8 +50,5 @@ class YaSignInRootComponent(
     sealed class Config : Parcelable {
         @Parcelize
         object SignIn : Config()
-
-        @Parcelize
-        object EnterCode : Config()
     }
 }

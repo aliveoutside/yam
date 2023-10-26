@@ -15,6 +15,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        manifestPlaceholders["YANDEX_CLIENT_ID"] = "23cabbbdc6cd418abb4b39c32c41195d"
+
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -67,6 +69,8 @@ dependencies {
     implementation(libs.multiplatformSettingsSerialization)
 
     implementation(libs.bundles.ktorClient)
+
+    implementation(libs.yandexAuthSdk)
 
     implementation(project(":common"))
     implementation(project(":core:player"))

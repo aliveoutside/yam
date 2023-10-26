@@ -93,6 +93,9 @@ essentyStateKeeper = { module = "com.arkivanov.essenty:state-keeper", version.re
 multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettingsVersion" }
 multiplatformSettingsSerialization = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "multiplatformSettingsVersion" }
 
+# yandex
+yandexAuthSdk = "com.yandex.android:authsdk:3.0.0"
+
 [bundles]
 androidKtx = ["androidKtxCore", "androidKtxActivity", "androidKtxActivityCompose", "androidKtxLifecycle", "androidKtxPalette"]
 compose = ["composeUi", "composeUiUtil", "composeUiToolingPreview", "composeFoundation", "composeMaterial", "composeMaterial3", "composeMaterialIconsExtended", "composeToolbar"]

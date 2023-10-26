@@ -8,6 +8,5 @@ interface SignInRootComponent {
 
     sealed interface Child {
         class SignIn(val component: SignInComponent) : Child
-        class EnterCode(val component: EnterCodeComponent) : Child
     }
 }

@@ -114,6 +114,10 @@ class YaHomeComponent(
                 throw response.exception
             }
 
+            is YaApiResponse.HttpError -> {
+                throw IllegalStateException("Code: ${response.code}, description: ${response.description}")
+            }
+
             else -> {
                 throw IllegalStateException("Unknown response type: $response")
             }

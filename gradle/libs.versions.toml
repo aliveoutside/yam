@@ -14,7 +14,7 @@ decomposeVersion = "2.1.2"
 essentyVersion = "1.2.0"
 
 # android
-androidPluginVersion = "8.3.0-alpha07"
+androidPluginVersion = "8.1.2"
 composeVersion = "1.5.3"
 composeMaterial3Version = "1.2.0-alpha09"
 composeToolbarVersion = "1.0.8"

@@ -15,8 +15,8 @@ essentyVersion = "1.2.0"
 
 # android
 androidPluginVersion = "8.1.2"
-composeVersion = "1.5.3"
-composeMaterial3Version = "1.2.0-alpha09"
+composeVersion = "1.5.4"
+composeMaterial3Version = "1.1.2"
 composeToolbarVersion = "1.0.8"
 androidCoreKtxVersion = "1.12.0"
 androidActivityKtxVersion = "1.8.0"

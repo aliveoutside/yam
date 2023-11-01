@@ -1,13 +1,14 @@
 package ru.toxyxd.yam
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetpack.stack.animation.fade
@@ -46,12 +47,16 @@ private fun Content(
             collapsedBound = miniPlayerHeight,
             expandedBound = maxHeight,
         )
-        val sheetPadding = playerBottomSheetState.value.coerceAtMost(56.dp)
+        val bottomPadding by animateDpAsState(
+            targetValue = if (!playerBottomSheetState.isDismissed) 56.dp else 0.dp
+        )
 
         Scaffold { paddings ->
             Children(
                 stack = component.childStack,
-                modifier = Modifier.padding(paddings).padding(bottom = sheetPadding),
+                modifier = Modifier
+                    .padding(paddings)
+                    .padding(bottom = bottomPadding),
                 animation = stackAnimation(fade() + scale())
             ) {
                 when (val child = it.instance) {

@@ -1,24 +1,22 @@
 package ru.toxyxd.yam.screen.nowplaying
 
-import android.annotation.SuppressLint
-import android.media.audiofx.Visualizer
-import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.media3.common.Player
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import ru.toxyxd.player.MediaServiceHandler
 
-class MiniPlayerViewModel(
+class NowPlayingViewModel(
     val mediaServiceHandler: MediaServiceHandler
 ) : ViewModel() {
     val mediaItem = mediaServiceHandler.nowPlaying.asStateFlow()
     val isPlaying = mediaServiceHandler.isPlaying.asStateFlow()
+    val progress get() = mediaServiceHandler.progressFlow
+    val duration get() = mediaServiceHandler.duration.coerceAtLeast(0L)
+
+    var dominantColor by mutableStateOf(Color.Transparent)
 
     fun switchPlayPause() {
         if (mediaServiceHandler.player.isPlaying) {
@@ -26,5 +24,9 @@ class MiniPlayerViewModel(
         } else {
             mediaServiceHandler.player.play()
         }
+    }
+
+    fun seekTo(position: Long) {
+        mediaServiceHandler.player.seekTo(position)
     }
 }

@@ -8,7 +8,7 @@ import ru.toxyxd.yaapi.dto.BaseDto
 data class PersonalPlaylistHeaderMetaDto(
     override val description: List<String>? = null,
     override val notify: Boolean,
-    override val previewDescription: String,
+    override val previewDescription: String? = null,
     override val ready: Boolean,
     override val type: String,
     @SerialName("data")

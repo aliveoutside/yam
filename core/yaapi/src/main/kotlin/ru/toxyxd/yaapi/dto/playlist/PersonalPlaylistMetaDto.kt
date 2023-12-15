@@ -12,7 +12,7 @@ abstract class PersonalPlaylistMetaDto {
     abstract val notify: Boolean
 
     @SerialName("previewDescription")
-    abstract val previewDescription: String
+    abstract val previewDescription: String?
 
     @SerialName("ready")
     abstract val ready: Boolean

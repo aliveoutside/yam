@@ -4,7 +4,10 @@ import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.session.MediaSession
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -14,6 +17,13 @@ class MediaServiceHandler : Player.Listener, MediaSession.Callback, KoinComponen
 
     var nowPlaying = MutableStateFlow(player.currentMediaItem)
     var isPlaying = MutableStateFlow(player.isPlaying)
+    val progressFlow = flow {
+        while (true) {
+            emit(player.currentPosition)
+            delay(50)
+        }
+    }.catch { emit(0L) }
+    val duration get() = player.contentDuration
 
     init {
         player.addListener(this)
@@ -28,6 +38,7 @@ class MediaServiceHandler : Player.Listener, MediaSession.Callback, KoinComponen
         super.onIsPlayingChanged(isPlaying)
         this.isPlaying.tryEmit(isPlaying)
     }
+
 
     fun play(mediaItems: List<MediaItem>, position: Int = 0) {
         if (player.currentMediaItem != null &&

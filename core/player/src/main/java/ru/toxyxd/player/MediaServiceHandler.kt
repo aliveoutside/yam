@@ -39,18 +39,27 @@ class MediaServiceHandler : Player.Listener, MediaSession.Callback, KoinComponen
         this.isPlaying.tryEmit(isPlaying)
     }
 
-
     fun play(mediaItems: List<MediaItem>, position: Int = 0) {
-        if (player.currentMediaItem != null &&
-            mediaItems[position].mediaMetadata.extras?.getString("playedFromId")
-            == player.currentMediaItem!!.mediaMetadata.extras?.getString("playedFromId")
-        ) {
-            player.seekTo(position, 0)
-            player.play()
-            Log.d("MediaServiceHandler", "play: same playlist")
-            return
+        if (isSamePlaylist(mediaItems, position)) {
+            playSamePlaylist(position)
+        } else {
+            playNewPlaylist(mediaItems, position)
         }
+    }
 
+    private fun isSamePlaylist(mediaItems: List<MediaItem>, position: Int): Boolean {
+        val currentMediaItem = player.currentMediaItem
+        val newMediaItem = mediaItems[position]
+        return currentMediaItem != null && newMediaItem.mediaMetadata.extras?.getString("playedFromId") == currentMediaItem.mediaMetadata.extras?.getString("playedFromId")
+    }
+
+    private fun playSamePlaylist(position: Int) {
+        player.seekTo(position, 0)
+        player.play()
+        Log.d("MediaServiceHandler", "play: same playlist")
+    }
+
+    private fun playNewPlaylist(mediaItems: List<MediaItem>, position: Int) {
         player.setMediaItems(mediaItems)
         player.seekTo(position, 0)
         player.prepare()

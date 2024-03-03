@@ -14,12 +14,13 @@ decomposeVersion = "2.1.2"
 essentyVersion = "1.2.0"
 
 # android
-androidPluginVersion = "8.1.2"
-composeVersion = "1.5.4"
-composeMaterial3Version = "1.1.2"
+androidPluginVersion = "8.1.4"
+composeVersion = "1.6.2"
+composeMaterial3Version = "1.2.0"
+lifecycleVersion = "2.7.0"
 composeToolbarVersion = "1.0.8"
 androidCoreKtxVersion = "1.12.0"
-androidActivityKtxVersion = "1.8.0"
+androidActivityKtxVersion = "1.8.2"
 coilVersion = "2.4.0"
 
 # player
@@ -59,7 +60,7 @@ ktorClientEngineOkHttp = { module = "io.ktor:ktor-client-okhttp", version.ref = 
 androidKtxCore = { module = "androidx.core:core-ktx", version.ref = "androidCoreKtxVersion" }
 androidKtxActivity = { module = "androidx.activity:activity-ktx", version.ref = "androidActivityKtxVersion" }
 androidKtxActivityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidActivityKtxVersion" }
-androidKtxLifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.6.2"}
+androidKtxLifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "lifecycleVersion"}
 androidKtxPalette = { module = "androidx.palette:palette-ktx", version = "1.0.0" }
 composeUi = { module = "androidx.compose.ui:ui", version.ref = "composeVersion" }
 composeUiUtil = { module = "androidx.compose.ui:ui-util", version.ref = "composeVersion" }
@@ -70,6 +71,7 @@ composeMaterial = { module = "androidx.compose.material:material", version.ref =
 composeMaterial3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3Version" }
 composeMaterialIconsExtended = { module = "androidx.compose.material:material-icons-extended", version.ref = "composeVersion" }
 composeToolbar = { module = "com.github.GIGAMOLE:ComposeCollapsingToolbar", version.ref = "composeToolbarVersion"}
+composeLifecycleRuntime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleVersion" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coilVersion" }
 
 # player
@@ -98,6 +100,6 @@ yandexAuthSdk = "com.yandex.android:authsdk:3.0.0"
 
 [bundles]
 androidKtx = ["androidKtxCore", "androidKtxActivity", "androidKtxActivityCompose", "androidKtxLifecycle", "androidKtxPalette"]
-compose = ["composeUi", "composeUiUtil", "composeUiToolingPreview", "composeFoundation", "composeMaterial", "composeMaterial3", "composeMaterialIconsExtended", "composeToolbar"]
+compose = ["composeUi", "composeUiUtil", "composeUiToolingPreview", "composeFoundation", "composeMaterial", "composeMaterial3", "composeMaterialIconsExtended", "composeToolbar", "composeLifecycleRuntime"]
 ktorClient = ["ktorClient", "ktorClientAuth", "ktorClientContentNegotiation", "ktorClientJsonSerialization", "ktorClientLogging", "ktorClientEngineOkHttp"]
 media3 = ["media3Exoplayer", "media3Ui", "media3Session"]

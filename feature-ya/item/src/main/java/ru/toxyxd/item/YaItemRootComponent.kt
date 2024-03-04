@@ -15,6 +15,8 @@ import ru.toxyxd.item.component.TrackListComponent
 import ru.toxyxd.item.component.toolbar.YaToolbarComponent
 import ru.toxyxd.item.component.tracklist.YaTrackListComponent
 import ru.toxyxd.yaapi.YaApi
+import ru.toxyxd.yaapi.dto.album.AlbumDto
+import ru.toxyxd.yaapi.dto.playlist.PlaylistHeaderDto
 import ru.toxyxd.yaapi.dto.track.TrackDto
 import ru.toxyxd.yaapi.internal.YaApiEntrypoint
 import ru.toxyxd.yaapi.internal.YaApiResponse
@@ -66,30 +68,22 @@ internal class YaItemRootViewModel(
     fun load() {
         launch {
             when (entrypoint) {
-                is YaApiEntrypoint.YaPlaylistEntrypoint -> playlistTracks(
+                is YaApiEntrypoint.YaPlaylistEntrypoint -> loadPlaylistTracks(
                     entrypoint.ownerUid,
                     entrypoint.playlistUid
                 )
 
-                is YaApiEntrypoint.YaAlbumEntrypoint -> albumTracks(
+                is YaApiEntrypoint.YaAlbumEntrypoint -> loadAlbumTracks(
                     entrypoint.albumUid
                 )
             }
         }
     }
 
-    private suspend fun playlistTracks(ownerUid: String, kind: String) {
+    private suspend fun loadPlaylistTracks(ownerUid: String, kind: String) {
         return when (val response = yaApi.playlists.getUserPlaylist(ownerUid, kind)) {
             is YaApiResponse.Success -> {
-                coverUrl.value = if (response.result.backgroundImageUrl != null) {
-                    CoverUtil.getLargeCover(response.result.backgroundImageUrl!!)
-                } else ""
-                response.result.description?.let { subtitle.value = it }
-                title.value = response.result.title
-                playedFromId.value = response.result.uid
-                type.value = ItemRootComponent.Type.PLAYLIST
-                trackListDto.value = response.result.tracks?.map { it.track } ?: emptyList()
-                state.value = ItemRootComponent.State.Loaded
+                updatePlaylistData(response.result)
             }
 
             is YaApiResponse.InternalError -> throw response.exception
@@ -97,23 +91,35 @@ internal class YaItemRootViewModel(
         }
     }
 
-    private suspend fun albumTracks(id: String) {
+    private suspend fun loadAlbumTracks(id: String) {
         return when (val response = yaApi.albums.getAlbum(id)) {
             is YaApiResponse.Success -> {
-                coverUrl.value = if (response.result.coverUri != null) {
-                    CoverUtil.getLargeCover(response.result.coverUri!!)
-                } else ""
-                title.value = response.result.title
-                playedFromId.value = response.result.id
-                type.value = ItemRootComponent.Type.ALBUM
-                trackListDto.value = response.result.volumes?.flatten() ?: emptyList()
-                state.value = ItemRootComponent.State.Loaded
+                updateAlbumData(response.result)
             }
 
             is YaApiResponse.InternalError -> throw response.exception
             is YaApiResponse.Error -> throw IllegalStateException(response.toString())
             is YaApiResponse.HttpError -> throw IllegalStateException(response.toString())
         }
+    }
+
+    private fun updatePlaylistData(playlist: PlaylistHeaderDto) {
+        coverUrl.value = playlist.backgroundImageUrl?.let { CoverUtil.getLargeCover(it) } ?: ""
+        subtitle.value = playlist.description ?: ""
+        title.value = playlist.title
+        playedFromId.value = playlist.uid
+        type.value = ItemRootComponent.Type.PLAYLIST
+        trackListDto.value = playlist.tracks?.map { it.track } ?: emptyList()
+        state.value = ItemRootComponent.State.Loaded
+    }
+
+    private fun updateAlbumData(album: AlbumDto) {
+        coverUrl.value = album.coverUri?.let { CoverUtil.getLargeCover(it) } ?: ""
+        title.value = album.title
+        playedFromId.value = album.id
+        type.value = ItemRootComponent.Type.ALBUM
+        trackListDto.value = album.volumes?.flatten() ?: emptyList()
+        state.value = ItemRootComponent.State.Loaded
     }
 
     override fun onDestroy() {

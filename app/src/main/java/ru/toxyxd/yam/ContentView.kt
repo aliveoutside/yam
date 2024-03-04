@@ -20,6 +20,7 @@ import ru.toxyxd.root.RootComponent
 import ru.toxyxd.yam.screen.item.ItemRootView
 import ru.toxyxd.yam.screen.landing.LandingRootView
 import ru.toxyxd.yam.screen.nowplaying.ExpandableMiniPlayer
+import ru.toxyxd.yam.screen.nowplaying.component.collapsedAnchor
 import ru.toxyxd.yam.screen.nowplaying.component.rememberBottomSheetState
 import ru.toxyxd.yam.screen.signin.SignInView
 
@@ -46,6 +47,7 @@ private fun Content(
             dismissedBound = 0.dp,
             collapsedBound = miniPlayerHeight,
             expandedBound = maxHeight,
+            initialAnchor = collapsedAnchor
         )
         val bottomPadding by animateDpAsState(
             targetValue = if (!playerBottomSheetState.isDismissed) 56.dp else 0.dp

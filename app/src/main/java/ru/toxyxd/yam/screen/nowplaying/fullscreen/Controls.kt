@@ -1,101 +1,150 @@
 package ru.toxyxd.yam.screen.nowplaying.fullscreen
 
+import android.graphics.Bitmap
 import android.text.format.DateUtils
+import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.media3.common.MediaItem
-import coil.compose.AsyncImage
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ru.toxyxd.yam.ext.bouncingClickable
 import ru.toxyxd.yam.screen.nowplaying.NowPlayingViewModel
+import ru.toxyxd.yam.screen.nowplaying.shared.PlayerCover
+import ru.toxyxd.yam.ui.theme.surfaceColorAtAlpha
 
 @Composable
 fun NowPlayingControls(
     viewModel: NowPlayingViewModel,
     modifier: Modifier = Modifier
 ) {
-    val track by viewModel.mediaItem.collectAsState()
+    val defaultSurfaceColor = MaterialTheme.colorScheme.surfaceColorAtAlpha(0.8f)
+    val track by viewModel.mediaItem.collectAsStateWithLifecycle()
 
     if (track != null) {
-        Column(modifier) {
-            Artwork(track = track!!)
+        val title = track!!.mediaMetadata.title.toString()
+        val artist = track!!.mediaMetadata.artist.toString()
+        val artworkUri = track!!.mediaMetadata.artworkUri?.toString()
+        val isPlaying by viewModel.isPlaying.collectAsStateWithLifecycle()
+
+        val progress by viewModel.progress.collectAsStateWithLifecycle(0L)
+        var isSeekbarDragging by remember { mutableStateOf(false) }
+        var seekbarDraggingProgress by remember { mutableFloatStateOf(0f) }
+
+        Column(modifier.padding(horizontal = 14.dp)) {
+            Artwork(
+                artworkUri = artworkUri,
+                onSuccess = { bitmap -> viewModel.extractColor(bitmap, defaultSurfaceColor) }
+            )
             Spacer(Modifier.height(16.dp))
-            Header(track = track!!)
+            Header(
+                title = title,
+                artist = artist
+            )
+            Spacer(Modifier.height(8.dp))
+            Seekbar(
+                progress = progress,
+                duration = viewModel.duration,
+                isSeekbarDragging = isSeekbarDragging,
+                seekbarDraggingProgress = seekbarDraggingProgress,
+                onSeekbarDraggingChange = { isSeekbarDragging = it },
+                onSeekbarDraggingProgressChange = { seekbarDraggingProgress = it },
+                onSeekTo = { viewModel.seekTo(it) }
+            )
             Spacer(Modifier.height(16.dp))
-            Seekbar(viewModel = viewModel)
+            Buttons(
+                isPlaying = isPlaying,
+                switchPlayPause = { viewModel.switchPlayPause() },
+                previous = { viewModel.previous() },
+                next = { viewModel.next() }
+            )
+            Spacer(Modifier.height(12.dp))
         }
     }
 }
 
 @Composable
 private fun Artwork(
-    track: MediaItem
+    artworkUri: String?,
+    onSuccess: (Bitmap) -> Unit
 ) {
-    ElevatedCard(
+    PlayerCover(
+        artworkUri = artworkUri,
+        requestImageSize = with(LocalDensity.current) { 128.dp.toPx().toInt() },
+        onSuccess = onSuccess,
         modifier = Modifier
-            .padding(horizontal = 14.dp)
             .clip(RoundedCornerShape(12.dp))
-    ) {
-        AsyncImage(
-            model = track.mediaMetadata.artworkUri,
-            null,
-            modifier = Modifier
-                .size(128.dp)
-        )
-    }
+            .size(128.dp)
+    )
 }
 
 @Composable
 private fun Header(
-    track: MediaItem
+    title: String,
+    artist: String
 ) {
     Text(
-        text = track.mediaMetadata.title.toString(),
-        modifier = Modifier
-            .padding(horizontal = 14.dp),
+        text = title,
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold
     )
     Spacer(Modifier.height(2.dp))
     Text(
-        text = track.mediaMetadata.artist.toString(),
-        modifier = Modifier
-            .padding(horizontal = 14.dp),
+        text = artist,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         fontSize = 16.sp,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Seekbar(
-    viewModel: NowPlayingViewModel
+    progress: Long,
+    duration: Long,
+    isSeekbarDragging: Boolean,
+    seekbarDraggingProgress: Float,
+    onSeekbarDraggingChange: (Boolean) -> Unit,
+    onSeekbarDraggingProgressChange: (Float) -> Unit,
+    onSeekTo: (Long) -> Unit
 ) {
-    val progress by viewModel.progress.collectAsState(0L)
-    var isSeekbarDragging by remember { mutableStateOf(false) }
-    var seekbarDraggingProgress by remember { mutableFloatStateOf(0f) }
-
     val elapsedTime = remember(progress, isSeekbarDragging, seekbarDraggingProgress) {
         val ms = if (isSeekbarDragging) {
             seekbarDraggingProgress.toLong()
@@ -105,23 +154,31 @@ private fun Seekbar(
 
         DateUtils.formatElapsedTime(ms)
     }
-    val totalTime = remember(viewModel.duration) {
-        DateUtils.formatElapsedTime(viewModel.duration / 1000)
+    val totalTime = remember(duration) {
+        DateUtils.formatElapsedTime(duration / 1000)
     }
 
-    Slider(value = if (isSeekbarDragging) seekbarDraggingProgress else progress.toFloat(),
+    Slider(
+        value = if (isSeekbarDragging) seekbarDraggingProgress else progress.toFloat(),
         onValueChange = {
-            isSeekbarDragging = true
-            seekbarDraggingProgress = it
-        }, onValueChangeFinished = {
-            viewModel.seekTo(seekbarDraggingProgress.toLong())
-            isSeekbarDragging = false
-        }, valueRange = 0f..viewModel.duration.toFloat()
+            onSeekbarDraggingChange(true)
+            onSeekbarDraggingProgressChange(it)
+            onSeekTo(it.toLong())
+        },
+        onValueChangeFinished = {
+            onSeekbarDraggingChange(false)
+        },
+        valueRange = 0f..duration.toFloat(),
+        thumb = {
+            SliderDefaults.Thumb(
+                interactionSource = remember { MutableInteractionSource() },
+                modifier = Modifier.offset(y = 2.dp), // Currently the Thumb seems to have issues with alignment using a size < 20.dp. https://stackoverflow.com/a/75066914
+                thumbSize = DpSize(16.dp, 16.dp)
+            )
+        }
     )
     Row(
-        Modifier
-            .padding(horizontal = 14.dp)
-            .offset(y = (-6).dp)
+        Modifier.offset(y = (-6).dp)
     ) {
         Text(
             text = elapsedTime,
@@ -134,5 +191,106 @@ private fun Seekbar(
             fontSize = 12.sp,
             modifier = Modifier.alpha(0.7f)
         )
+    }
+}
+
+@Composable
+fun Buttons(
+    isPlaying: Boolean,
+    switchPlayPause: () -> Unit,
+    previous: () -> Unit,
+    next: () -> Unit
+) {
+    @Composable
+    fun IconButton(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+        Box(
+            modifier = modifier
+                .size(40.0.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainer),
+            contentAlignment = Alignment.Center
+        ) {
+            content()
+        }
+    }
+
+    Row {
+        IconButton {
+            Icon(
+                if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                contentDescription = null,
+                modifier = Modifier
+                    .requiredSize(26.dp)
+                    .bouncingClickable { switchPlayPause() },
+                tint = LocalContentColor.current
+            )
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+        IconButton {
+            Icon(
+                Icons.Default.SkipPrevious,
+                contentDescription = null,
+                modifier = Modifier
+                    .requiredSize(26.dp)
+                    .bouncingClickable { previous() },
+                tint = LocalContentColor.current
+            )
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+        IconButton {
+            Icon(
+                Icons.Default.SkipNext,
+                contentDescription = null,
+                modifier = Modifier
+                    .requiredSize(26.dp)
+                    .bouncingClickable { next() },
+                tint = LocalContentColor.current
+            )
+        }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun NowPlayingControlsPreview() {
+    val title = "Title"
+    val artist = "Artist"
+    val progress = 1000L
+    val duration = 10000L
+    val isPlaying = true
+    val isSeekbarDragging = false
+    val seekbarDraggingProgress = 0f
+    val onSeekbarDraggingChange = { _: Boolean -> }
+    val onSeekbarDraggingProgressChange = { _: Float -> }
+    val onSeekTo = { _: Long -> }
+    Column(modifier = Modifier.padding(16.dp)) {
+        Artwork(
+            artworkUri = null,
+            onSuccess = {}
+        )
+        Spacer(Modifier.height(16.dp))
+        Header(
+            title = title,
+            artist = artist
+        )
+        Spacer(Modifier.height(8.dp))
+        Seekbar(
+            progress = progress,
+            duration = duration,
+            isSeekbarDragging = isSeekbarDragging,
+            seekbarDraggingProgress = seekbarDraggingProgress,
+            onSeekbarDraggingChange = onSeekbarDraggingChange,
+            onSeekbarDraggingProgressChange = onSeekbarDraggingProgressChange,
+            onSeekTo = onSeekTo
+        )
+        Spacer(Modifier.height(16.dp))
+        Buttons(
+            isPlaying = isPlaying,
+            switchPlayPause = {},
+            previous = {},
+            next = {}
+        )
+        Spacer(Modifier.height(12.dp))
     }
 }

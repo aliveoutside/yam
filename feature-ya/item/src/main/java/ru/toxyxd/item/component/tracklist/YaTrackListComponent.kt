@@ -33,9 +33,9 @@ class YaTrackListComponent(
             putString("playedFromId", playedFromId.value)
         }
 
-        val metadatas = tracks.value.map {
-            MediaMetadata.Builder().setTitle(it.title).setArtist(it.artist).setExtras(extrasBundle)
-                .setArtworkUri(Uri.parse(it.hugeCover)).build()
+        val metadatas = tracks.value.map { track ->
+            MediaMetadata.Builder().setTitle(track.title).setArtist(track.artist).setExtras(extrasBundle)
+                .setArtworkUri(track.hugeCover?.let { Uri.parse(it) }).build()
         }
 
         mediaServiceHandler.play(metadatas.mapIndexed { metaIndex, mediaMetadata ->

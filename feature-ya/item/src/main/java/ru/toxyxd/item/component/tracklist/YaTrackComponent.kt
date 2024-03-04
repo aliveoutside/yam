@@ -15,8 +15,8 @@ sealed class YaTrackComponent(
     override val id = dto.id
     override val title = dto.title
     override val artist = dto.artists?.joinToString(", ") { it.name } ?: ""
-    override val cover = CoverUtil.getSmallCover(dto.coverUri!!)
-    override val hugeCover = CoverUtil.getLargeCover(dto.coverUri!!)
+    override val cover = dto.coverUri?.let { CoverUtil.getSmallCover(it) }
+    override val hugeCover = dto.coverUri?.let { CoverUtil.getLargeCover(it) }
 }
 
 class YaPlaylistTrackComponent(dto: TrackDto, componentContext: ComponentContext) :

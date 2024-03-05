@@ -5,8 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
 import ru.toxyxd.yaapi.YaApi
 import ru.toxyxd.yaapi.internal.YaApiEntrypoint
 
@@ -19,6 +18,7 @@ class YaHomeRootComponent(
 
     override val childStack: Value<ChildStack<*, HomeRootComponent.Child>> = childStack(
         source = navigation,
+        serializer = Config.serializer(),
         initialStack = ::initialStack,
         handleBackButton = true,
         childFactory = ::createChild
@@ -37,8 +37,9 @@ class YaHomeRootComponent(
         }
     }
 
-    private sealed class Config : Parcelable {
-        @Parcelize
-        object Landing : Config()
+    @Serializable
+    private sealed class Config {
+        @Serializable
+        data object Landing : Config()
     }
 }

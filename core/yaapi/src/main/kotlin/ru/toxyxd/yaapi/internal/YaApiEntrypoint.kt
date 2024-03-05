@@ -1,10 +1,12 @@
 package ru.toxyxd.yaapi.internal
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
-sealed class YaApiEntrypoint : Parcelable {
+@Serializable
+sealed class YaApiEntrypoint {
+    @Serializable
     class YaPlaylistEntrypoint(val ownerUid: String, val playlistUid: String) : YaApiEntrypoint()
+
+    @Serializable
     class YaAlbumEntrypoint(val albumUid: String) : YaApiEntrypoint()
 }

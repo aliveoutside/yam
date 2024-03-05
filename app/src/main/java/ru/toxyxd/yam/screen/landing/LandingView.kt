@@ -6,7 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.toxyxd.home.HomeComponent
 import ru.toxyxd.home.component.slider.SliderComponent
 import ru.toxyxd.home.component.unknown.UnknownComponent

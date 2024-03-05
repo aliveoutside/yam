@@ -1,7 +1,7 @@
 package ru.toxyxd.yam.screen.landing
 
 import androidx.compose.runtime.Composable
-import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.Children
 import ru.toxyxd.home.HomeRootComponent
 
 @Composable

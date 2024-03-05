@@ -9,8 +9,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 import ru.toxyxd.home.YaHomeRootComponent
 import ru.toxyxd.item.YaItemRootComponent
 import ru.toxyxd.yaapi.YaApi
@@ -29,6 +28,7 @@ class YaContentComponent(
     override val currentNavigationItem = MutableValue(ContentComponent.NavigationItem.Home)
     override val childStack: Value<ChildStack<*, ContentComponent.Child>> = childStack(
         source = navigation,
+        serializer = Config.serializer(),
         initialStack = ::initialStack,
         handleBackButton = true,
         childFactory = ::child
@@ -71,11 +71,12 @@ class YaContentComponent(
         navigation.pop()
     }
 
-    private sealed interface Config : Parcelable {
-        @Parcelize
-        object Home : Config
+    @Serializable
+    private sealed interface Config {
+        @Serializable
+        data object Home : Config
 
-        @Parcelize
+        @Serializable
         data class Item(val entrypoint: YaApiEntrypoint) : Config
     }
 }

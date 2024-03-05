@@ -7,8 +7,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ru.toxyxd.signin.YaSignInRootComponent
@@ -22,6 +21,7 @@ class YaRootComponent(
 
     override val childStack: Value<ChildStack<*, RootComponent.Child>> = childStack(
         source = navigation,
+        serializer = Config.serializer(),
         initialStack = ::initialStack,
         childFactory = ::child
     )
@@ -58,11 +58,12 @@ class YaRootComponent(
         }
     }
 
-    private sealed interface Config : Parcelable {
-        @Parcelize
-        object SignIn : Config
+    @Serializable
+    private sealed interface Config {
+        @Serializable
+        data object SignIn : Config
 
-        @Parcelize
-        object ApplicationContent : Config
+        @Serializable
+        data object ApplicationContent : Config
     }
 }

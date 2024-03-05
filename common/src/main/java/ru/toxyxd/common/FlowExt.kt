@@ -9,5 +9,4 @@ private class ValueAsNavigationSource<T : Any>(
     private val parentState: Value<T>,
 ) : NavigationSource<T> {
     override fun subscribe(observer: (T) -> Unit) = parentState.subscribe(observer)
-    override fun unsubscribe(observer: (T) -> Unit) = parentState.unsubscribe(observer)
 }

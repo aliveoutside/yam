@@ -1,10 +1,9 @@
 package ru.toxyxd.signin
 
-import android.os.Parcelable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 import ru.toxyxd.yaapi.YaApi
 import ru.toxyxd.yaapi.account.YaAccount
 
@@ -17,6 +16,7 @@ class YaSignInRootComponent(
 
     override val childStack = childStack(
         source = navigation,
+        serializer = Config.serializer(),
         initialStack = ::initialStack,
         childFactory = ::child
     )
@@ -47,8 +47,9 @@ class YaSignInRootComponent(
         }
     }
 
-    sealed class Config : Parcelable {
-        @Parcelize
-        object SignIn : Config()
+    @Serializable
+    sealed class Config {
+        @Serializable
+        data object SignIn : Config()
     }
 }

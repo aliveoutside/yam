@@ -4,14 +4,13 @@ atomicfuGradlePlugin = "0.20.2"
 kotlinVersion = "1.9.10"
 
 # kotlinx
-kotlinxSerializationVersion = "1.5.1"
+kotlinxSerializationVersion = "1.6.2"
 
 # ktor
 ktorClientVersion = "2.3.4"
 
 # decompose
-decomposeVersion = "2.1.2"
-essentyVersion = "1.2.0"
+decomposeVersion = "3.0.0-alpha08"
 
 # android
 androidPluginVersion = "8.1.4"
@@ -87,9 +86,7 @@ koinCompose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "
 
 # decompose
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decomposeVersion" }
-decomposeExtensionCompose = { module = "com.arkivanov.decompose:extensions-compose-jetpack", version.ref = "decomposeVersion" }
-essentyLifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essentyVersion" }
-essentyStateKeeper = { module = "com.arkivanov.essenty:state-keeper", version.ref = "essentyVersion" }
+decomposeExtensionCompose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decomposeVersion" }
 
 # settings
 multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettingsVersion" }

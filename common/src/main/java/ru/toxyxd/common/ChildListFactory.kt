@@ -8,7 +8,7 @@ import com.arkivanov.decompose.router.children.SimpleChildNavState
 import com.arkivanov.decompose.router.children.children
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
-import com.arkivanov.essenty.parcelable.ParcelableContainer
+import com.arkivanov.essenty.statekeeper.SerializableContainer
 
 fun <C : Any, T : ComponentContext> ComponentContext.childList(
     state: Value<List<C>>,
@@ -19,7 +19,7 @@ fun <C : Any, T : ComponentContext> ComponentContext.childList(
     key = key,
     initialState = { ListNavState(configurations = state.value) },
     saveState = {
-        ParcelableContainer()
+        SerializableContainer()
     },
     restoreState = { ListNavState(state.value) },
     navTransformer = { _, event -> ListNavState(configurations = event) },
@@ -34,7 +34,7 @@ private data class ListNavState<out C : Any>(val configurations: List<C>) : NavS
     override val children: List<SimpleChildNavState<C>> = configurations.map { configuration ->
         SimpleChildNavState(
             configuration = configuration,
-            status = ChildNavState.Status.ACTIVE,
+            status = ChildNavState.Status.STARTED,
         )
     }
 }

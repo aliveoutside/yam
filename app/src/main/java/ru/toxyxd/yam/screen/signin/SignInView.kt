@@ -12,11 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.stack.Children
-import com.yandex.authsdk.YandexAuthException
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthOptions
+import com.yandex.authsdk.YandexAuthResult
 import com.yandex.authsdk.YandexAuthSdk
-import com.yandex.authsdk.YandexAuthToken
 import ru.toxyxd.signin.SignInComponent
 import ru.toxyxd.signin.SignInRootComponent
 
@@ -33,19 +32,17 @@ fun SignInView(root: SignInRootComponent) {
 
 @Composable
 private fun SignInContent(component: SignInComponent) {
-    fun handleResult(result: Result<YandexAuthToken?>) {
-        result.fold(
-            onSuccess = { token ->
-                if (token != null) {
-                    component.onTokenReceived(token.value, token.expiresIn)
-                }
-            },
-            onFailure = { exception ->
-                if (exception is YandexAuthException) {
-                    // Process error
-                }
-            },
-        )
+    fun handleResult(result: YandexAuthResult) {
+        when (result) {
+            is YandexAuthResult.Success -> {
+                component.onTokenReceived(result.token.value, result.token.expiresIn)
+            }
+            is YandexAuthResult.Failure -> {
+                throw IllegalStateException("YandexAuthResult.Error: ${result.exception}")
+            }
+
+            YandexAuthResult.Cancelled -> { }
+        }
     }
 
     val context = LocalContext.current

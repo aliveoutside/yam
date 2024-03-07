@@ -4,32 +4,32 @@ atomicfuGradlePlugin = "0.20.2"
 kotlinVersion = "1.9.10"
 
 # kotlinx
-kotlinxSerializationVersion = "1.6.2"
+kotlinxSerializationVersion = "1.6.3"
 
 # ktor
-ktorClientVersion = "2.3.4"
+ktorClientVersion = "2.3.9"
 
 # decompose
 decomposeVersion = "3.0.0-alpha08"
 
 # android
-androidPluginVersion = "8.1.4"
+androidPluginVersion = "8.3.0"
 composeVersion = "1.6.2"
 composeMaterial3Version = "1.2.0"
 lifecycleVersion = "2.7.0"
 composeToolbarVersion = "1.0.8"
 androidCoreKtxVersion = "1.12.0"
 androidActivityKtxVersion = "1.8.2"
-coilVersion = "2.4.0"
+coilVersion = "2.6.0"
 
 # player
-media3 = "1.2.1"
+media3 = "1.3.0"
 
 # di
-koinVersion = "3.5.0"
+koinVersion = "3.5.3"
 
 # settings
-multiplatformSettingsVersion = "1.0.0"
+multiplatformSettingsVersion = "1.1.1"
 appcompat = "1.6.1"
 material = "1.9.0"
 
@@ -59,7 +59,7 @@ ktorClientEngineOkHttp = { module = "io.ktor:ktor-client-okhttp", version.ref = 
 androidKtxCore = { module = "androidx.core:core-ktx", version.ref = "androidCoreKtxVersion" }
 androidKtxActivity = { module = "androidx.activity:activity-ktx", version.ref = "androidActivityKtxVersion" }
 androidKtxActivityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidActivityKtxVersion" }
-androidKtxLifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "lifecycleVersion"}
+androidKtxLifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.7.0" }
 androidKtxPalette = { module = "androidx.palette:palette-ktx", version = "1.0.0" }
 composeUi = { module = "androidx.compose.ui:ui", version.ref = "composeVersion" }
 composeUiUtil = { module = "androidx.compose.ui:ui-util", version.ref = "composeVersion" }
@@ -75,8 +75,6 @@ coil = { module = "io.coil-kt:coil-compose", version.ref = "coilVersion" }
 
 # player
 media3Exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
-# media3Dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "media3" }
-media3Ui = { module = "androidx.media3:media3-ui", version.ref = "media3"}
 media3Session = { module = "androidx.media3:media3-session", version.ref = "media3" }
 
 # di
@@ -93,10 +91,10 @@ multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", versi
 multiplatformSettingsSerialization = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "multiplatformSettingsVersion" }
 
 # yandex
-yandexAuthSdk = "com.yandex.android:authsdk:3.0.0"
+yandexAuthSdk = "com.yandex.android:authsdk:3.1.0"
 
 [bundles]
 androidKtx = ["androidKtxCore", "androidKtxActivity", "androidKtxActivityCompose", "androidKtxLifecycle", "androidKtxPalette"]
 compose = ["composeUi", "composeUiUtil", "composeUiToolingPreview", "composeFoundation", "composeMaterial", "composeMaterial3", "composeMaterialIconsExtended", "composeToolbar", "composeLifecycleRuntime"]
 ktorClient = ["ktorClient", "ktorClientAuth", "ktorClientContentNegotiation", "ktorClientJsonSerialization", "ktorClientLogging", "ktorClientEngineOkHttp"]
-media3 = ["media3Exoplayer", "media3Ui", "media3Session"]
+media3 = ["media3Exoplayer", "media3Session"]

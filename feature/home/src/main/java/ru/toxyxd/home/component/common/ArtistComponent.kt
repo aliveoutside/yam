@@ -5,4 +5,6 @@ import ru.toxyxd.home.component.LandingComponent
 interface ArtistComponent : LandingComponent {
     val name: String
     val image: String
+
+    fun onClick()
 }

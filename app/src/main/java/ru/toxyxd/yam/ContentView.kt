@@ -18,6 +18,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.toxyxd.root.ContentComponent
 import ru.toxyxd.root.RootComponent
+import ru.toxyxd.yam.screen.artist.ArtistRootView
 import ru.toxyxd.yam.screen.item.ItemRootView
 import ru.toxyxd.yam.screen.landing.LandingRootView
 import ru.toxyxd.yam.screen.nowplaying.ExpandableMiniPlayer
@@ -64,6 +65,7 @@ private fun Content(
                 animation = stackAnimation(fade() + scale())
             ) {
                 when (val child = it.instance) {
+                    is ContentComponent.Child.Artist -> ArtistRootView(root = child.component)
                     is ContentComponent.Child.Home -> LandingRootView(root = child.component)
                     is ContentComponent.Child.Item -> ItemRootView(root = child.component)
                 }

@@ -24,7 +24,7 @@ internal fun ArtistView(
     Column(
         modifier = Modifier
             .width(180.dp)
-            .bouncingClickable {},
+            .bouncingClickable { component.onClick() },
         verticalArrangement = Arrangement.Top
     ) {
         AsyncImage(

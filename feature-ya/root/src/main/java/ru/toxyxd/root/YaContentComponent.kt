@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import ru.toxyxd.artist.YaArtistRootComponent
 import ru.toxyxd.common.componentCoroutineScope
 import ru.toxyxd.home.YaHomeRootComponent
 import ru.toxyxd.item.YaItemRootComponent
@@ -70,13 +71,23 @@ class YaContentComponent(
     private fun initialStack() = listOf(Config.Home)
 
     private fun child(config: Config, componentContext: ComponentContext) = when (config) {
+        is Config.Artist -> ContentComponent.Child.Artist(artist(config, componentContext))
         Config.Home -> ContentComponent.Child.Home(home(componentContext))
         is Config.Item -> ContentComponent.Child.Item(item(config, componentContext))
     }
 
+    private fun artist(config: Config.Artist, componentContext: ComponentContext) =
+        YaArtistRootComponent(
+            yaApi,
+            config.artistId,
+            onGoBack = ::onGoBack,
+            componentContext = componentContext
+        )
+
     private fun home(componentContext: ComponentContext) =
         YaHomeRootComponent(
             yaApi,
+            onArtistClicked = ::onArtistClicked,
             onItemClicked = ::onItemClicked,
             componentContext = componentContext
         )
@@ -89,6 +100,10 @@ class YaContentComponent(
             onPlayerEvent = ::onPlayerEvent,
             componentContext = componentContext
         )
+
+    private fun onArtistClicked(artistId: String) {
+        navigation.push(Config.Artist(artistId))
+    }
 
     private fun onPlayerEvent(event: PlayerComponent.Event) {
         launch {
@@ -106,6 +121,9 @@ class YaContentComponent(
 
     @Serializable
     private sealed interface Config {
+        @Serializable
+        data class Artist(val artistId: String) : Config
+
         @Serializable
         data object Home : Config
 

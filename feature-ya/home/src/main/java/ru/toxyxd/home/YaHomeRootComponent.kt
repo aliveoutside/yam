@@ -11,6 +11,7 @@ import ru.toxyxd.yaapi.internal.YaApiEntrypoint
 
 class YaHomeRootComponent(
     private val yaApi: YaApi,
+    private val onArtistClicked: (String) -> Unit,
     private val onItemClicked: (YaApiEntrypoint) -> Unit,
     componentContext: ComponentContext
 ) : HomeRootComponent, ComponentContext by componentContext {
@@ -32,7 +33,7 @@ class YaHomeRootComponent(
     ): HomeRootComponent.Child {
         return when (config) {
             Config.Landing -> HomeRootComponent.Child.Home(
-                YaHomeComponent(yaApi, onItemClicked, componentContext)
+                YaHomeComponent(yaApi, onArtistClicked, onItemClicked, componentContext)
             )
         }
     }

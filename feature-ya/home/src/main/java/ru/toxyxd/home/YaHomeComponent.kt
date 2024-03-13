@@ -24,6 +24,7 @@ import ru.toxyxd.yaapi.internal.YaApiResponse
 
 class YaHomeComponent(
     private val yaApi: YaApi,
+    private val onArtistClicked: (String) -> Unit,
     private val onItemClicked: (YaApiEntrypoint) -> Unit,
     componentContext: ComponentContext
 ) : HomeComponent, ComponentContext by componentContext,
@@ -64,6 +65,7 @@ class YaHomeComponent(
 
         is YaLandingEntry.Recent.Artist -> YaRecentArtistComponent(
             dto = entry.dto,
+            onArtistClicked = onArtistClicked,
             componentContext = childContext
         )
 

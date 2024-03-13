@@ -2,11 +2,10 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
-    namespace = "ru.toxyxd.root"
+    namespace = "ru.toxyxd.artist"
     compileSdk = 34
 
     defaultConfig {
@@ -32,17 +31,5 @@ android {
 }
 
 dependencies {
-    api(project(":feature:root"))
-
-    implementation(libs.koin)
-    implementation(libs.bundles.androidKtx)
     implementation(libs.decompose)
-
-    implementation(project(":common"))
-    implementation(project(":core:yaapi"))
-    implementation(project(":feature-ya:artist"))
-    implementation(project(":feature-ya:item"))
-    implementation(project(":feature-ya:player"))
-    implementation(project(":feature-ya:signin"))
-    implementation(project(":feature-ya:home"))
 }

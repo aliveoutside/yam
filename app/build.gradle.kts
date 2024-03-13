@@ -77,6 +77,7 @@ dependencies {
 
     implementation(project(":common"))
     implementation(project(":core:yaapi"))
+    implementation(project(":feature:artist"))
     implementation(project(":feature:home"))
     implementation(project(":feature:item"))
     implementation(project(":feature-ya:player"))

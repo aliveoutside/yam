@@ -36,6 +36,7 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:item"))
     implementation(project(":feature:library"))
+    implementation(project(":feature:player"))
     implementation(project(":feature:search"))
     implementation(project(":feature:signin"))
 }

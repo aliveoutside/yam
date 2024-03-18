@@ -7,18 +7,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import ru.toxyxd.yam.screen.nowplaying.NowPlayingViewModel
+import ru.toxyxd.player.PlayerComponent
 
 @Composable
 fun NowPlayingFullscreenComposition(
-    viewModel: NowPlayingViewModel
+    playerComponent: PlayerComponent
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
     ) {
-        NowPlayingBackground(viewModel = viewModel, modifier = Modifier.fillMaxSize())
-        NowPlayingControls(viewModel = viewModel, modifier = Modifier.align(Alignment.BottomStart))
+        NowPlayingControls(playerComponent = playerComponent, modifier = Modifier.align(Alignment.BottomStart))
     }
 }

@@ -1,6 +1,5 @@
 package ru.toxyxd.yam.screen.nowplaying.fullscreen
 
-import android.graphics.Bitmap
 import android.text.format.DateUtils
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -45,33 +44,30 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ru.toxyxd.player.PlayerComponent
 import ru.toxyxd.yam.ext.bouncingClickable
-import ru.toxyxd.yam.screen.nowplaying.NowPlayingViewModel
 import ru.toxyxd.yam.screen.nowplaying.shared.PlayerCover
-import ru.toxyxd.yam.ui.theme.surfaceColorAtAlpha
 
 @Composable
 fun NowPlayingControls(
-    viewModel: NowPlayingViewModel,
+    playerComponent: PlayerComponent,
     modifier: Modifier = Modifier
 ) {
-    val defaultSurfaceColor = MaterialTheme.colorScheme.surfaceColorAtAlpha(0.8f)
-    val track by viewModel.mediaItem.collectAsStateWithLifecycle()
+    val track by playerComponent.nowPlaying.collectAsStateWithLifecycle()
 
     if (track != null) {
-        val title = track!!.mediaMetadata.title.toString()
-        val artist = track!!.mediaMetadata.artist.toString()
-        val artworkUri = track!!.mediaMetadata.artworkUri?.toString()
-        val isPlaying by viewModel.isPlaying.collectAsStateWithLifecycle()
+        val title = track!!.title
+        val artist = track!!.artist
+        val artworkUri = track!!.hugeCover
+        val isPlaying by playerComponent.isPlaying.collectAsStateWithLifecycle()
 
-        val progress by viewModel.progress.collectAsStateWithLifecycle(0L)
+        val progress by playerComponent.progressFlow.collectAsStateWithLifecycle(0L)
         var isSeekbarDragging by remember { mutableStateOf(false) }
         var seekbarDraggingProgress by remember { mutableFloatStateOf(0f) }
 
         Column(modifier.padding(horizontal = 14.dp)) {
             Artwork(
                 artworkUri = artworkUri,
-                onSuccess = { bitmap -> viewModel.extractColor(bitmap, defaultSurfaceColor) }
             )
             Spacer(Modifier.height(16.dp))
             Header(
@@ -81,19 +77,21 @@ fun NowPlayingControls(
             Spacer(Modifier.height(8.dp))
             Seekbar(
                 progress = progress,
-                duration = viewModel.duration,
+                duration = playerComponent.duration,
                 isSeekbarDragging = isSeekbarDragging,
                 seekbarDraggingProgress = seekbarDraggingProgress,
                 onSeekbarDraggingChange = { isSeekbarDragging = it },
                 onSeekbarDraggingProgressChange = { seekbarDraggingProgress = it },
-                onSeekTo = { viewModel.seekTo(it) }
+                onSeekTo = { playerComponent.seekTo(it) }
             )
             Spacer(Modifier.height(16.dp))
             Buttons(
                 isPlaying = isPlaying,
-                switchPlayPause = { viewModel.switchPlayPause() },
-                previous = { viewModel.previous() },
-                next = { viewModel.next() }
+                switchPlayPause = {
+                    if (isPlaying) playerComponent.pause() else playerComponent.play()
+                },
+                previous = { playerComponent.previous() },
+                next = { playerComponent.next() }
             )
             Spacer(Modifier.height(12.dp))
         }
@@ -103,12 +101,10 @@ fun NowPlayingControls(
 @Composable
 private fun Artwork(
     artworkUri: String?,
-    onSuccess: (Bitmap) -> Unit
 ) {
     PlayerCover(
         artworkUri = artworkUri,
         requestImageSize = with(LocalDensity.current) { 128.dp.toPx().toInt() },
-        onSuccess = onSuccess,
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
             .size(128.dp)
@@ -267,7 +263,6 @@ fun NowPlayingControlsPreview() {
     Column(modifier = Modifier.padding(16.dp)) {
         Artwork(
             artworkUri = null,
-            onSuccess = {}
         )
         Spacer(Modifier.height(16.dp))
         Header(

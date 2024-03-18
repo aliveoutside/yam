@@ -1,6 +1,5 @@
 package ru.toxyxd.yam.screen.nowplaying.shared
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -15,35 +14,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.graphics.drawable.toBitmap
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import coil.request.SuccessResult
 import ru.toxyxd.yam.ui.theme.surfaceColorAtAlpha
 
 @Composable
 fun PlayerCover(
     artworkUri: String?,
     requestImageSize: Int,
-    onSuccess: (Bitmap) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val listener = remember {
-        object : ImageRequest.Listener {
-            override fun onSuccess(request: ImageRequest, result: SuccessResult) {
-                super.onSuccess(request, result)
-                onSuccess(result.drawable.toBitmap())
-            }
-        }
-    }
     val context = LocalContext.current
     val request = remember(artworkUri) {
         ImageRequest.Builder(context)
             .data(artworkUri)
             .size(requestImageSize)
             .crossfade(true)
-            .listener(listener)
             .allowHardware(false)
             .build()
     }

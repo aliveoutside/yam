@@ -15,6 +15,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.plus
 import com.arkivanov.decompose.extensions.compose.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.toxyxd.root.ContentComponent
 import ru.toxyxd.root.RootComponent
 import ru.toxyxd.yam.screen.item.ItemRootView
@@ -41,6 +42,7 @@ private fun Content(
     component: ContentComponent
 ) {
     val miniPlayerHeight = 56.dp
+    val playerSlot by component.player.subscribeAsState()
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val playerBottomSheetState = rememberBottomSheetState(
@@ -67,9 +69,12 @@ private fun Content(
                 }
             }
         }
-        ExpandableMiniPlayer(
-            bottomSheetState = playerBottomSheetState,
-            modifier = Modifier.align(Alignment.BottomStart)
-        )
+        playerSlot.child?.instance?.let {
+            ExpandableMiniPlayer(
+                playerComponent = it,
+                bottomSheetState = playerBottomSheetState,
+                modifier = Modifier.align(Alignment.BottomStart)
+            )
+        }
     }
 }

@@ -14,6 +14,7 @@ import ru.toxyxd.item.component.ToolbarComponent
 import ru.toxyxd.item.component.TrackListComponent
 import ru.toxyxd.item.component.toolbar.YaToolbarComponent
 import ru.toxyxd.item.component.tracklist.YaTrackListComponent
+import ru.toxyxd.player.PlayerComponent
 import ru.toxyxd.yaapi.YaApi
 import ru.toxyxd.yaapi.dto.album.AlbumDto
 import ru.toxyxd.yaapi.dto.playlist.PlaylistHeaderDto
@@ -25,6 +26,7 @@ class YaItemRootComponent(
     yaApi: YaApi,
     entrypoint: YaApiEntrypoint,
     onGoBack: () -> Unit,
+    onPlayerEvent: (PlayerComponent.Event) -> Unit,
     componentContext: ComponentContext,
 ) : ItemRootComponent, ComponentContext by componentContext {
     private val viewModel = instanceKeeper.getOrCreate {
@@ -44,7 +46,7 @@ class YaItemRootComponent(
             childContext("toolbar")
         )
     override val tracklistComponent: TrackListComponent =
-        YaTrackListComponent(viewModel.trackListDto, viewModel.type, viewModel.playedFromId, childContext("tracklist"))
+        YaTrackListComponent(viewModel.trackListDto, viewModel.type, viewModel.playedFromId, onPlayerEvent, childContext("tracklist"))
 
     init {
         viewModel.load()

@@ -76,10 +76,10 @@ dependencies {
     implementation(libs.yandexAuthSdk)
 
     implementation(project(":common"))
-    implementation(project(":core:player"))
     implementation(project(":core:yaapi"))
     implementation(project(":feature:home"))
     implementation(project(":feature:item"))
+    implementation(project(":feature-ya:player"))
     implementation(project(":feature:signin"))
     implementation(project(":feature-ya:root"))
 }

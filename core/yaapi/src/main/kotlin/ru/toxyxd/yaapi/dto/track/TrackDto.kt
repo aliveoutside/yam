@@ -41,7 +41,7 @@ data class TrackDto(
     val disclaimer: List<String>? = null,
 
     @SerialName("durationMs")
-    val durationMs: Long? = null,
+    val durationMs: Long,
 
     @SerialName("podcastEpisodeType")
     val episodeType: String? = null,

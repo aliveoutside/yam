@@ -40,7 +40,7 @@ dependencies {
     implementation(libs.koinAndroid)
 
     implementation(project(":common"))
-    implementation(project(":core:player"))
     implementation(project(":core:yaapi"))
     api(project(":feature:item"))
+    implementation(project(":feature:player"))
 }

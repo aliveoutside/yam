@@ -2,15 +2,17 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
-    namespace = "ru.toxyxd.root"
+    namespace = "ru.toxyxd.player"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 24
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -32,16 +34,8 @@ android {
 }
 
 dependencies {
-    api(project(":feature:root"))
-
-    implementation(libs.koin)
-    implementation(libs.bundles.androidKtx)
     implementation(libs.decompose)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1-Beta")
 
-    implementation(project(":common"))
-    implementation(project(":core:yaapi"))
-    implementation(project(":feature-ya:item"))
-    implementation(project(":feature-ya:player"))
-    implementation(project(":feature-ya:signin"))
-    implementation(project(":feature-ya:home"))
+    api(project(":feature:item"))
 }

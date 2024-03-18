@@ -1,6 +1,5 @@
 package ru.toxyxd.yam.screen.nowplaying
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,8 +26,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.media3.common.MediaItem
-import org.koin.androidx.compose.koinViewModel
+import ru.toxyxd.item.component.TrackComponent
+import ru.toxyxd.player.PlayerComponent
 import ru.toxyxd.yam.ext.bouncingClickable
 import ru.toxyxd.yam.screen.nowplaying.component.BottomSheet
 import ru.toxyxd.yam.screen.nowplaying.component.BottomSheetState
@@ -38,33 +37,29 @@ import ru.toxyxd.yam.ui.theme.surfaceColorAtAlpha
 
 @Composable
 fun ExpandableMiniPlayer(
+    playerComponent: PlayerComponent,
     bottomSheetState: BottomSheetState,
     modifier: Modifier = Modifier,
-    viewModel: NowPlayingViewModel = koinViewModel()
 ) {
-    val mediaItem by viewModel.mediaItem.collectAsStateWithLifecycle()
+    val mediaItem by playerComponent.nowPlaying.collectAsStateWithLifecycle()
 
     BottomSheet(
         state = bottomSheetState,
         modifier = modifier,
         onDismiss = {},
         collapsedContent = {
-            CollapsedMiniPlayer(mediaItem, viewModel)
+            CollapsedMiniPlayer(mediaItem, playerComponent)
         },
     ) {
-        NowPlayingFullscreenComposition(viewModel)
+        NowPlayingFullscreenComposition(playerComponent)
     }
 }
 
 @Composable
-private fun CollapsedMiniPlayer(mediaItem: MediaItem?, viewModel: NowPlayingViewModel) {
-    val isPlaying by viewModel.isPlaying.collectAsStateWithLifecycle()
-
-    val defaultSurfaceColor = MaterialTheme.colorScheme.surfaceColorAtAlpha(0.8f)
-    val surfaceColor = animateColorAsState(targetValue = viewModel.dominantColor)
+private fun CollapsedMiniPlayer(track: TrackComponent?, playerComponent: PlayerComponent) {
+    val isPlaying by playerComponent.isPlaying.collectAsStateWithLifecycle()
 
     Surface(
-        color = surfaceColor.value,
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .clip(RoundedCornerShape(8.dp))
@@ -77,9 +72,8 @@ private fun CollapsedMiniPlayer(mediaItem: MediaItem?, viewModel: NowPlayingView
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             PlayerCover(
-                artworkUri = mediaItem?.mediaMetadata?.artworkUri.toString(),
-                requestImageSize = 96,
-                onSuccess = { viewModel.extractColor(it, defaultSurfaceColor) },
+                artworkUri = track?.cover,
+                requestImageSize = 200,
                 modifier = Modifier
                     .size(40.dp)
                     .clip(RoundedCornerShape(8.dp))
@@ -92,13 +86,13 @@ private fun CollapsedMiniPlayer(mediaItem: MediaItem?, viewModel: NowPlayingView
                     .align(Alignment.CenterVertically)
             ) {
                 Text(
-                    text = mediaItem?.mediaMetadata?.title?.toString() ?: "",
+                    text = track?.title ?: "",
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = mediaItem?.mediaMetadata?.artist?.toString() ?: "",
+                    text = track?.artist ?: "",
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
                     maxLines = 1,
                     fontSize = 13.sp,
@@ -110,7 +104,9 @@ private fun CollapsedMiniPlayer(mediaItem: MediaItem?, viewModel: NowPlayingView
                 contentDescription = null,
                 modifier = Modifier
                     .requiredSize(26.dp)
-                    .bouncingClickable { viewModel.switchPlayPause() },
+                    .bouncingClickable {
+                        if (isPlaying) playerComponent.pause() else playerComponent.play()
+                    },
                 tint = LocalContentColor.current
             )
         }

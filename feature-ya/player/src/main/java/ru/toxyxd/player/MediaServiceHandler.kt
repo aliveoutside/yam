@@ -23,7 +23,6 @@ class MediaServiceHandler : Player.Listener, MediaSession.Callback, KoinComponen
             delay(50)
         }
     }.catch { emit(0L) }
-    val duration get() = player.contentDuration
 
     init {
         player.addListener(this)

@@ -6,6 +6,7 @@ interface TrackComponent {
     val artist: String
     val cover: String?
     val hugeCover: String?
+    val duration: Long
 }
 
 interface AlbumTrackComponent : TrackComponent {

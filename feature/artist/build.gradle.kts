@@ -32,4 +32,7 @@ android {
 
 dependencies {
     implementation(libs.decompose)
+
+    implementation(project(":feature:item"))
+    api(project(":feature:player"))
 }

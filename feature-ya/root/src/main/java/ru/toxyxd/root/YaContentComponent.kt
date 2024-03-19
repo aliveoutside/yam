@@ -81,6 +81,7 @@ class YaContentComponent(
             yaApi,
             config.artistId,
             onGoBack = ::onGoBack,
+            onPlayerEvent = ::onPlayerEvent,
             componentContext = componentContext
         )
 

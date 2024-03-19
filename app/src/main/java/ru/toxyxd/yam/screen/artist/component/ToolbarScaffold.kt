@@ -38,6 +38,7 @@ fun ToolbarScaffold(component: ToolbarComponent, content: @Composable () -> Unit
     val coverUrl = component.coverUrl.subscribeAsState()
 
     val scaffoldState = rememberCollapsingToolbarScaffoldState()
+    val progress = scaffoldState.toolbarState.progress
     CollapsingToolbarScaffold(modifier = Modifier,
         state = scaffoldState,
         snapConfig = SnapConfig(),
@@ -85,8 +86,8 @@ fun ToolbarScaffold(component: ToolbarComponent, content: @Composable () -> Unit
             }
             Text(
                 text = title.value,
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = (30 + 6 * progress).sp,
+                fontWeight = FontWeight((FontWeight.Normal.weight + (FontWeight.Bold.weight - FontWeight.Normal.weight) * progress).toInt()),
                 modifier = Modifier
                     .padding(16.dp)
                     .road(

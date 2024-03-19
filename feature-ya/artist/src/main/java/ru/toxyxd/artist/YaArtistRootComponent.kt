@@ -10,6 +10,7 @@ import com.arkivanov.essenty.lifecycle.doOnCreate
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import ru.toxyxd.common.componentCoroutineScope
+import ru.toxyxd.player.PlayerComponent
 import ru.toxyxd.yaapi.YaApi
 import ru.toxyxd.yaapi.dto.artist.ArtistBriefInfoDto
 import ru.toxyxd.yaapi.internal.YaApiResponse
@@ -18,7 +19,8 @@ class YaArtistRootComponent(
     yaApi: YaApi,
     artistId: String,
     onGoBack: () -> Unit,
-    componentContext: ComponentContext
+    onPlayerEvent: (PlayerComponent.Event) -> Unit,
+    componentContext: ComponentContext,
 ) : ArtistRootComponent, ComponentContext by componentContext {
     private val navigation = StackNavigation<Config>()
     private val _stack = childStack(
@@ -35,6 +37,7 @@ class YaArtistRootComponent(
                     YaArtistComponent(
                         artistInfo = config.artistInfo,
                         onGoBack = onGoBack,
+                        onPlayerEvent = onPlayerEvent,
                         componentContext = componentContext
                     )
                 )

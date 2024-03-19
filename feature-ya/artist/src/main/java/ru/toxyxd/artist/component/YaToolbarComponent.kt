@@ -1,8 +1,7 @@
-package ru.toxyxd.artist.component.toolbar
+package ru.toxyxd.artist.component
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import ru.toxyxd.artist.component.ToolbarComponent
 import ru.toxyxd.common.CoverUtil
 import ru.toxyxd.yaapi.dto.artist.ArtistBriefInfoDto
 

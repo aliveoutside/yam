@@ -13,4 +13,8 @@ interface AlbumTrackComponent : TrackComponent {
     val index: Int
 }
 
+interface TopTrackComponent : TrackComponent {
+    val index: Int
+}
+
 interface PlaylistTrackComponent : TrackComponent

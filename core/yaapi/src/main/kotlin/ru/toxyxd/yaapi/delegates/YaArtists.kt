@@ -10,6 +10,6 @@ value class YaArtists(
     suspend fun getArtistBriefInfo(artistId: String) =
         yaApi.api<ArtistBriefInfoDto>(listOf("artists", artistId, "brief-info")) {
             param("discographyBlockEnabled", "true")
-            param("popularTracksCount", "5")
+            param("popularTracksCount", "50")
         }
 }

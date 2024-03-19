@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.retainedComponent
+import com.arkivanov.decompose.defaultComponentContext
 import ru.toxyxd.root.YaRootComponent
 import ru.toxyxd.yam.ui.theme.YamTheme
 
@@ -15,11 +15,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val root = retainedComponent { componentContext ->
+        val root =
             YaRootComponent(
-                componentContext = componentContext
+                componentContext = defaultComponentContext()
             )
-        }
+
         setContent {
             YamTheme {
                 Surface(

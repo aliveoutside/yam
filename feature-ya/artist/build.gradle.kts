@@ -40,5 +40,6 @@ dependencies {
 
     implementation(project(":common"))
     implementation(project(":core:yaapi"))
+    implementation(project(":feature-ya:item"))
     api(project(":feature:artist"))
 }

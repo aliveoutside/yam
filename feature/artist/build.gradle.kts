@@ -34,5 +34,6 @@ dependencies {
     implementation(libs.decompose)
 
     implementation(project(":feature:item"))
+    api(project(":feature:home"))
     api(project(":feature:player"))
 }

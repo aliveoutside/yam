@@ -13,11 +13,13 @@ import ru.toxyxd.common.componentCoroutineScope
 import ru.toxyxd.player.PlayerComponent
 import ru.toxyxd.yaapi.YaApi
 import ru.toxyxd.yaapi.dto.artist.ArtistBriefInfoDto
+import ru.toxyxd.yaapi.internal.YaApiEntrypoint
 import ru.toxyxd.yaapi.internal.YaApiResponse
 
 class YaArtistRootComponent(
     yaApi: YaApi,
     artistId: String,
+    onItemClicked: (YaApiEntrypoint) -> Unit,
     onGoBack: () -> Unit,
     onPlayerEvent: (PlayerComponent.Event) -> Unit,
     componentContext: ComponentContext,
@@ -36,6 +38,7 @@ class YaArtistRootComponent(
                 ArtistRootComponent.Child.Loaded(
                     YaArtistComponent(
                         artistInfo = config.artistInfo,
+                        onItemClicked = onItemClicked,
                         onGoBack = onGoBack,
                         onPlayerEvent = onPlayerEvent,
                         componentContext = componentContext

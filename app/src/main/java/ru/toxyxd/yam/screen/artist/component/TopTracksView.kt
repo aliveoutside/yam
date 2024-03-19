@@ -37,19 +37,21 @@ import ru.toxyxd.item.component.TopTrackComponent
 import ru.toxyxd.yam.ui.theme.surfaceColorAtAlpha
 
 @Composable
-fun TopTracksView(component: TopTracksComponent) {
+fun TopTracksView(component: TopTracksComponent, modifier: Modifier = Modifier) {
     if (component.tracks != null) {
         val tracks by component.tracks!!.subscribeAsState()
 
-        Text(
-            text = "Популярное",
-            fontSize = 20.sp,
-            modifier = Modifier.padding(bottom = 12.dp),
-            fontWeight = FontWeight.Bold
-        )
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(tracks.take(5)) { item ->
-                TopTrackView(item, onClick = { component.play(tracks.indexOf(item)) })
+        Column(modifier = modifier) {
+            Text(
+                text = "Популярное",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(bottom = 12.dp),
+                fontWeight = FontWeight.Bold
+            )
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(tracks.take(5)) { item ->
+                    TopTrackView(item, onClick = { component.play(tracks.indexOf(item)) })
+                }
             }
         }
     }

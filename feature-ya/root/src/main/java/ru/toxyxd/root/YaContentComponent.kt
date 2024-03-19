@@ -80,6 +80,7 @@ class YaContentComponent(
         YaArtistRootComponent(
             yaApi,
             config.artistId,
+            onItemClicked = ::onItemClicked,
             onGoBack = ::onGoBack,
             onPlayerEvent = ::onPlayerEvent,
             componentContext = componentContext

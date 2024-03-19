@@ -10,6 +10,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.offset
 
 fun Modifier.bouncingClickable(
     enabled: Boolean = true,
@@ -40,4 +44,20 @@ fun Modifier.bouncingClickable(
             enabled = enabled,
             onClick = onClick
         )
+}
+
+    // src: https://stackoverflow.com/a/76169921
+fun Modifier.ignoreHorizontalPadding(dp: Dp) = composed {
+    val density = LocalDensity.current
+    val offsetPx = with(density) {
+        dp.roundToPx()
+    }
+
+    this.layout { measurable, constraints ->
+        val looseConstraints = constraints.offset(offsetPx * 2, 0)
+        val placeable = measurable.measure(looseConstraints)
+        layout(placeable.width, placeable.height) {
+            placeable.placeRelative(0, 0)
+        }
+    }
 }

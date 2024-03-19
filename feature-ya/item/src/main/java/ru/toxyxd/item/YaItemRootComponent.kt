@@ -109,7 +109,7 @@ internal class YaItemRootViewModel(
         coverUrl.value = playlist.backgroundImageUrl?.let { CoverUtil.getLargeCover(it) } ?: ""
         subtitle.value = playlist.description ?: ""
         title.value = playlist.title
-        playedFromId.value = playlist.uid
+        playedFromId.value = playlist.kind
         type.value = ItemRootComponent.Type.PLAYLIST
         trackListDto.value = playlist.tracks?.map { it.track } ?: emptyList()
         state.value = ItemRootComponent.State.Loaded

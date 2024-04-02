@@ -17,6 +17,8 @@ interface PlayerComponent {
     fun next()
     fun previous()
     fun seekTo(position: Long)
+    fun onArtistClicked()
+    fun onAlbumClicked()
     fun onInputEvent(event: Event)
 
     sealed class Event {

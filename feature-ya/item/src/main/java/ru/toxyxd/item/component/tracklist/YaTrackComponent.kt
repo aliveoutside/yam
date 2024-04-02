@@ -15,7 +15,9 @@ sealed class YaTrackComponent(
 ) : TrackComponent, KoinComponent, ComponentContext by componentContext {
     override val id = dto.id
     override val title = dto.title
-    override val artist = dto.artists?.joinToString(", ") { it.name } ?: ""
+    override val artists = dto.artists?.map { it.name } ?: listOf("")
+    override val artistsIds = dto.artists?.map { it.id } ?: listOf("")
+    override val albumId = dto.albums?.firstOrNull()?.id
     override val cover = dto.coverUri?.let { CoverUtil.getSmallCover(it) }
     override val hugeCover = dto.coverUri?.let { CoverUtil.getLargeCover(it) }
     override val duration: Long = dto.durationMs

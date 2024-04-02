@@ -58,7 +58,17 @@ class YaArtistRootComponent(
                         onStackLoaded(artistInfo.result)
                     }
 
-                    else -> TODO()
+                    is YaApiResponse.Error -> {
+                        throw RuntimeException("Failed to load artist info: ${artistInfo.error}")
+                    }
+
+                    is YaApiResponse.HttpError -> {
+                        throw RuntimeException("Failed to load artist info: ${artistInfo.code} ${artistInfo.description}")
+                    }
+
+                    is YaApiResponse.InternalError -> {
+                        throw artistInfo.exception
+                    }
                 }
             }
         }

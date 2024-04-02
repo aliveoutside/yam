@@ -78,6 +78,8 @@ internal class YaItemRootViewModel(
                 is YaApiEntrypoint.YaAlbumEntrypoint -> loadAlbumTracks(
                     entrypoint.albumUid
                 )
+
+                else -> throw IllegalStateException("Unsupported entrypoint type: $entrypoint")
             }
         }
     }

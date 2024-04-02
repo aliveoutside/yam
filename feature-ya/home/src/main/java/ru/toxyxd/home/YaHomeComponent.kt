@@ -106,7 +106,7 @@ class YaHomeComponent(
         )
     }
 
-    private suspend fun load() = withContext(Dispatchers.IO) {
+    private suspend fun load() = withContext(Dispatchers.Main.immediate) {
         when (val response = yaApi.landing.getLanding()) {
             is YaApiResponse.Success -> {
                 entries.value = binder.transform(response.result)

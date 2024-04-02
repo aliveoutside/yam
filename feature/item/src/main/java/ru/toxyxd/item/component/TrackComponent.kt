@@ -3,7 +3,11 @@ package ru.toxyxd.item.component
 interface TrackComponent {
     val id: String
     val title: String
-    val artist: String
+    val artists: List<String>
+
+    val artistsIds: List<String>
+    val albumId: String?
+
     val cover: String?
     val hugeCover: String?
     val duration: Long

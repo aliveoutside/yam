@@ -1,6 +1,7 @@
 package ru.toxyxd.root
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.slot.ChildSlot
 import com.arkivanov.decompose.router.slot.SlotNavigation
 import com.arkivanov.decompose.router.slot.childSlot
@@ -9,7 +10,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.pushToFront
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +27,7 @@ import ru.toxyxd.player.YaPlayerComponent
 import ru.toxyxd.yaapi.YaApi
 import ru.toxyxd.yaapi.internal.YaApiEntrypoint
 
+@OptIn(ExperimentalDecomposeApi::class)
 class YaContentComponent(
     private val yaApi: YaApi,
     componentContext: ComponentContext
@@ -47,6 +49,8 @@ class YaContentComponent(
         ) { config, componentContext ->
             YaPlayerComponent(
                 playerEventFlow,
+                onArtistClicked = ::onArtistClicked,
+                onItemClicked = ::onItemClicked,
                 componentContext
             )
         }
@@ -104,7 +108,7 @@ class YaContentComponent(
         )
 
     private fun onArtistClicked(artistId: String) {
-        navigation.push(Config.Artist(artistId))
+        navigation.pushToFront(Config.Artist(artistId))
     }
 
     private fun onPlayerEvent(event: PlayerComponent.Event) {
@@ -114,7 +118,7 @@ class YaContentComponent(
     }
 
     private fun onItemClicked(entrypoint: YaApiEntrypoint) {
-        navigation.push(Config.Item(entrypoint))
+        navigation.bringToFront(Config.Item(entrypoint))
     }
 
     private fun onGoBack() {

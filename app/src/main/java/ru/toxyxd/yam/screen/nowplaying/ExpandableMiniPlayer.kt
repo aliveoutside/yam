@@ -51,7 +51,7 @@ fun ExpandableMiniPlayer(
             CollapsedMiniPlayer(mediaItem, playerComponent)
         },
     ) {
-        NowPlayingFullscreenComposition(playerComponent)
+        NowPlayingFullscreenComposition(playerComponent, onCollapse = { bottomSheetState.collapseSoft() })
     }
 }
 
@@ -59,11 +59,7 @@ fun ExpandableMiniPlayer(
 private fun CollapsedMiniPlayer(track: TrackComponent?, playerComponent: PlayerComponent) {
     val isPlaying by playerComponent.isPlaying.collectAsStateWithLifecycle()
 
-    Surface(
-        modifier = Modifier
-            .padding(horizontal = 8.dp)
-            .clip(RoundedCornerShape(8.dp))
-    ) {
+    Surface {
         Row(
             modifier = Modifier
                 .fillMaxSize()
@@ -92,7 +88,7 @@ private fun CollapsedMiniPlayer(track: TrackComponent?, playerComponent: PlayerC
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = track?.artist ?: "",
+                    text = track?.artists?.joinToString(", ") ?: "",
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
                     maxLines = 1,
                     fontSize = 13.sp,

@@ -11,13 +11,18 @@ import ru.toxyxd.player.PlayerComponent
 
 @Composable
 fun NowPlayingFullscreenComposition(
-    playerComponent: PlayerComponent
+    playerComponent: PlayerComponent,
+    onCollapse: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
     ) {
-        NowPlayingControls(playerComponent = playerComponent, modifier = Modifier.align(Alignment.BottomStart))
+        NowPlayingControls(
+            playerComponent = playerComponent,
+            onCollapse = onCollapse,
+            modifier = Modifier.align(Alignment.BottomStart)
+        )
     }
 }

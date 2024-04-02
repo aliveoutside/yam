@@ -9,4 +9,7 @@ sealed class YaApiEntrypoint {
 
     @Serializable
     class YaAlbumEntrypoint(val albumUid: String) : YaApiEntrypoint()
+
+    @Serializable
+    class YaArtistEntrypoint(val artistUid: String) : YaApiEntrypoint()
 }

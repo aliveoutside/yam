@@ -51,13 +51,14 @@ import ru.toxyxd.yam.screen.nowplaying.shared.PlayerCover
 @Composable
 fun NowPlayingControls(
     playerComponent: PlayerComponent,
+    onCollapse: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val track by playerComponent.nowPlaying.collectAsStateWithLifecycle()
 
     if (track != null) {
         val title = track!!.title
-        val artist = track!!.artist
+        val artist = track!!.artists.joinToString(", ")
         val artworkUri = track!!.hugeCover
         val isPlaying by playerComponent.isPlaying.collectAsStateWithLifecycle()
 
@@ -72,7 +73,15 @@ fun NowPlayingControls(
             Spacer(Modifier.height(16.dp))
             Header(
                 title = title,
-                artist = artist
+                artist = artist,
+                onAlbumClicked = {
+                    playerComponent.onAlbumClicked()
+                    onCollapse()
+                },
+                onArtistClicked = {
+                    playerComponent.onArtistClicked()
+                    onCollapse()
+                }
             )
             Spacer(Modifier.height(8.dp))
             Seekbar(
@@ -114,12 +123,15 @@ private fun Artwork(
 @Composable
 private fun Header(
     title: String,
-    artist: String
+    artist: String,
+    onAlbumClicked: () -> Unit,
+    onArtistClicked: () -> Unit
 ) {
     Text(
         text = title,
         fontSize = 24.sp,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.bouncingClickable { onAlbumClicked() }
     )
     Spacer(Modifier.height(2.dp))
     Text(
@@ -127,6 +139,7 @@ private fun Header(
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         fontSize = 16.sp,
+        modifier = Modifier.bouncingClickable { onArtistClicked() }
     )
 }
 
@@ -267,7 +280,9 @@ fun NowPlayingControlsPreview() {
         Spacer(Modifier.height(16.dp))
         Header(
             title = title,
-            artist = artist
+            artist = artist,
+            onAlbumClicked = {},
+            onArtistClicked = {}
         )
         Spacer(Modifier.height(8.dp))
         Seekbar(

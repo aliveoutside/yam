@@ -70,7 +70,7 @@ fun PlaylistTrackView(component: PlaylistTrackComponent, onClick: () -> Unit) {
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = component.artist,
+                text = component.artists.joinToString(", "),
                 style = TextStyle(fontSize = 14.sp),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

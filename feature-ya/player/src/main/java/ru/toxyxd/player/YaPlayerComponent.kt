@@ -22,9 +22,12 @@ import org.koin.core.component.get
 import org.koin.core.component.inject
 import ru.toxyxd.common.componentCoroutineScope
 import ru.toxyxd.item.component.TrackComponent
+import ru.toxyxd.yaapi.internal.YaApiEntrypoint
 
 class YaPlayerComponent(
     eventFlow: SharedFlow<PlayerComponent.Event>,
+    private val onArtistClicked: (String) -> Unit,
+    private val onItemClicked: (YaApiEntrypoint) -> Unit,
     componentContext: ComponentContext
 ) : PlayerComponent, KoinComponent, ComponentContext by componentContext,
     CoroutineScope by componentContext.componentCoroutineScope() {
@@ -42,6 +45,18 @@ class YaPlayerComponent(
         }
 
         initFlows(eventFlow)
+    }
+
+    override fun onArtistClicked() {
+        nowPlaying.value?.let {
+            onArtistClicked(it.artistsIds.first())
+        }
+    }
+
+    override fun onAlbumClicked() {
+        nowPlaying.value?.let {
+            onItemClicked(YaApiEntrypoint.YaAlbumEntrypoint(it.albumId ?: return))
+        }
     }
 
     override fun onInputEvent(event: PlayerComponent.Event) {
@@ -79,7 +94,7 @@ class YaPlayerComponent(
         }
 
         val metadatas = mediaItems.map { track ->
-            MediaMetadata.Builder().setTitle(track.title).setArtist(track.artist)
+            MediaMetadata.Builder().setTitle(track.title).setArtist(track.artists.joinToString(", "))
                 .setExtras(extrasBundle)
                 .setArtworkUri(track.hugeCover?.let { Uri.parse(it) }).build()
         }

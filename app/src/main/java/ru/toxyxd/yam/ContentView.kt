@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,7 +46,7 @@ private fun Content(
     val miniPlayerHeight = 56.dp
     val playerSlot by component.player.subscribeAsState()
 
-    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+    BoxWithConstraints(modifier = Modifier.fillMaxSize().safeDrawingPadding()) {
         val playerBottomSheetState = rememberBottomSheetState(
             dismissedBound = 0.dp,
             collapsedBound = miniPlayerHeight,

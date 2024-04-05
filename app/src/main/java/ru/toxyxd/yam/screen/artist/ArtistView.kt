@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ru.toxyxd.artist.ArtistComponent
 import ru.toxyxd.yam.screen.artist.component.AlbumsView
+import ru.toxyxd.yam.screen.artist.component.SimilarArtistsView
 import ru.toxyxd.yam.screen.artist.component.ToolbarScaffold
 import ru.toxyxd.yam.screen.artist.component.TopTracksView
 
@@ -26,6 +27,9 @@ fun ArtistView(component: ArtistComponent) {
             }
             item {
                 AlbumsView(component = component.alsoAlbumsComponent)
+            }
+            item {
+                SimilarArtistsView(component = component.similarArtistsComponent)
             }
         }
     }

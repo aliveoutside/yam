@@ -19,6 +19,7 @@ import ru.toxyxd.yaapi.internal.YaApiResponse
 class YaArtistRootComponent(
     yaApi: YaApi,
     artistId: String,
+    onArtistClicked: (String) -> Unit,
     onItemClicked: (YaApiEntrypoint) -> Unit,
     onGoBack: () -> Unit,
     onPlayerEvent: (PlayerComponent.Event) -> Unit,
@@ -38,6 +39,7 @@ class YaArtistRootComponent(
                 ArtistRootComponent.Child.Loaded(
                     YaArtistComponent(
                         artistInfo = config.artistInfo,
+                        onArtistClicked = onArtistClicked,
                         onItemClicked = onItemClicked,
                         onGoBack = onGoBack,
                         onPlayerEvent = onPlayerEvent,

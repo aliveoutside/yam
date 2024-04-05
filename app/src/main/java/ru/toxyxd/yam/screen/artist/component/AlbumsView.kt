@@ -1,5 +1,6 @@
 package ru.toxyxd.yam.screen.artist.component
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,15 +19,17 @@ fun AlbumsView(component: AlbumsComponent) {
     if (component.albumsSlider != null) {
         val slider by component.albumsSlider!!.subscribeAsState()
 
-        Text(
-            text = "Альбомы",
-            fontSize = 20.sp,
-            modifier = Modifier.padding(bottom = 12.dp),
-            fontWeight = FontWeight.Bold
-        )
-        HorizontalSliderView(
-            component = slider,
-            modifier = Modifier.ignoreHorizontalPadding(12.dp)
-        )
+        Column {
+            Text(
+                text = slider.headerTitle,
+                fontSize = 20.sp,
+                modifier = Modifier.padding(bottom = 12.dp),
+                fontWeight = FontWeight.Bold
+            )
+            HorizontalSliderView(
+                component = slider,
+                modifier = Modifier.ignoreHorizontalPadding(12.dp)
+            )
+        }
     }
 }

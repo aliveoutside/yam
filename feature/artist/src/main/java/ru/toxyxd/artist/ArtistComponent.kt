@@ -8,4 +8,5 @@ interface ArtistComponent {
     val toolbarComponent: ToolbarComponent
     val topTracksComponent: TopTracksComponent
     val albumsComponent: AlbumsComponent
+    val alsoAlbumsComponent: AlbumsComponent
 }

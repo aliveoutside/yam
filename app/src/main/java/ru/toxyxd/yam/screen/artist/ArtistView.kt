@@ -1,8 +1,8 @@
 package ru.toxyxd.yam.screen.artist
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -14,12 +14,19 @@ import ru.toxyxd.yam.screen.artist.component.TopTracksView
 @Composable
 fun ArtistView(component: ArtistComponent) {
     ToolbarScaffold(component = component.toolbarComponent) {
-        Column(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
+        LazyColumn(
+            modifier = Modifier.padding(horizontal = 12.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            TopTracksView(component = component.topTracksComponent)
-            AlbumsView(component = component.albumsComponent)
+            item {
+                TopTracksView(component = component.topTracksComponent)
+            }
+            item {
+                AlbumsView(component = component.albumsComponent)
+            }
+            item {
+                AlbumsView(component = component.alsoAlbumsComponent)
+            }
         }
     }
 }

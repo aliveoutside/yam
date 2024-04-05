@@ -6,6 +6,7 @@ import ru.toxyxd.artist.component.AlbumsComponent
 import ru.toxyxd.artist.component.ToolbarComponent
 import ru.toxyxd.artist.component.TopTracksComponent
 import ru.toxyxd.artist.component.YaAlbumsComponent
+import ru.toxyxd.artist.component.YaAlsoAlbumsComponent
 import ru.toxyxd.artist.component.YaToolbarComponent
 import ru.toxyxd.artist.component.YaTopTracksComponent
 import ru.toxyxd.player.PlayerComponent
@@ -22,4 +23,5 @@ class YaArtistComponent(
     override val toolbarComponent: ToolbarComponent = YaToolbarComponent(artistInfo, onGoBack, childContext("toolbar"))
     override val topTracksComponent: TopTracksComponent = YaTopTracksComponent(artistInfo, onPlayerEvent, childContext("topTracks"))
     override val albumsComponent: AlbumsComponent = YaAlbumsComponent(artistInfo, onItemClicked, childContext("albums"))
+    override val alsoAlbumsComponent: AlbumsComponent = YaAlsoAlbumsComponent(artistInfo, onItemClicked, childContext("alsoAlbums"))
 }

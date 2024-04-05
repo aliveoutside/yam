@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.CollapsingToolbarScaffoldScope
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.SnapConfig
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -33,13 +34,13 @@ import ru.toxyxd.artist.component.ToolbarComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ToolbarScaffold(component: ToolbarComponent, content: @Composable () -> Unit) {
+fun ToolbarScaffold(component: ToolbarComponent, content: @Composable (CollapsingToolbarScaffoldScope) -> Unit) {
     val title = component.title.subscribeAsState()
     val coverUrl = component.coverUrl.subscribeAsState()
 
     val scaffoldState = rememberCollapsingToolbarScaffoldState()
     val progress = scaffoldState.toolbarState.progress
-    CollapsingToolbarScaffold(modifier = Modifier,
+    CollapsingToolbarScaffold(modifier = Modifier.fillMaxSize(),
         state = scaffoldState,
         snapConfig = SnapConfig(),
         scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
@@ -97,6 +98,6 @@ fun ToolbarScaffold(component: ToolbarComponent, content: @Composable () -> Unit
             )
         }
     ) {
-        content()
+        content(this)
     }
 }

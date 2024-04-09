@@ -19,6 +19,7 @@ fun ArtistView(component: ArtistComponent) {
             modifier = Modifier.padding(horizontal = 12.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            item {  }
             item {
                 TopTracksView(component = component.topTracksComponent)
             }

@@ -1,37 +1,35 @@
 [versions]
 # kotlin
 atomicfuGradlePlugin = "0.20.2"
-kotlinVersion = "1.9.10"
+kotlinVersion = "2.0.0"
 
 # kotlinx
 kotlinxSerializationVersion = "1.6.3"
 
 # ktor
-ktorClientVersion = "2.3.9"
+ktorClientVersion = "2.3.11"
 
 # decompose
-decomposeVersion = "3.0.0-alpha08"
+decomposeVersion = "3.0.0"
 
 # android
-androidPluginVersion = "8.3.0"
-composeVersion = "1.6.2"
-composeMaterial3Version = "1.2.0"
-lifecycleVersion = "2.7.0"
+androidPluginVersion = "8.3.2"
+composeVersion = "1.7.0-beta01"
+composeMaterial3Version = "1.2.1"
+lifecycleVersion = "2.8.0"
 composeToolbarVersion = "1.0.8"
-androidCoreKtxVersion = "1.12.0"
-androidActivityKtxVersion = "1.8.2"
+androidCoreKtxVersion = "1.13.1"
+androidActivityKtxVersion = "1.9.0"
 coilVersion = "2.6.0"
 
 # player
-media3 = "1.3.0"
+media3 = "1.3.1"
 
 # di
-koinVersion = "3.5.3"
+koinVersion = "3.5.6"
 
 # settings
 multiplatformSettingsVersion = "1.1.1"
-appcompat = "1.6.1"
-material = "1.9.0"
 
 [plugins]
 # android
@@ -41,6 +39,10 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVers
 
 # kotlin
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinVersion" }
+
+# compose
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinVersion" }
 
 [libraries]
 # kotlin
@@ -59,7 +61,7 @@ ktorClientEngineOkHttp = { module = "io.ktor:ktor-client-okhttp", version.ref = 
 androidKtxCore = { module = "androidx.core:core-ktx", version.ref = "androidCoreKtxVersion" }
 androidKtxActivity = { module = "androidx.activity:activity-ktx", version.ref = "androidActivityKtxVersion" }
 androidKtxActivityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidActivityKtxVersion" }
-androidKtxLifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.7.0" }
+androidKtxLifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.8.0" }
 androidKtxPalette = { module = "androidx.palette:palette-ktx", version = "1.0.0" }
 composeUi = { module = "androidx.compose.ui:ui", version.ref = "composeVersion" }
 composeUiUtil = { module = "androidx.compose.ui:ui-util", version.ref = "composeVersion" }

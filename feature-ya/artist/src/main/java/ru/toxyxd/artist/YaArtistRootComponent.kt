@@ -4,7 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnCreate
 import kotlinx.coroutines.launch
@@ -77,7 +77,7 @@ class YaArtistRootComponent(
     }
 
     private fun onStackLoaded(artistInfo: ArtistBriefInfoDto) {
-        navigation.push(Config.Loaded(artistInfo))
+        navigation.pushNew(Config.Loaded(artistInfo))
     }
 
     @Serializable

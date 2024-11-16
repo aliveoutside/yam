@@ -1,17 +1,14 @@
 package ru.toxyxd.yaapi
 
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.AuthProvider
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.headers
+import io.ktor.client.plugins.auth.*
 import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.auth.AuthScheme
 import io.ktor.http.auth.HttpAuthHeader
-import io.ktor.util.KtorDsl
+import io.ktor.utils.io.KtorDsl
 import kotlinx.coroutines.CompletableDeferred
 import java.util.concurrent.atomic.AtomicReference
-
 
 /*
 * Basically this is a copy of io.ktor.client.plugins.auth.providers.BearerAuthProvider
@@ -21,12 +18,12 @@ import java.util.concurrent.atomic.AtomicReference
  */
 
 /**
- * Installs the client's [BearerAuthProvider].
+ * Installs the client's [YandexBearerAuthProvider].
  */
-fun Auth.yandexBearer(block: BearerAuthConfig.() -> Unit) {
+fun AuthConfig.yandexBearer(block: BearerAuthConfig.() -> Unit) {
     with(BearerAuthConfig().apply(block)) {
         this@yandexBearer.providers.add(
-            BearerAuthProvider(
+            YandexBearerAuthProvider(
                 _loadTokens,
                 _sendWithoutRequest,
                 realm
@@ -70,7 +67,7 @@ class BearerAuthConfig {
  *
  * You can learn more from [Bearer authentication](https://ktor.io/docs/bearer-client.html).
  */
-class BearerAuthProvider(
+class YandexBearerAuthProvider(
     loadTokens: suspend () -> BearerTokens?,
     private val sendWithoutRequestCallback: (HttpRequestBuilder) -> Boolean = { true },
     private val realm: String?

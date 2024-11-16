@@ -4,9 +4,9 @@ import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.authProvider
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.plugin
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
@@ -53,7 +53,7 @@ class YaApi(
     fun saveNewAccount(yaAccount: YaAccount) {
         yaSettings.saveAccount(yaAccount)
         currentAccount = yaAccount
-        installAuth(httpClient)
+        reloadAuthTokens(httpClient)
     }
 
     var httpClient = baseHttpClient.config {
@@ -68,12 +68,8 @@ class YaApi(
             })
         }
         install(HttpCache)
-        install(Auth)
-    }.also { installAuth(it) }
-
-    private fun installAuth(client: HttpClient) : HttpClient {
-        if (isAuthorized) {
-            client.plugin(Auth).yandexBearer {
+        install(Auth) {
+            yandexBearer {
                 loadTokens {
                     BearerTokens(
                         currentAccount!!.accessToken,
@@ -81,7 +77,10 @@ class YaApi(
                 }
             }
         }
-        return client
+    }
+
+    private fun reloadAuthTokens(client: HttpClient) {
+        client.authProvider<YandexBearerAuthProvider>()?.clearToken()
     }
 
     suspend inline fun <reified T> oauth(

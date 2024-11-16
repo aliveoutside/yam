@@ -181,7 +181,6 @@ private fun Seekbar(
         thumb = {
             SliderDefaults.Thumb(
                 interactionSource = remember { MutableInteractionSource() },
-                modifier = Modifier.offset(y = 2.dp), // Currently the Thumb seems to have issues with alignment using a size < 20.dp. https://stackoverflow.com/a/75066914
                 thumbSize = DpSize(16.dp, 16.dp)
             )
         }

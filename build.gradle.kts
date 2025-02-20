@@ -18,7 +18,7 @@ buildscript {
 }
 
 allprojects {
-    apply(plugin = "kotlinx-atomicfu")
+    apply(plugin = "org.jetbrains.kotlinx.atomicfu")
 }
 
 true // Needed to make the Suppress annotation work for the plugins block

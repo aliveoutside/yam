@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -63,46 +65,86 @@ fun NowPlayingControls(
         val isPlaying by playerComponent.isPlaying.collectAsStateWithLifecycle()
 
         val progress by playerComponent.progressFlow.collectAsStateWithLifecycle(0L)
-        var isSeekbarDragging by remember { mutableStateOf(false) }
-        var seekbarDraggingProgress by remember { mutableFloatStateOf(0f) }
 
-        Column(modifier.padding(horizontal = 14.dp)) {
+        NowPlayingControlsContent(
+            title = title,
+            artist = artist,
+            artworkUri = artworkUri,
+            isPlaying = isPlaying,
+            progress = progress,
+            duration = playerComponent.duration,
+            onSeekTo = playerComponent::seekTo,
+            onPlayPauseClick = {
+                if (isPlaying) playerComponent.pause() else playerComponent.play()
+            },
+            onPreviousClick = playerComponent::previous,
+            onNextClick = playerComponent::next,
+            onAlbumClicked = {
+                playerComponent.onAlbumClicked()
+                onCollapse()
+            },
+            onArtistClicked = {
+                playerComponent.onArtistClicked()
+                onCollapse()
+            },
+            modifier = modifier,
+        )
+    }
+}
+
+@Composable
+fun NowPlayingControlsContent(
+    title: String,
+    artist: String,
+    artworkUri: String?,
+    isPlaying: Boolean,
+    progress: Long,
+    duration: Long,
+    onSeekTo: (Long) -> Unit,
+    onPlayPauseClick: () -> Unit,
+    onPreviousClick: () -> Unit,
+    onNextClick: () -> Unit,
+    onAlbumClicked: () -> Unit,
+    onArtistClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .fillMaxWidth()
+    ) {
+        Column {
+            Spacer(Modifier.height(64.dp))
             Artwork(
                 artworkUri = artworkUri,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .weight(1f)
             )
-            Spacer(Modifier.height(16.dp))
-            Header(
-                title = title,
-                artist = artist,
-                onAlbumClicked = {
-                    playerComponent.onAlbumClicked()
-                    onCollapse()
-                },
-                onArtistClicked = {
-                    playerComponent.onArtistClicked()
-                    onCollapse()
-                }
-            )
-            Spacer(Modifier.height(8.dp))
-            Seekbar(
-                progress = progress,
-                duration = playerComponent.duration,
-                isSeekbarDragging = isSeekbarDragging,
-                seekbarDraggingProgress = seekbarDraggingProgress,
-                onSeekbarDraggingChange = { isSeekbarDragging = it },
-                onSeekbarDraggingProgressChange = { seekbarDraggingProgress = it },
-                onSeekTo = { playerComponent.seekTo(it) }
-            )
-            Spacer(Modifier.height(16.dp))
-            Buttons(
-                isPlaying = isPlaying,
-                switchPlayPause = {
-                    if (isPlaying) playerComponent.pause() else playerComponent.play()
-                },
-                previous = { playerComponent.previous() },
-                next = { playerComponent.next() }
-            )
-            Spacer(Modifier.height(12.dp))
+            Spacer(modifier = Modifier.weight(0.3f))
+            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                Header(
+                    title = title,
+                    artist = artist,
+                    onAlbumClicked = onAlbumClicked,
+                    onArtistClicked = onArtistClicked
+                )
+                Spacer(Modifier.height(8.dp))
+                TrackSeekbar(
+                    progress = progress,
+                    duration = duration,
+                    onSeekTo = onSeekTo
+                )
+                Spacer(Modifier.height(16.dp))
+                ControlButtons(
+                    isPlaying = isPlaying,
+                    onPlayPauseClicked = onPlayPauseClick,
+                    onPreviousClicked = onPreviousClick,
+                    onNextClicked = onNextClick,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            Spacer(Modifier.padding(vertical = 64.dp))
         }
     }
 }
@@ -110,13 +152,16 @@ fun NowPlayingControls(
 @Composable
 private fun Artwork(
     artworkUri: String?,
+    modifier: Modifier,
 ) {
+    val size = 384.dp
     PlayerCover(
         artworkUri = artworkUri,
-        requestImageSize = with(LocalDensity.current) { 128.dp.toPx().toInt() },
-        modifier = Modifier
+        requestImageSize = with(LocalDensity.current) { size.toPx().toInt() },
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .aspectRatio(1f)
             .clip(RoundedCornerShape(12.dp))
-            .size(128.dp)
     )
 }
 
@@ -145,15 +190,14 @@ private fun Header(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Seekbar(
+private fun TrackSeekbar(
     progress: Long,
     duration: Long,
-    isSeekbarDragging: Boolean,
-    seekbarDraggingProgress: Float,
-    onSeekbarDraggingChange: (Boolean) -> Unit,
-    onSeekbarDraggingProgressChange: (Float) -> Unit,
     onSeekTo: (Long) -> Unit
 ) {
+    var isSeekbarDragging by remember { mutableStateOf(false) }
+    var seekbarDraggingProgress by remember { mutableFloatStateOf(0f) }
+
     val elapsedTime = remember(progress, isSeekbarDragging, seekbarDraggingProgress) {
         val ms = if (isSeekbarDragging) {
             seekbarDraggingProgress.toLong()
@@ -170,12 +214,12 @@ private fun Seekbar(
     Slider(
         value = if (isSeekbarDragging) seekbarDraggingProgress else progress.toFloat(),
         onValueChange = {
-            onSeekbarDraggingChange(true)
-            onSeekbarDraggingProgressChange(it)
+            isSeekbarDragging = true
+            seekbarDraggingProgress = it
             onSeekTo(it.toLong())
         },
         onValueChangeFinished = {
-            onSeekbarDraggingChange(false)
+            isSeekbarDragging = false
         },
         valueRange = 0f..duration.toFloat(),
         thumb = {
@@ -203,11 +247,12 @@ private fun Seekbar(
 }
 
 @Composable
-fun Buttons(
+fun ControlButtons(
     isPlaying: Boolean,
-    switchPlayPause: () -> Unit,
-    previous: () -> Unit,
-    next: () -> Unit
+    onPlayPauseClicked: () -> Unit,
+    onPreviousClicked: () -> Unit,
+    onNextClicked: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     @Composable
     fun IconButton(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
@@ -222,36 +267,36 @@ fun Buttons(
         }
     }
 
-    Row {
-        IconButton {
-            Icon(
-                if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                contentDescription = null,
-                modifier = Modifier
-                    .requiredSize(26.dp)
-                    .bouncingClickable { switchPlayPause() },
-                tint = LocalContentColor.current
-            )
-        }
-        Spacer(modifier = Modifier.width(16.dp))
+    Row(modifier = modifier) {
         IconButton {
             Icon(
                 Icons.Default.SkipPrevious,
-                contentDescription = null,
+                contentDescription = "Previous",
                 modifier = Modifier
                     .requiredSize(26.dp)
-                    .bouncingClickable { previous() },
+                    .bouncingClickable { onPreviousClicked() },
                 tint = LocalContentColor.current
             )
         }
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(32.dp))
+        IconButton {
+            Icon(
+                if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                contentDescription = "Play/Pause",
+                modifier = Modifier
+                    .requiredSize(26.dp)
+                    .bouncingClickable { onPlayPauseClicked() },
+                tint = LocalContentColor.current
+            )
+        }
+        Spacer(modifier = Modifier.width(32.dp))
         IconButton {
             Icon(
                 Icons.Default.SkipNext,
-                contentDescription = null,
+                contentDescription = "Next",
                 modifier = Modifier
                     .requiredSize(26.dp)
-                    .bouncingClickable { next() },
+                    .bouncingClickable { onNextClicked() },
                 tint = LocalContentColor.current
             )
         }
@@ -267,39 +312,20 @@ fun NowPlayingControlsPreview() {
     val progress = 1000L
     val duration = 10000L
     val isPlaying = true
-    val isSeekbarDragging = false
-    val seekbarDraggingProgress = 0f
-    val onSeekbarDraggingChange = { _: Boolean -> }
-    val onSeekbarDraggingProgressChange = { _: Float -> }
     val onSeekTo = { _: Long -> }
-    Column(modifier = Modifier.padding(16.dp)) {
-        Artwork(
-            artworkUri = null,
-        )
-        Spacer(Modifier.height(16.dp))
-        Header(
-            title = title,
-            artist = artist,
-            onAlbumClicked = {},
-            onArtistClicked = {}
-        )
-        Spacer(Modifier.height(8.dp))
-        Seekbar(
-            progress = progress,
-            duration = duration,
-            isSeekbarDragging = isSeekbarDragging,
-            seekbarDraggingProgress = seekbarDraggingProgress,
-            onSeekbarDraggingChange = onSeekbarDraggingChange,
-            onSeekbarDraggingProgressChange = onSeekbarDraggingProgressChange,
-            onSeekTo = onSeekTo
-        )
-        Spacer(Modifier.height(16.dp))
-        Buttons(
-            isPlaying = isPlaying,
-            switchPlayPause = {},
-            previous = {},
-            next = {}
-        )
-        Spacer(Modifier.height(12.dp))
-    }
+
+    NowPlayingControlsContent(
+        title = title,
+        artist = artist,
+        artworkUri = null,
+        isPlaying = isPlaying,
+        progress = progress,
+        duration = duration,
+        onSeekTo = onSeekTo,
+        onPlayPauseClick = { },
+        onPreviousClick = { },
+        onNextClick = { },
+        onAlbumClicked = { },
+        onArtistClicked = { }
+    )
 }

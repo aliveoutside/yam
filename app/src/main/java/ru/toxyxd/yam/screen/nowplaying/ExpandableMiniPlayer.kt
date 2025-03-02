@@ -31,9 +31,10 @@ import ru.toxyxd.player.PlayerComponent
 import ru.toxyxd.yam.ext.bouncingClickable
 import ru.toxyxd.yam.screen.nowplaying.component.BottomSheet
 import ru.toxyxd.yam.screen.nowplaying.component.BottomSheetState
-import ru.toxyxd.yam.screen.nowplaying.fullscreen.NowPlayingFullscreenComposition
+import ru.toxyxd.yam.screen.nowplaying.fullscreen.NowPlayingControls
 import ru.toxyxd.yam.screen.nowplaying.shared.PlayerCover
 import ru.toxyxd.yam.ui.theme.surfaceColorAtAlpha
+
 
 @Composable
 fun ExpandableMiniPlayer(
@@ -51,7 +52,7 @@ fun ExpandableMiniPlayer(
             CollapsedMiniPlayer(mediaItem, playerComponent)
         },
     ) {
-        NowPlayingFullscreenComposition(playerComponent, onCollapse = { bottomSheetState.collapseSoft() })
+        NowPlayingControls(playerComponent, onCollapse = { bottomSheetState.collapseSoft() }, modifier = modifier)
     }
 }
 

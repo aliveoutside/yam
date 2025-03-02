@@ -46,7 +46,11 @@ private fun Content(
     val miniPlayerHeight = 56.dp
     val playerSlot by component.player.subscribeAsState()
 
-    BoxWithConstraints(modifier = Modifier.fillMaxSize().safeDrawingPadding()) {
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxSize()
+            .safeDrawingPadding()
+    ) {
         val playerBottomSheetState = rememberBottomSheetState(
             dismissedBound = 0.dp,
             collapsedBound = miniPlayerHeight,
@@ -71,13 +75,14 @@ private fun Content(
                     is ContentComponent.Child.Item -> ItemRootView(root = child.component)
                 }
             }
-        }
-        playerSlot.child?.instance?.let {
-            ExpandableMiniPlayer(
-                playerComponent = it,
-                bottomSheetState = playerBottomSheetState,
-                modifier = Modifier.align(Alignment.BottomStart)
-            )
+
+            playerSlot.child?.instance?.let { playerComponent ->
+                ExpandableMiniPlayer(
+                    playerComponent = playerComponent,
+                    bottomSheetState = playerBottomSheetState,
+                    modifier = Modifier.align(Alignment.BottomStart)
+                )
+            }
         }
     }
 }
